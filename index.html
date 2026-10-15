@@ -53,6 +53,10 @@
   .proof{margin-top:auto;padding-top:18px;font:500 13px/1.4 "JetBrains Mono",monospace;color:var(--ink)}
   .proof span{color:var(--accent)}
   .go{margin-top:10px;font-weight:600;font-size:14px}
+  .card.soon{border-style:dashed;background:transparent}
+  .card.soon:hover{transform:none;border-color:var(--line)}
+  .card.soon .live{color:var(--muted)}
+  .card.soon .live::before{background:var(--muted);box-shadow:none}
 
   .method{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px}
   .method h4{font:700 20px/1.2 Fraunces,Georgia,serif;margin-bottom:8px}
@@ -119,6 +123,20 @@
         <div class="proof">Song → <span>16:9 + 9:16 video</span> · one pipeline</div>
         <div class="go">Listen →</div>
       </a>
+
+      <div class="card soon">
+        <div class="tag"><span>Comics · Webtoon</span><span class="live">Coming soon</span></div>
+        <h3>Webtoon</h3>
+        <p>An original serialized comic in vertical-scroll format, written and drawn with AI.</p>
+        <div class="proof">In production</div>
+      </div>
+
+      <div class="card soon">
+        <div class="tag"><span>Tools · Browser</span><span class="live">Coming soon</span></div>
+        <h3>Browser Extension Packs</h3>
+        <p>Small extensions that sit in the browser and remove everyday friction, bundled by the job they do.</p>
+        <div class="proof">In production</div>
+      </div>
 
     </div>
   </div>
