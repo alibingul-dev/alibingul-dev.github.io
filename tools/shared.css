@@ -1,0 +1,74 @@
+/* Shared styles for every tool under /tools/. Same tokens as the root site. */
+:root{
+  --bg:#f6f4ef; --ink:#16161a; --muted:#5d5d66; --line:#dcd8cf;
+  --card:#ffffff; --accent:#d9480f; --accent-soft:#fde8dc; --ok:#2b8a3e; --err:#c92a2a;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#111114; --ink:#ecebe6; --muted:#9d9ca6; --line:#2a2a31;
+    --card:#18181d; --accent:#ff7a3d; --accent-soft:#2b1a12; --ok:#51cf66; --err:#ff6b6b;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+
+.topbar{border-bottom:1px solid var(--line);padding:14px 0}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font:700 18px/1 Fraunces,Georgia,serif;text-decoration:none}
+.brand span{color:var(--accent)}
+.lang{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 10px}
+.lang:hover{border-color:var(--ink);color:var(--ink)}
+
+.hero{padding:40px 0 20px}
+.kicker{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(30px,6vw,46px)/1.08 Fraunces,Georgia,serif;letter-spacing:-.02em;margin:14px 0 12px}
+.lead{color:var(--muted);font-size:18px;max-width:600px}
+.privacy{display:inline-flex;gap:8px;align-items:center;margin-top:16px;font-size:13px;color:var(--ok)}
+.privacy::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:20px 0}
+.drop{display:grid;place-items:center;text-align:center;min-height:160px;border:2px dashed var(--line);border-radius:12px;padding:20px;cursor:pointer;transition:border-color .15s,background .15s}
+.drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop strong{display:block;font-size:17px}
+.drop small{color:var(--muted)}
+.drop input{display:none}
+
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-top:16px}
+label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500}
+input[type=number],input[type=text],select{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);min-width:140px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--bg);font:600 15px/1 Inter,system-ui,sans-serif;cursor:pointer;text-decoration:none}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+
+.result{margin-top:16px;font-size:15px}
+.result .ok{color:var(--ok)}
+.result .err{color:var(--err)}
+.mono{font:500 14px/1.5 "JetBrains Mono",monospace}
+
+.howto{padding:24px 0}
+.howto h2,.faq h2,.more h2{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.howto ol{padding-left:20px}
+.howto li{margin-bottom:6px}
+.faq{padding:8px 0 24px}
+.faq details{border-top:1px solid var(--line);padding:12px 0}
+.faq summary{cursor:pointer;font-weight:600}
+.faq p{color:var(--muted);margin-top:8px}
+
+/* Reserved for later monetisation. Stays hidden until enabled in shared.js. */
+.ad-slot{display:none;min-height:100px;margin:20px 0}
+body.ads-on .ad-slot{display:block}
+
+/* Newsletter box. Hidden until a form URL is set in shared.js. */
+.notify{display:none;background:var(--accent-soft);border-radius:14px;padding:18px;margin:20px 0}
+body.notify-on .notify{display:block}
+.notify form{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.notify input{flex:1;min-width:200px}
+
+.more{padding:16px 0 8px}
+.more ul{list-style:none;display:grid;gap:8px}
+.more a{text-decoration:none;border-bottom:1px solid var(--line)}
+
+footer{border-top:1px solid var(--line);padding:24px 0 40px;margin-top:24px;color:var(--muted);font-size:13px}
+footer a{color:var(--muted)}

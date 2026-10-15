@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- TEMPLATE: copy this folder to /tools/<slug>/, replace every {{...}}, delete the noindex line. -->
+<meta name="robots" content="noindex">
+<title>{{TITLE_TR}} — Ücretsiz, tarayıcıda | Ali Bingül Araçlar</title>
+<meta name="description" content="{{DESC_TR}}">
+<link rel="canonical" href="https://alibingul-dev.github.io/tools/{{SLUG}}/">
+<link rel="alternate" hreflang="tr" href="https://alibingul-dev.github.io/tools/{{SLUG}}/">
+<link rel="alternate" hreflang="en" href="https://alibingul-dev.github.io/tools/{{SLUG}}/en/">
+<link rel="alternate" hreflang="x-default" href="https://alibingul-dev.github.io/tools/{{SLUG}}/en/">
+<meta property="og:title" content="{{TITLE_TR}}">
+<meta property="og:description" content="{{DESC_TR}}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alibingul-dev.github.io/tools/{{SLUG}}/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"{{TITLE_TR}}","description":"{{DESC_TR}}","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"tr","url":"https://alibingul-dev.github.io/tools/{{SLUG}}/","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"author":{"@type":"Person","name":"Ali Bingül","url":"https://alibingul-dev.github.io/"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tools/shared.css">
+<script src="/tools/shared.js"></script>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="/tools/">Ali Bingül <span>Araçlar</span></a>
+  <a class="lang" href="/tools/{{SLUG}}/en/" hreflang="en">English</a>
+</div></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker">{{CATEGORY_TR}}</div>
+    <h1>{{TITLE_TR}}</h1>
+    <p class="lead">{{LEAD_TR}}</p>
+    <div class="privacy">Dosyan bilgisayarından çıkmaz — her şey tarayıcında çalışır.</div>
+  </section>
+
+  <!-- TOOL: replace this panel with the real tool. The demo below only reads a file and shows its size. -->
+  <section class="panel">
+    <div class="drop" id="drop">
+      <div><strong>Dosyayı buraya bırak</strong><small>ya da tıklayıp seç</small></div>
+      <input type="file" id="file">
+    </div>
+    <div class="result" id="result" aria-live="polite"></div>
+  </section>
+
+  <div class="ad-slot" aria-hidden="true"></div>
+
+  <section class="howto">
+    <h2>Nasıl kullanılır</h2>
+    <ol>
+      <li>{{STEP1_TR}}</li>
+      <li>{{STEP2_TR}}</li>
+      <li>{{STEP3_TR}}</li>
+    </ol>
+  </section>
+
+  <section class="faq">
+    <h2>Sık sorulanlar</h2>
+    <details><summary>Dosyam bir sunucuya yükleniyor mu?</summary><p>Hayır. İşlem tamamen tarayıcında yapılır; dosya internete gönderilmez.</p></details>
+    <details><summary>{{FAQ_Q_TR}}</summary><p>{{FAQ_A_TR}}</p></details>
+  </section>
+
+  <div class="notify">
+    <strong>Yeni araç çıkınca haber ver</strong>
+    <form method="post" target="_blank">
+      <input type="email" name="email" placeholder="e-posta adresin" required>
+      <button class="btn" type="submit">Kaydol</button>
+    </form>
+  </div>
+
+  <section class="more">
+    <h2>Diğer araçlar</h2>
+    <ul><li><a href="/tools/">Tüm araçlar →</a></li></ul>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  © <span id="year"></span> Ali Bingül · Kişisel olarak yayınlanır · <a href="/">alibingul-dev.github.io</a>
+</div></footer>
+
+<script>
+  // DEMO logic — replace with the real tool.
+  Tool.dropZone(document.getElementById("drop"), function (files) {
+    var f = files[0];
+    document.getElementById("result").innerHTML =
+      '<span class="ok">Okundu:</span> <span class="mono">' + f.name + " · " + Tool.formatBytes(f.size) + "</span>";
+  });
+</script>
+</body>
+</html>

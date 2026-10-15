@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- TEMPLATE: copied with the parent folder; replace every {{...}}, delete the noindex line. -->
+<meta name="robots" content="noindex">
+<title>{{TITLE_EN}} — Free, in your browser | Ali Bingül Tools</title>
+<meta name="description" content="{{DESC_EN}}">
+<link rel="canonical" href="https://alibingul-dev.github.io/tools/{{SLUG}}/en/">
+<link rel="alternate" hreflang="tr" href="https://alibingul-dev.github.io/tools/{{SLUG}}/">
+<link rel="alternate" hreflang="en" href="https://alibingul-dev.github.io/tools/{{SLUG}}/en/">
+<link rel="alternate" hreflang="x-default" href="https://alibingul-dev.github.io/tools/{{SLUG}}/en/">
+<meta property="og:title" content="{{TITLE_EN}}">
+<meta property="og:description" content="{{DESC_EN}}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alibingul-dev.github.io/tools/{{SLUG}}/en/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"{{TITLE_EN}}","description":"{{DESC_EN}}","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"en","url":"https://alibingul-dev.github.io/tools/{{SLUG}}/en/","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Ali Bingül","url":"https://alibingul-dev.github.io/"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tools/shared.css">
+<script src="/tools/shared.js"></script>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="/tools/">Ali Bingül <span>Tools</span></a>
+  <a class="lang" href="/tools/{{SLUG}}/" hreflang="tr">Türkçe</a>
+</div></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker">{{CATEGORY_EN}}</div>
+    <h1>{{TITLE_EN}}</h1>
+    <p class="lead">{{LEAD_EN}}</p>
+    <div class="privacy">Your file never leaves your device — everything runs in the browser.</div>
+  </section>
+
+  <!-- TOOL: replace this panel with the real tool. The demo below only reads a file and shows its size. -->
+  <section class="panel">
+    <div class="drop" id="drop">
+      <div><strong>Drop your file here</strong><small>or click to choose</small></div>
+      <input type="file" id="file">
+    </div>
+    <div class="result" id="result" aria-live="polite"></div>
+  </section>
+
+  <div class="ad-slot" aria-hidden="true"></div>
+
+  <section class="howto">
+    <h2>How to use</h2>
+    <ol>
+      <li>{{STEP1_EN}}</li>
+      <li>{{STEP2_EN}}</li>
+      <li>{{STEP3_EN}}</li>
+    </ol>
+  </section>
+
+  <section class="faq">
+    <h2>FAQ</h2>
+    <details><summary>Is my file uploaded to a server?</summary><p>No. Processing happens entirely in your browser; the file is never sent over the internet.</p></details>
+    <details><summary>{{FAQ_Q_EN}}</summary><p>{{FAQ_A_EN}}</p></details>
+  </section>
+
+  <div class="notify">
+    <strong>Tell me when a new tool ships</strong>
+    <form method="post" target="_blank">
+      <input type="email" name="email" placeholder="your email" required>
+      <button class="btn" type="submit">Subscribe</button>
+    </form>
+  </div>
+
+  <section class="more">
+    <h2>More tools</h2>
+    <ul><li><a href="/tools/">All tools →</a></li></ul>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  © <span id="year"></span> Ali Bingül · Published in a personal capacity · <a href="/">alibingul-dev.github.io</a>
+</div></footer>
+
+<script>
+  // DEMO logic — replace with the real tool.
+  Tool.dropZone(document.getElementById("drop"), function (files) {
+    var f = files[0];
+    document.getElementById("result").innerHTML =
+      '<span class="ok">Read:</span> <span class="mono">' + f.name + " · " + Tool.formatBytes(f.size) + "</span>";
+  });
+</script>
+</body>
+</html>
