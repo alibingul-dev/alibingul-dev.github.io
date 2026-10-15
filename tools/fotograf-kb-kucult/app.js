@@ -60,7 +60,7 @@
   async function compress(img, targetBytes, maxSide) {
     var longSide = Math.max(img.naturalWidth, img.naturalHeight);
     var scale = maxSide && longSide > maxSide ? maxSide / longSide : 1;
-    var Q_MIN = 0.3, Q_MAX = 0.92;
+    var Q_MIN = 0.15, Q_MAX = 0.92;
 
     for (var pass = 0; pass < 14; pass++) {
       var c = draw(img, scale);
