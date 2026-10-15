@@ -1,3 +1,15 @@
 {
-  "tools": []
+  "tools": [
+    {
+      "slug": "fotograf-kb-kucult",
+      "title_tr": "Fotoğraf boyutunu KB altına indir",
+      "title_en": "Compress a photo to a KB limit",
+      "desc_tr": "Fotoğrafı istediğin KB'ın altına indir. HEIC dahil, dosya yüklenmez.",
+      "desc_en": "Get a photo under any KB limit. HEIC included, nothing uploaded.",
+      "category_tr": "Fotoğraf · Başvuru",
+      "category_en": "Photo · Applications",
+      "date": "2026-10-15",
+      "status": "draft"
+    }
+  ]
 }

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Compress Photo to KB — Free, in your browser | Ali Bingül Tools</title>
+<meta name="description" content="Compress a photo under 50, 100, 200 KB or any size you need. iPhone HEIC included. Nothing is uploaded and location data is removed.">
+<link rel="canonical" href="https://alibingul-dev.github.io/tools/fotograf-kb-kucult/en/">
+<link rel="alternate" hreflang="tr" href="https://alibingul-dev.github.io/tools/fotograf-kb-kucult/">
+<link rel="alternate" hreflang="en" href="https://alibingul-dev.github.io/tools/fotograf-kb-kucult/en/">
+<link rel="alternate" hreflang="x-default" href="https://alibingul-dev.github.io/tools/fotograf-kb-kucult/en/">
+<meta property="og:title" content="Compress Photo to KB">
+<meta property="og:description" content="Get a photo under any KB limit. HEIC included, nothing uploaded.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alibingul-dev.github.io/tools/fotograf-kb-kucult/en/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Compress Photo to KB","description":"Compress a photo under 50, 100, 200 KB or any size you need. iPhone HEIC included. Nothing is uploaded and location data is removed.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"en","url":"https://alibingul-dev.github.io/tools/fotograf-kb-kucult/en/","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Ali Bingül","url":"https://alibingul-dev.github.io/"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tools/shared.css">
+<script src="/tools/shared.js"></script>
+<style>
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips button{font:500 14px/1 Inter,system-ui,sans-serif;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer}
+  .chips button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  #preview{display:block;max-width:100%;max-height:360px;margin-top:16px;border-radius:10px;border:1px solid var(--line)}
+  #preview[hidden]{display:none}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="/tools/">Ali Bingül <span>Tools</span></a>
+  <a class="lang" href="/tools/fotograf-kb-kucult/" hreflang="tr">Türkçe</a>
+</div></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker">Photo · Applications</div>
+    <h1>Compress a photo to a KB limit</h1>
+    <p class="lead">Upload form says "max 200 KB"? Drop the photo, pick the limit, and download a JPEG that fits with the highest quality possible. iPhone HEIC photos work too.</p>
+    <div class="privacy">Your photo never leaves your device — everything runs in the browser.</div>
+  </section>
+
+  <section class="panel">
+    <div class="drop" id="drop">
+      <div><strong>Drop your photo here</strong><small>or click to choose · JPG, PNG, WebP, HEIC</small></div>
+      <input type="file" accept="image/*,.heic,.heif">
+    </div>
+
+    <div class="row">
+      <label>Target size
+        <div class="chips" id="presets">
+          <button type="button" data-kb="20">20 KB</button>
+          <button type="button" data-kb="50">50 KB</button>
+          <button type="button" data-kb="100">100 KB</button>
+          <button type="button" data-kb="200">200 KB</button>
+          <button type="button" data-kb="500">500 KB</button>
+        </div>
+      </label>
+    </div>
+    <div class="row">
+      <label>Custom (KB)<input type="number" id="kb" min="5" max="10000" step="1" value="200"></label>
+      <label>Longest side
+        <select id="side">
+          <option value="0">Keep as much as possible</option>
+          <option value="2000">Max 2000 px</option>
+          <option value="1200">Max 1200 px</option>
+          <option value="800">Max 800 px</option>
+          <option value="600">Max 600 px</option>
+        </select>
+      </label>
+      <button class="btn" id="dl" type="button" disabled>Download JPEG</button>
+    </div>
+
+    <div class="result" id="result" aria-live="polite"></div>
+    <img id="preview" alt="Compressed photo preview" hidden>
+  </section>
+
+  <div class="ad-slot" aria-hidden="true"></div>
+
+  <section class="howto">
+    <h2>How to use</h2>
+    <ol>
+      <li>Drop the photo in the box or click to choose it.</li>
+      <li>Pick or type the upload limit (for example 200 KB).</li>
+      <li>Click "Download JPEG" and upload the file.</li>
+    </ol>
+  </section>
+
+  <section class="faq">
+    <h2>FAQ</h2>
+    <details><summary>Is my photo uploaded to a server?</summary><p>No. Compression happens entirely in your browser; the photo is never sent over the internet. For HEIC files only the converter code is downloaded — your photo stays on your device.</p></details>
+    <details><summary>Why does the resolution sometimes drop?</summary><p>The tool lowers quality first. If quality reaches a sensible floor and the file is still too big, it reduces resolution instead of making the image blocky.</p></details>
+    <details><summary>Is location data kept in the photo?</summary><p>No. The downloaded JPEG is redrawn, so GPS location and camera details (EXIF) are not in the file.</p></details>
+    <details><summary>What if the site counts 1 KB as 1024 bytes?</summary><p>The tool counts 1 KB as 1000 bytes, so the file is under the limit either way.</p></details>
+  </section>
+
+  <div class="notify">
+    <strong>Tell me when a new tool ships</strong>
+    <form method="post" target="_blank">
+      <input type="email" name="email" placeholder="your email" required>
+      <button class="btn" type="submit">Subscribe</button>
+    </form>
+  </div>
+
+  <section class="more">
+    <h2>More tools</h2>
+    <ul><li><a href="/tools/">All tools →</a></li></ul>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  © <span id="year"></span> Ali Bingül · Published in a personal capacity · <a href="/">alibingul-dev.github.io</a>
+</div></footer>
+
+<script>
+  window.T = {
+    reading: "Reading photo…",
+    working: "Compressing…",
+    done: "Done:",
+    quality: "quality",
+    resized: "Resolution was also reduced to reach the target.",
+    badKb: "Enter a valid KB value.",
+    tooSmall: "This target is too small for this photo. Try a larger KB value.",
+    cantRead: "This file could not be read. Try a JPG, PNG, WebP or HEIC photo."
+  };
+</script>
+<script src="/tools/fotograf-kb-kucult/app.js"></script>
+</body>
+</html>

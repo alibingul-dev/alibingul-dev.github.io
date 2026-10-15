@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Fotoğraf Boyutunu KB Altına İndir — Ücretsiz, tarayıcıda | Ali Bingül Araçlar</title>
+<meta name="description" content="Fotoğrafı 50, 100, 200 KB ya da istediğin boyutun altına indir. iPhone HEIC dahil. Dosyan yüklenmez, konum bilgisi silinir.">
+<link rel="canonical" href="https://alibingul-dev.github.io/tools/fotograf-kb-kucult/">
+<link rel="alternate" hreflang="tr" href="https://alibingul-dev.github.io/tools/fotograf-kb-kucult/">
+<link rel="alternate" hreflang="en" href="https://alibingul-dev.github.io/tools/fotograf-kb-kucult/en/">
+<link rel="alternate" hreflang="x-default" href="https://alibingul-dev.github.io/tools/fotograf-kb-kucult/en/">
+<meta property="og:title" content="Fotoğraf Boyutunu KB Altına İndir">
+<meta property="og:description" content="Fotoğrafı istediğin KB'ın altına indir. HEIC dahil, dosya yüklenmez.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alibingul-dev.github.io/tools/fotograf-kb-kucult/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Fotoğraf Boyutunu KB Altına İndir","description":"Fotoğrafı 50, 100, 200 KB ya da istediğin boyutun altına indir. iPhone HEIC dahil. Dosyan yüklenmez, konum bilgisi silinir.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"tr","url":"https://alibingul-dev.github.io/tools/fotograf-kb-kucult/","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"author":{"@type":"Person","name":"Ali Bingül","url":"https://alibingul-dev.github.io/"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tools/shared.css">
+<script src="/tools/shared.js"></script>
+<style>
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips button{font:500 14px/1 Inter,system-ui,sans-serif;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer}
+  .chips button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  #preview{display:block;max-width:100%;max-height:360px;margin-top:16px;border-radius:10px;border:1px solid var(--line)}
+  #preview[hidden]{display:none}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="/tools/">Ali Bingül <span>Araçlar</span></a>
+  <a class="lang" href="/tools/fotograf-kb-kucult/en/" hreflang="en">English</a>
+</div></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker">Fotoğraf · Başvuru</div>
+    <h1>Fotoğraf boyutunu KB altına indir</h1>
+    <p class="lead">Portal "en fazla 200 KB" mi diyor? Fotoğrafı bırak, hedefi seç, kalitesi en yüksek kalacak şekilde sınırın altına inen JPEG'i indir. iPhone HEIC fotoğrafları da olur.</p>
+    <div class="privacy">Fotoğrafın bilgisayarından çıkmaz — her şey tarayıcında çalışır.</div>
+  </section>
+
+  <section class="panel">
+    <div class="drop" id="drop">
+      <div><strong>Fotoğrafı buraya bırak</strong><small>ya da tıklayıp seç · JPG, PNG, WebP, HEIC</small></div>
+      <input type="file" accept="image/*,.heic,.heif">
+    </div>
+
+    <div class="row">
+      <label>Hedef boyut
+        <div class="chips" id="presets">
+          <button type="button" data-kb="20">20 KB</button>
+          <button type="button" data-kb="50">50 KB</button>
+          <button type="button" data-kb="100">100 KB</button>
+          <button type="button" data-kb="200">200 KB</button>
+          <button type="button" data-kb="500">500 KB</button>
+        </div>
+      </label>
+    </div>
+    <div class="row">
+      <label>Özel (KB)<input type="number" id="kb" min="5" max="10000" step="1" value="200"></label>
+      <label>En uzun kenar
+        <select id="side">
+          <option value="0">Olabildiğince koru</option>
+          <option value="2000">En fazla 2000 px</option>
+          <option value="1200">En fazla 1200 px</option>
+          <option value="800">En fazla 800 px</option>
+          <option value="600">En fazla 600 px</option>
+        </select>
+      </label>
+      <button class="btn" id="dl" type="button" disabled>JPEG indir</button>
+    </div>
+
+    <div class="result" id="result" aria-live="polite"></div>
+    <img id="preview" alt="Küçültülmüş fotoğraf önizlemesi" hidden>
+  </section>
+
+  <div class="ad-slot" aria-hidden="true"></div>
+
+  <section class="howto">
+    <h2>Nasıl kullanılır</h2>
+    <ol>
+      <li>Fotoğrafı kutuya bırak ya da tıklayıp seç.</li>
+      <li>Portalın istediği üst sınırı seç ya da yaz (örneğin 200 KB).</li>
+      <li>"JPEG indir" ile dosyayı al ve portala yükle.</li>
+    </ol>
+  </section>
+
+  <section class="faq">
+    <h2>Sık sorulanlar</h2>
+    <details><summary>Fotoğrafım bir sunucuya yükleniyor mu?</summary><p>Hayır. Küçültme tamamen tarayıcında yapılır; fotoğraf internete gönderilmez. HEIC dosyalarında yalnızca dönüştürme kodu indirilir, fotoğrafın yine cihazında kalır.</p></details>
+    <details><summary>Neden bazen çözünürlük de düşüyor?</summary><p>Araç önce kaliteyi düşürür. Kalite makul sınıra gelip dosya hâlâ büyükse, görüntüyü bozmamak için çözünürlüğü küçültür.</p></details>
+    <details><summary>Konum bilgisi fotoğrafta kalıyor mu?</summary><p>Hayır. İndirdiğin JPEG yeniden çizildiği için GPS konumu ve kamera bilgileri (EXIF) dosyada yer almaz.</p></details>
+    <details><summary>Portal 1 KB'ı 1024 bayt sayıyorsa?</summary><p>Araç 1 KB'ı 1000 bayt sayar; yani dosya her iki hesaba göre de sınırın altında kalır.</p></details>
+  </section>
+
+  <div class="notify">
+    <strong>Yeni araç çıkınca haber ver</strong>
+    <form method="post" target="_blank">
+      <input type="email" name="email" placeholder="e-posta adresin" required>
+      <button class="btn" type="submit">Kaydol</button>
+    </form>
+  </div>
+
+  <section class="more">
+    <h2>Diğer araçlar</h2>
+    <ul><li><a href="/tools/">Tüm araçlar →</a></li></ul>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  © <span id="year"></span> Ali Bingül · Kişisel olarak yayınlanır · <a href="/">alibingul-dev.github.io</a>
+</div></footer>
+
+<script>
+  window.T = {
+    reading: "Fotoğraf okunuyor…",
+    working: "Küçültülüyor…",
+    done: "Hazır:",
+    quality: "kalite",
+    resized: "Hedefe inmek için çözünürlük de küçültüldü.",
+    badKb: "Geçerli bir KB değeri gir.",
+    tooSmall: "Bu hedef bu fotoğraf için fazla küçük. Daha büyük bir KB dene.",
+    cantRead: "Bu dosya okunamadı. JPG, PNG, WebP ya da HEIC bir fotoğraf dene."
+  };
+</script>
+<script src="/tools/fotograf-kb-kucult/app.js"></script>
+</body>
+</html>
