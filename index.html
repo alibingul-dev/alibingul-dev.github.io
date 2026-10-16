@@ -53,6 +53,7 @@
   .proof{margin-top:auto;padding-top:18px;font:500 13px/1.4 "JetBrains Mono",monospace;color:var(--ink)}
   .proof span{color:var(--accent)}
   .go{margin-top:10px;font-weight:600;font-size:14px}
+  .dl{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
   .card.soon{border-style:dashed;background:transparent}
   .card.soon:hover{transform:none;border-color:var(--line)}
   .card.soon .live{color:var(--muted)}
@@ -124,13 +125,16 @@
         <div class="go">Listen →</div>
       </a>
 
-      <a class="card" id="pofi-dl" href="https://github.com/alibingul-dev/pofi-releases/releases/download/v0.1.31/Pofi_0.1.31_x64-setup.exe" download>
+      <div class="card">
         <div class="tag"><span>Desktop · Character</span><span class="live">Download</span></div>
         <h3>Pofi</h3>
         <p>A fluffy pastel bunny that lives in a corner of your screen, a desktop pet in the spirit of Furby. Installs without admin rights. Digital first, a plush later.</p>
-        <div class="proof"><span id="pofi-ver">v0.1.31</span> · Windows x64 · updates itself</div>
-        <div class="go">Download →</div>
-      </a>
+        <div class="proof"><span id="pofi-ver">v0.1.31</span> · Windows x64 · Android</div>
+        <div class="dl">
+          <a class="btn primary" id="pofi-dl" href="https://github.com/alibingul-dev/pofi-releases/releases/download/v0.1.31/Pofi_0.1.31_x64-setup.exe" download>Windows ↓</a>
+          <a class="btn" id="pofi-apk" href="https://github.com/alibingul-dev/pofi-releases/releases/download/android-latest/Pofi-android.apk" download>Android ↓</a>
+        </div>
+      </div>
 
       <div class="card soon">
         <div class="tag"><span>Comics · Webtoon</span><span class="live">Coming soon</span></div>
@@ -185,8 +189,9 @@
     a.href = LINKEDIN_URL; a.hidden = false;
   }
 
-  // Pofi: point the download at the newest x64 installer in pofi-releases.
+  // Pofi: point the Windows button at the newest x64 installer in pofi-releases.
   // Falls back to the hard-coded link above if the API call fails.
+  // Android uses a fixed link (android-latest/Pofi-android.apk), no lookup needed.
   fetch("https://api.github.com/repos/alibingul-dev/pofi-releases/releases/latest")
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (rel) {
