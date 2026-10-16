@@ -124,6 +124,14 @@
         <div class="go">Listen →</div>
       </a>
 
+      <a class="card" id="pofi-dl" href="https://github.com/alibingul-dev/pofi-releases/releases/download/v0.1.31/Pofi_0.1.31_x64-setup.exe" download>
+        <div class="tag"><span>Desktop · Character</span><span class="live">Download</span></div>
+        <h3>Pofi</h3>
+        <p>A fluffy pastel bunny that lives in a corner of your screen, a desktop pet in the spirit of Furby. Installs without admin rights. Digital first, a plush later.</p>
+        <div class="proof"><span id="pofi-ver">v0.1.31</span> · Windows x64 · updates itself</div>
+        <div class="go">Download →</div>
+      </a>
+
       <div class="card soon">
         <div class="tag"><span>Comics · Webtoon</span><span class="live">Coming soon</span></div>
         <h3>Webtoon</h3>
@@ -137,13 +145,6 @@
         <p>Small tools that each solve one job and run entirely in your browser. Your file never leaves your computer, no sign-up needed.</p>
         <div class="proof">A new tool <span>every week</span></div>
       </a>
-
-      <div class="card soon">
-        <div class="tag"><span>Desktop · Character</span><span class="live">Coming soon</span></div>
-        <h3>Pofi</h3>
-        <p>A fluffy pastel bunny that lives in a corner of your screen, a desktop pet in the spirit of Furby. Installs without admin rights. Digital first, a plush later.</p>
-        <div class="proof">In production</div>
-      </div>
 
     </div>
   </div>
@@ -183,6 +184,19 @@
     var a = document.getElementById("linkedin");
     a.href = LINKEDIN_URL; a.hidden = false;
   }
+
+  // Pofi: point the download at the newest x64 installer in pofi-releases.
+  // Falls back to the hard-coded link above if the API call fails.
+  fetch("https://api.github.com/repos/alibingul-dev/pofi-releases/releases/latest")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (rel) {
+      if (!rel || !rel.assets) return;
+      var exe = rel.assets.find(function (x) { return /_x64-setup\.exe$/.test(x.name); });
+      if (!exe) return;
+      document.getElementById("pofi-dl").href = exe.browser_download_url;
+      document.getElementById("pofi-ver").textContent = rel.tag_name;
+    })
+    .catch(function () {});
 </script>
 </body>
 </html>
