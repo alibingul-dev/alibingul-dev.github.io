@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-17T11:33:15.219314Z",
+ "updated": "2026-10-17T12:42:54.119211Z",
  "date": "2026-10-17",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -44,7 +44,7 @@
    "market": "Türkiye",
    "name": "Day-end scorecard",
    "deadline": "15:15",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null
   }
@@ -259,7 +259,7 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "15:15",
    "deadline_utc": "2026-10-17T12:15:00Z",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null,
    "days": [
@@ -295,7 +295,7 @@
     },
     {
      "date": "2026-10-17",
-     "verdict": "pending",
+     "verdict": "overdue",
      "url": null
     }
    ]
@@ -305,8 +305,8 @@
   "on_time": 21,
   "late": 2,
   "missed": 11,
-  "overdue": 0,
-  "pending": 1,
+  "overdue": 1,
+  "pending": 0,
   "closed": 34
  }
 }
