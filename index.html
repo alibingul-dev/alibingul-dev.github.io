@@ -74,6 +74,91 @@
 </style>
 </head>
 <body>
+<!-- ===== SITE INTRO (master) ===== -->
+<div id="ab-intro" aria-hidden="true">
+  <svg class="ab-net" viewBox="0 0 600 240" preserveAspectRatio="xMidYMid meet">
+    <g class="ab-links">
+      <path d="M300,120 L90,50"/><path d="M300,120 L510,50"/>
+      <path d="M300,120 L90,190"/><path d="M300,120 L510,190"/>
+    </g>
+    <circle class="ab-hub" cx="300" cy="120" r="10"/>
+    <g class="ab-nodes">
+      <circle cx="90" cy="50" r="6"/><circle cx="510" cy="50" r="6"/>
+      <circle cx="90" cy="190" r="6"/><circle cx="510" cy="190" r="6"/>
+    </g>
+    <g class="ab-labels">
+      <text x="90" y="30">POWER</text><text x="510" y="30">GAMES</text>
+      <text x="90" y="220">SCORES</text><text x="510" y="220">MUSIC</text>
+    </g>
+  </svg>
+  <div class="ab-kick">Istanbul · Systems builder</div>
+  <div class="ab-title">
+    <span>A</span><span>l</span><span>i</span><span class="sp"></span><span>B</span><span>i</span><span>n</span><span>g</span><span>ü</span><span>l</span>
+  </div>
+  <svg class="ab-under" viewBox="0 0 300 12"><path d="M4,8 C80,2 220,2 296,7"/></svg>
+  <div class="ab-sub">Complex systems, modelled and shipped.</div>
+  <button class="ab-skip" type="button">Skip ›</button>
+</div>
+
+<style>
+#ab-intro{--i-bg:#f6f4ef;--i-ink:#16161a;--i-mut:#5d5d66;--i-line:#dcd8cf;--i-acc:#d9480f;
+  position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--i-bg);color:var(--i-ink);font-family:Inter,system-ui,sans-serif;overflow:hidden;
+  animation:abOut .7s ease-in 5s forwards}
+@media (prefers-color-scheme:dark){#ab-intro{--i-bg:#111114;--i-ink:#ecebe6;--i-mut:#9d9ca6;--i-line:#2a2a31;--i-acc:#ff7a3d}}
+#ab-intro .ab-net{width:min(88vw,600px);height:auto;margin-bottom:2vh}
+#ab-intro .ab-links path{fill:none;stroke:var(--i-line);stroke-width:2;stroke-dasharray:240;stroke-dashoffset:240;
+  animation:abDraw .9s cubic-bezier(.65,0,.35,1) forwards}
+#ab-intro .ab-links path:nth-child(1){animation-delay:.3s}#ab-intro .ab-links path:nth-child(2){animation-delay:.5s}
+#ab-intro .ab-links path:nth-child(3){animation-delay:.7s}#ab-intro .ab-links path:nth-child(4){animation-delay:.9s}
+#ab-intro .ab-hub{fill:var(--i-acc);transform-box:fill-box;transform-origin:center;transform:scale(0);
+  animation:abPop .5s cubic-bezier(.2,1.6,.4,1) .15s forwards, abBeat 1.2s ease-in-out 1.8s infinite}
+#ab-intro .ab-nodes circle{fill:var(--i-ink);transform-box:fill-box;transform-origin:center;transform:scale(0);
+  animation:abPop .4s cubic-bezier(.2,1.6,.4,1) forwards}
+#ab-intro .ab-nodes circle:nth-child(1){animation-delay:1.0s}#ab-intro .ab-nodes circle:nth-child(2){animation-delay:1.2s}
+#ab-intro .ab-nodes circle:nth-child(3){animation-delay:1.4s}#ab-intro .ab-nodes circle:nth-child(4){animation-delay:1.6s}
+#ab-intro .ab-labels text{fill:var(--i-mut);font:500 12px "JetBrains Mono",monospace;letter-spacing:.14em;text-anchor:middle;opacity:0;
+  animation:abFade .5s ease-out 1.6s forwards}
+#ab-intro .ab-kick{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--i-acc);
+  opacity:0;animation:abFade .5s ease-out 1.9s forwards}
+#ab-intro .ab-title{display:flex;font:700 clamp(40px,8vw,76px)/1.05 Fraunces,Georgia,serif;letter-spacing:-.02em;margin-top:14px}
+#ab-intro .ab-title span{display:inline-block;opacity:0;transform:translateY(20px);animation:abLetter .5s cubic-bezier(.2,.8,.2,1) forwards}
+#ab-intro .ab-title .sp{width:.28em}
+#ab-intro .ab-under{width:min(60vw,300px);height:12px;margin-top:4px}
+#ab-intro .ab-under path{fill:none;stroke:var(--i-acc);stroke-width:3;stroke-linecap:round;stroke-dasharray:300;stroke-dashoffset:300;
+  animation:abDraw .7s cubic-bezier(.65,0,.35,1) 2.7s forwards}
+#ab-intro .ab-sub{margin-top:14px;font-size:clamp(14px,1.8vw,18px);color:var(--i-mut);opacity:0;animation:abFade .6s ease-out 3.1s forwards}
+#ab-intro .ab-skip{position:absolute;bottom:22px;right:24px;background:none;border:1px solid var(--i-line);color:var(--i-mut);
+  font:inherit;font-size:13px;padding:6px 14px;border-radius:999px;cursor:pointer}
+#ab-intro .ab-skip:hover{color:var(--i-ink);border-color:var(--i-ink)}
+#ab-intro.ab-done{animation:abOut .35s ease-in forwards}
+@keyframes abDraw{to{stroke-dashoffset:0}}
+@keyframes abPop{to{transform:scale(1)}}
+@keyframes abBeat{50%{transform:scale(1.25)}}
+@keyframes abFade{to{opacity:1}}
+@keyframes abLetter{to{opacity:1;transform:none}}
+@keyframes abOut{to{opacity:0;transform:scale(1.03);visibility:hidden}}
+@media (prefers-reduced-motion:reduce){#ab-intro{display:none!important}}
+</style>
+
+<script>
+(function(){
+  var el=document.getElementById('ab-intro'); if(!el) return;
+  var K='abIntro:master', seen=false;
+  try{seen=sessionStorage.getItem(K)==='1';}catch(e){}
+  if(seen){el.remove();return;}
+  try{sessionStorage.setItem(K,'1');}catch(e){}
+  el.querySelectorAll('.ab-title span').forEach(function(s,i){s.style.animationDelay=(2.1+i*0.05)+'s';});
+  var root=document.documentElement; root.style.overflow='hidden';
+  function bye(){if(!el.isConnected)return;el.remove();root.style.overflow='';}
+  function done(){if(!el.isConnected)return;el.classList.add('ab-done');setTimeout(bye,380);}
+  el.querySelector('.ab-skip').addEventListener('click',done);
+  el.addEventListener('animationend',function(e){if(e.target===el)bye();});
+  setTimeout(done,6000);
+})();
+</script>
+<!-- ===== /SITE INTRO ===== -->
+
 
 <header>
   <div class="wrap">
