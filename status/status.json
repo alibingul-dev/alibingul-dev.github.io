@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-17T11:02:00Z",
+ "updated": "2026-10-17T11:33:15.219314Z",
  "date": "2026-10-17",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -18,7 +18,7 @@
    "name": "Tomorrow's wind outlook",
    "deadline": "11:00",
    "verdict": "on_time",
-   "published_at": "2026-10-17T06:24:58Z",
+   "published_at": "2026-10-17T06:24:58.180138Z",
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7517108373243260929"
   },
   {
@@ -27,7 +27,7 @@
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
    "verdict": "on_time",
-   "published_at": "2026-10-17T08:45:57Z",
+   "published_at": "2026-10-17T08:45:57.672762Z",
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7517143855171919872"
   },
   {
@@ -36,7 +36,7 @@
    "name": "Day-end scorecard",
    "deadline": "14:30",
    "verdict": "on_time",
-   "published_at": "2026-10-17T10:10:44Z",
+   "published_at": "2026-10-17T10:10:44.887636Z",
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7517165191575400448"
   },
   {
@@ -110,7 +110,7 @@
    "deadline": "11:00",
    "deadline_utc": "2026-10-17T08:00:00Z",
    "verdict": "on_time",
-   "published_at": "2026-10-17T06:24:58Z",
+   "published_at": "2026-10-17T06:24:58.180138Z",
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7517108373243260929",
    "days": [
     {
@@ -160,7 +160,7 @@
    "deadline": "12:30",
    "deadline_utc": "2026-10-17T09:30:00Z",
    "verdict": "on_time",
-   "published_at": "2026-10-17T08:45:57Z",
+   "published_at": "2026-10-17T08:45:57.672762Z",
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7517143855171919872",
    "days": [
     {
@@ -210,7 +210,7 @@
    "deadline": "14:30",
    "deadline_utc": "2026-10-17T11:30:00Z",
    "verdict": "on_time",
-   "published_at": "2026-10-17T10:10:44Z",
+   "published_at": "2026-10-17T10:10:44.887636Z",
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7517165191575400448",
    "days": [
     {
