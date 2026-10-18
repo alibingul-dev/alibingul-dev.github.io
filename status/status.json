@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-18T09:46:54.682227Z",
+ "updated": "2026-10-18T11:48:40.310173Z",
  "date": "2026-10-18",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -35,9 +35,9 @@
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null
+   "verdict": "on_time",
+   "published_at": "2026-10-18T10:15:22.929795Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7517528746355126272"
   },
   {
    "id": "tr-dayend",
@@ -209,9 +209,9 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-10-18T11:30:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
+   "verdict": "on_time",
+   "published_at": "2026-10-18T10:15:22.929795Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7517528746355126272",
    "days": [
     {
      "date": "2026-10-12",
@@ -245,8 +245,8 @@
     },
     {
      "date": "2026-10-18",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7517528746355126272"
     }
    ]
   },
@@ -302,11 +302,11 @@
   }
  ],
  "week": {
-  "on_time": 21,
+  "on_time": 22,
   "late": 3,
   "missed": 9,
   "overdue": 0,
-  "pending": 2,
-  "closed": 33
+  "pending": 1,
+  "closed": 34
  }
 }
