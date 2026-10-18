@@ -25,7 +25,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--ink);font:400 16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   a{color:inherit}
-  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 
   header{padding:72px 0 48px;border-bottom:1px solid var(--line)}
   .kicker{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
@@ -78,6 +78,26 @@
   .sb-text b{color:var(--ink);font-weight:500}
   .sb-go{font-weight:600;color:var(--ink)}
   @media (max-width:600px){.statusbar{border-radius:14px}}
+
+  .ico{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:32px;align-items:start}
+  .news{position:sticky;top:20px;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:20px}
+  .news h2{display:flex;align-items:center;gap:8px;margin-bottom:16px;color:var(--ink)}
+  .news h2 .ico{color:var(--accent)}
+  .news-list{list-style:none;display:flex;flex-direction:column}
+  .news-list li{padding:14px 0;border-top:1px solid var(--line)}
+  .news-list li:first-child{border-top:0;padding-top:0}
+  .news-list time{font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+  .news-list a{display:block;text-decoration:none}
+  .news-list b{display:block;font:700 17px/1.25 Fraunces,Georgia,serif;margin:6px 0 4px}
+  .news-list a:hover b{text-decoration:underline}
+  .news-list p{font-size:14px;line-height:1.5;color:var(--muted)}
+  .news-empty{color:var(--muted);font-size:14px}
+  @media (max-width:980px){
+    .layout{grid-template-columns:1fr}
+    .news{position:static}
+    .news-list li:nth-child(n+3){display:none}
+  }
 
   footer{padding:32px 0 48px;color:var(--muted);font-size:13px}
   footer a{color:var(--muted)}
@@ -177,6 +197,8 @@
     <p class="lead">I take systems that are hard to read — <em>power markets, game economies, competitions</em> — model how they really behave, and ship the result as something that runs every day. Built with AI, checked by hand.</p>
     <div class="links">
       <a class="btn primary" href="#work">See the work</a>
+      <a class="btn" href="/status/"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>Work status</a>
+      <a class="btn" href="/org/"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></svg>Organisation</a>
       <a class="btn" href="https://github.com/alibingul-dev">GitHub</a>
       <a class="btn" id="linkedin" href="#" hidden>LinkedIn</a>
     </div>
@@ -185,6 +207,8 @@
 
 <section id="work">
   <div class="wrap">
+   <div class="layout">
+    <div class="main">
     <h2>Live work</h2>
     <a class="statusbar" id="statusbar" href="/status/" hidden>
       <span class="sb-dot"></span>
@@ -251,6 +275,12 @@
       </a>
 
     </div>
+    </div>
+    <aside class="news" aria-labelledby="news-h">
+      <h2 id="news-h"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l6 4V6L7 10H4z"/><path d="M16.5 9a4 4 0 0 1 0 6"/></svg>Announcements</h2>
+      <ol class="news-list" id="news-list"><li class="news-empty">Loading…</li></ol>
+    </aside>
+   </div>
   </div>
 </section>
 
@@ -302,6 +332,27 @@
       document.getElementById("pofi-ver").textContent = rel.tag_name;
     })
     .catch(function () {});
+
+  // Announcements: reads /announcements.json, newest first.
+  fetch("/announcements.json", { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      var list = document.getElementById("news-list");
+      var items = (d && d.items || []).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+      list.textContent = "";
+      if (!items.length) { list.closest(".news").hidden = true; return; }
+      items.slice(0, 5).forEach(function (it) {
+        var li = document.createElement("li");
+        var box = document.createElement(it.url ? "a" : "div");
+        if (it.url) box.href = it.url;
+        var t = document.createElement("time"); t.dateTime = it.date;
+        t.textContent = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(new Date(it.date + "T12:00:00Z"));
+        var b = document.createElement("b"); b.textContent = it.title;
+        var p = document.createElement("p"); p.textContent = it.text;
+        box.appendChild(t); box.appendChild(b); box.appendChild(p); li.appendChild(box); list.appendChild(li);
+      });
+    })
+    .catch(function () { var n = document.querySelector(".news"); if (n) n.hidden = true; });
 
   // Live status strip: reads /status/status.json written by the independent checker.
   fetch("/status/status.json", { cache: "no-store" })

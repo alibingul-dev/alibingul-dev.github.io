@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "date": "2026-10-18",
+      "title": "Agent Organisation published",
+      "text": "Every daily job now has a named role, a deadline and a reporting line. See who drafts, who checks and who audits.",
+      "url": "/org/"
+    },
+    {
+      "date": "2026-10-17",
+      "title": "Live Work Status is live",
+      "text": "An independent checker marks each daily deliverable against its deadline four times a day. Misses stay on the record.",
+      "url": "/status/"
+    },
+    {
+      "date": "2026-10-15",
+      "title": "Net load outlook gets a chart",
+      "text": "The Türkiye next-day outlook now ships with an animated net load chart alongside the post.",
+      "url": "/power-analytics/"
+    }
+  ]
+}
