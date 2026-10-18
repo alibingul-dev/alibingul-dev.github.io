@@ -42,52 +42,52 @@
   section{padding-block:48px;border-bottom:1px solid var(--line)}
   h2{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:28px}
 
-  /* chart */
-  .chart{position:relative}
-  .node{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-  .title{font:700 17px/1.2 var(--serif)}
-  .who{font:500 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
-  .duty{font-size:13.5px;line-height:1.45;color:var(--muted);margin-top:6px}
-  .ceo{max-width:320px;margin:0 auto;text-align:center;border-color:var(--ink)}
-  .ceo .title{font-size:20px}
+  /* chart: classic tree, peers always side by side */
+  .node{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%;max-width:250px;text-align:left}
+  .title{font:700 16px/1.2 var(--serif)}
+  .who{font:500 10.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+  .duty{font-size:12.5px;line-height:1.45;color:var(--muted);margin-top:5px}
+  .due{display:inline-block;margin-top:7px;font:500 10.5px/1 var(--mono);color:var(--ok);border:1px solid var(--ok);border-radius:999px;padding:4px 8px;white-space:nowrap}
+  .n-top{border-color:var(--ink);text-align:center;max-width:300px}
+  .n-top .title{font-size:20px}
+  .n-div{border-color:var(--ink)}
+  .n-div .title{font-size:18px}
+  .n-desk{background:var(--ok-soft);border-color:transparent;border-left:2px solid var(--ok);border-radius:0;padding:8px 12px}
+  .n-desk .title{font:500 12px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+  .n-audit{border:1.5px dashed var(--accent)}
+  .n-audit .who{color:var(--accent)}
+  .n-studio{border:1.5px dashed var(--wire);background:transparent}
+  a.node{display:block;text-decoration:none}
+  a.node:hover{border-color:var(--ink)}
 
-  .stem{width:1px;height:28px;background:var(--wire);margin:0 auto}
-  .divs{position:relative;display:grid;grid-template-columns:2.1fr 1fr 1fr;gap:16px;padding-top:28px}
-  .bus{position:absolute;top:0;height:1px;background:var(--wire)}
-  .div{position:relative;display:flex;flex-direction:column;gap:12px;min-width:0}
-  .div::before{content:"";position:absolute;top:-28px;left:50%;width:1px;height:28px;background:var(--wire)}
-  .unit{border-radius:14px;padding:14px 16px;border:1px solid var(--ink);background:var(--card)}
-  .unit .title{font-size:19px}
-  .unit.audit{border:1.5px dashed var(--accent)}
-  .unit.audit .who{color:var(--accent)}
+  .tree{overflow-x:auto}
+  .tree ul{display:flex;justify-content:center;position:relative;padding-top:22px}
+  .tree>ul{padding-top:0}
+  .tree li{list-style:none;position:relative;display:flex;flex-direction:column;align-items:center;padding:22px 5px 0;flex:1 1 0;min-width:0}
+  .tree>ul>li{padding-top:0}
+  .tree li::before,.tree li::after{content:"";position:absolute;top:0;right:50%;width:50%;height:22px;border-top:1px solid var(--wire)}
+  .tree li::after{right:auto;left:50%;border-left:1px solid var(--wire)}
+  .tree li:only-child::before,.tree li:only-child::after{display:none}
+  .tree li:only-child{padding-top:0}
+  .tree li:first-child::before,.tree li:last-child::after{border:0 none}
+  .tree li:last-child::before{border-right:1px solid var(--wire)}
+  .tree li:only-child>.node{margin-top:22px}
+  .tree ul ul::before{content:"";position:absolute;top:0;left:50%;height:22px;border-left:1px solid var(--wire)}
+  .tree li:only-child>.node::before{content:"";display:block}
+  .tree>ul>li:only-child>.node{margin-top:0}
 
-  .desks{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .desk{display:flex;flex-direction:column;gap:10px;min-width:0}
-  .desk-h{font:500 12px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);padding:8px 12px;border-left:2px solid var(--ok);border-radius:0;background:var(--ok-soft)}
+  .band{margin-top:44px;padding-top:28px;border-top:1px dashed var(--wire)}
+  .band-h{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .note{font-size:13px;line-height:1.5;color:var(--muted);margin-top:16px;max-width:720px}
 
-  .prog{background:transparent;border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column}
-  .prog-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:10px}
-  .prog-h b{font:600 14px/1.3 var(--sans)}
-  .due{flex:none;font:500 11px/1 var(--mono);color:var(--ok);border:1px solid var(--ok);border-radius:999px;padding:4px 8px;white-space:nowrap}
-  .role{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
-  .role .title{font-size:15px}
-  .role .duty{font-size:12.5px;margin-top:3px}
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .services .node{background:transparent;max-width:none}
 
-  .reports{display:flex;flex-direction:column;gap:8px;margin:8px 0 0 12px;padding-left:12px;border-left:1px solid var(--wire)}
-  .kid{position:relative}
-  .kid::before{content:"";position:absolute;left:-12px;top:20px;width:12px;height:1px;background:var(--wire)}
-  .solo{display:flex;flex-direction:column;gap:10px}
-  .solo .role{border-color:var(--line)}
-  .audit-role{border:1px dashed var(--accent)}
-  .note{font-size:12.5px;line-height:1.45;color:var(--muted);padding:2px 4px}
-
-  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;padding-top:24px;border-top:1px dashed var(--wire)}
-  .services .node{background:transparent}
-  .svc-h{grid-column:1/-1;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:-4px}
-
-  .legend{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:24px;font:500 12px/1.4 var(--mono);color:var(--muted)}
+  .legend{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:28px;font:500 12px/1.4 var(--mono);color:var(--muted)}
   .legend i{display:inline-block;width:22px;height:0;vertical-align:middle;margin-right:8px;border-top:1px solid var(--wire)}
   .legend i.dash{border-top:1.5px dashed var(--accent)}
+  .legend i.dash2{border-top:1.5px dashed var(--wire)}
 
   .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px}
   .rules h4{font:700 20px/1.2 var(--serif);margin-bottom:8px}
@@ -97,14 +97,18 @@
   footer{padding-block:32px 48px;color:var(--muted);font-size:13px}
   footer a{color:var(--muted)}
 
-  @media (max-width:900px){
-    .divs{grid-template-columns:1fr;padding-top:0;gap:28px}
-    .bus,.div::before{display:none}
-    .stem{height:20px}
-    .services{grid-template-columns:1fr}
-  }
-  @media (max-width:560px){
-    .desks{grid-template-columns:1fr}
+  @media (max-width:760px){
+    .pair,.services{grid-template-columns:1fr}
+    .tree ul{display:block;padding:0 0 0 18px;margin-left:10px;border-left:1px solid var(--wire)}
+    .tree>ul{padding:0;margin:0;border:0}
+    .tree li{display:block;padding:10px 0 0;position:relative}
+    .tree li::before{content:"";display:block;position:absolute;left:-18px;top:30px;width:18px;height:0;border:0;border-top:1px solid var(--wire)}
+    .tree li::after,.tree ul ul::before{display:none}
+    .tree>ul>li::before{display:none}
+    .tree li:only-child{padding-top:10px}
+    .tree li:only-child::before{display:block}
+    .tree li:only-child>.node{margin-top:0}
+    .node{max-width:none}
   }
 </style>
 </head>
@@ -114,11 +118,11 @@
     <a class="back" href="/#work">← All work</a>
     <div class="kicker">Live work · Organisation</div>
     <h1>Agent Organisation</h1>
-    <p class="lead">The daily work on this site is run by AI agents, each with one role, one deadline and someone above it who checks the result. No agent signs off its own work, and the audit function answers to no one it audits.</p>
+    <p class="lead">The work on this site is run by AI agents, each with one role and someone above it who checks the result. Four divisions: three run every day against fixed deadlines, one builds products on demand. No agent signs off its own work, and the audit function answers to no one it audits.</p>
     <div class="facts">
-      <span><b>3</b> divisions</span>
+      <span><b>4</b> divisions</span>
       <span><b>5</b> daily deliverables</span>
-      <span><b>12</b> agent roles</span>
+      <span><b>16</b> agent roles</span>
       <span>Times: Istanbul</span>
     </div>
   </div>
@@ -128,99 +132,43 @@
   <div class="wrap">
     <h2>Organisation chart</h2>
     <div class="chart">
+      <div class="tree"><ul><li><div class="node n-top"><div class="title">Agent Orchestrator</div><div class="who">Ali Bingül · human</div><div class="duty">Sets the rules, owns the standards, handles exceptions.</div></div><ul><li><a class="node n-div" href="#market"><div class="title">Market Insights</div><div class="who">Division · daily</div><div class="duty">Power market notes for Türkiye and Great Britain.</div></a></li><li><a class="node n-div" href="#entertainment"><div class="title">Entertainment Data</div><div class="who">Division · daily</div><div class="duty">Independent scoring of televised competitions.</div></a></li><li><a class="node n-studio" href="#studio"><div class="title">Product Studio</div><div class="who">Division · on demand</div><div class="duty">Games, characters, music and tools, built when a session is opened.</div></a></li><li><a class="node n-audit" href="#audit"><div class="title">Internal Audit</div><div class="who">Independent</div><div class="duty">Checks every daily division. Reports to the orchestrator only.</div></a></li></ul></li></ul></div>
 
-      <div class="node ceo">
-        <div class="title">Agent Orchestrator</div>
-        <div class="who">Ali Bingül · human</div>
-        <div class="duty">Sets the rules, owns the standards, handles exceptions.</div>
+      <div class="band" id="market">
+        <div class="band-h">Market Insights · reporting lines</div>
+        <div class="tree"><ul><li><div class="node n-div"><div class="title">Market Insights</div><div class="who">Division · 4 daily notes</div><div class="duty">Analysis published on LinkedIn.</div></div><ul><li style="flex-grow:3"><div class="node n-desk"><div class="title">Türkiye Desk</div></div><ul><li style="flex-grow:2"><div class="node "><div class="title">Senior Editor</div><div class="who">Day-end scorecard</div><div class="duty">Re-pulls every figure; approves or sends back.</div><span class="due">by 15:15</span></div><ul><li><div class="node "><div class="title">Market Analyst</div><div class="duty">Drafts from yesterday's settled data.</div></div></li><li><div class="node "><div class="title">Publishing Officer</div><div class="duty">Posts only the approved draft, at 15:00.</div></div></li></ul></li><li><div class="node "><div class="title">Senior Editor</div><div class="who">Next-day outlook</div><div class="duty">Checks against fresh data, then publishes.</div><span class="due">by 12:30</span></div><ul><li><div class="node "><div class="title">Forecast Analyst</div><div class="duty">Drafts tomorrow's load, wind and solar picture.</div></div></li></ul></li></ul></li><li style="flex-grow:2"><div class="node n-desk"><div class="title">Great Britain Desk</div></div><ul><li><div class="node "><div class="title">Senior Editor</div><div class="who">Day-end scorecard</div><div class="duty">Re-pulls every figure, then publishes.</div><span class="due">by 14:30</span></div><ul><li><div class="node "><div class="title">Market Analyst</div><div class="duty">Drafts from yesterday's balancing data.</div></div></li></ul></li><li><div class="node "><div class="title">Senior Editor</div><div class="who">Wind outlook</div><div class="duty">Checks against fresh data, then publishes.</div><span class="due">by 11:00</span></div><ul><li><div class="node "><div class="title">Wind Analyst</div><div class="duty">Drafts tomorrow's wind and demand view.</div></div></li></ul></li></ul></li></ul></li></ul></div>
+        <p class="note">Each Senior Editor runs its own team: analysts report in with drafts, the editor approves or sends them back with the reason, and nothing is published without that approval.</p>
       </div>
-      <div class="stem"></div>
 
-      <div class="divs" id="divs">
-        <div class="bus" id="bus"></div>
-
-        <!-- Market Insights -->
-        <div class="div">
-          <div class="unit">
-            <div class="title">Market Insights</div>
-            <div class="who">Division · 4 daily notes</div>
-            <div class="duty">Power market analysis for Türkiye and Great Britain, published on LinkedIn.</div>
-          </div>
-          <div class="desks">
-            <div class="desk">
-              <div class="desk-h">Türkiye Desk</div>
-
-                            <div class="prog">
-                <div class="prog-h"><b>Day-end scorecard</b><span class="due">by 15:15</span></div>
-                <div class="role"><div class="title">Senior Editor</div><div class="duty">Re-pulls every figure; approves or sends back.</div></div>
-                <div class="reports"><div class="kid"><div class="role"><div class="title">Market Analyst</div><div class="duty">Drafts from yesterday's settled data.</div></div></div><div class="kid"><div class="role"><div class="title">Publishing Officer</div><div class="duty">Posts only the approved draft, fixed at 15:00.</div></div></div></div>
-              </div>
-
-                            <div class="prog">
-                <div class="prog-h"><b>Next-day net load outlook</b><span class="due">by 12:30</span></div>
-                <div class="role"><div class="title">Senior Editor</div><div class="duty">Checks against fresh data, then publishes.</div></div>
-                <div class="reports"><div class="kid"><div class="role"><div class="title">Forecast Analyst</div><div class="duty">Drafts tomorrow's load, wind and solar picture.</div></div></div></div>
-              </div>
-            </div>
-
-            <div class="desk">
-              <div class="desk-h">Great Britain Desk</div>
-
-                            <div class="prog">
-                <div class="prog-h"><b>Day-end scorecard</b><span class="due">by 14:30</span></div>
-                <div class="role"><div class="title">Senior Editor</div><div class="duty">Re-pulls every figure, then publishes.</div></div>
-                <div class="reports"><div class="kid"><div class="role"><div class="title">Market Analyst</div><div class="duty">Drafts from yesterday's balancing data.</div></div></div></div>
-              </div>
-
-                            <div class="prog">
-                <div class="prog-h"><b>Tomorrow's wind outlook</b><span class="due">by 11:00</span></div>
-                <div class="role"><div class="title">Senior Editor</div><div class="duty">Checks against fresh data, then publishes.</div></div>
-                <div class="reports"><div class="kid"><div class="role"><div class="title">Wind Analyst</div><div class="duty">Drafts tomorrow's wind and demand view.</div></div></div></div>
-              </div>
-            </div>
-          </div>
-          <div class="note">Each Senior Editor manages its own desk team: analysts report in with drafts, the editor approves or sends them back with the reason, and nothing is published without that approval.</div>
+      <div class="band pair">
+        <div id="entertainment">
+          <div class="band-h">Entertainment Data · reporting lines</div>
+          <div class="tree"><ul><li><div class="node n-div"><div class="title">Entertainment Data</div><div class="who">Division · 1 daily update</div></div><ul><li><div class="node "><div class="title">Score Researcher</div><div class="who">MasterChef scoreboard</div><div class="duty">Logs last night's results, each confirmed by three sources.</div><span class="due">by 07:10</span></div></li></ul></li></ul></div>
         </div>
-
-        <!-- Entertainment Data -->
-        <div class="div">
-          <div class="unit">
-            <div class="title">Entertainment Data</div>
-            <div class="who">Division · 1 daily update</div>
-            <div class="duty">Independent scoring of televised competitions.</div>
-          </div>
-          <div class="solo">
-            <div class="prog">
-              <div class="prog-h"><b>MasterChef scoreboard</b><span class="due">by 07:10</span></div>
-              <div class="role"><div class="title">Score Researcher</div><div class="duty">Logs last night's results, each one confirmed by three sources.</div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Internal Audit -->
-        <div class="div">
-          <div class="unit audit">
-            <div class="title">Internal Audit</div>
-            <div class="who">Independent · reports to the orchestrator only</div>
-            <div class="duty">Checks every division against its deadlines. Nothing it checks can start or change it.</div>
-          </div>
-          <div class="solo">
-            <div class="role audit-role"><div class="title">Intraday Compliance Monitor</div><div class="duty">Four checks a day; publishes the Live Work Status page.</div></div>
-            <div class="role audit-role"><div class="title">Night Auditor</div><div class="duty">Closes the day, records the reason for each miss and opens tomorrow's checklist.</div></div>
-          </div>
+        <div id="audit">
+          <div class="band-h">Internal Audit · reporting lines</div>
+          <div class="tree"><ul><li><div class="node n-audit"><div class="title">Internal Audit</div><div class="who">Independent · reports to the orchestrator only</div></div><ul><li><div class="node n-audit"><div class="title">Compliance Monitor</div><div class="who">Intraday · 4 checks</div><div class="duty">Publishes the Live Work Status page.</div></div></li><li><div class="node n-audit"><div class="title">Night Auditor</div><div class="who">Nightly</div><div class="duty">Records the reason for each miss, opens tomorrow's checklist.</div></div></li></ul></li></ul></div>
         </div>
       </div>
 
-      <div class="services">
-        <div class="svc-h">Shared services · used by every division</div>
-        <div class="node"><div class="title">Market Data Service</div><div class="duty">Türkiye and GB market data, draft storage, publishing.</div></div>
-        <div class="node"><div class="title">Content Repository</div><div class="duty">Versioned instructions, change log and chart generation.</div></div>
-        <div class="node"><div class="title">Public Reporting</div><div class="duty">This site and the <a href="/status/">Live Work Status</a> page.</div></div>
+      <div class="band" id="studio">
+        <div class="band-h">Product Studio · reporting lines</div>
+        <div class="tree"><ul><li><div class="node n-studio"><div class="title">Product Studio</div><div class="who">Division · on demand</div><div class="duty">No daily deadline; agents work in sessions the orchestrator opens.</div></div><ul><li><div class="node n-studio"><div class="title">Game Developer</div><div class="who">Megawatt Mogul</div><div class="duty">Builds and patches the 3D energy tycoon.</div></div></li><li><div class="node n-studio"><div class="title">Character Designer</div><div class="who">Pofi</div><div class="duty">Designs the desktop pet and ships its releases.</div></div></li><li><div class="node n-studio"><div class="title">Music Producer</div><div class="who">Plaka Rock</div><div class="duty">Turns each song into lyric videos and vertical cuts.</div></div></li><li><div class="node n-studio"><div class="title">Tools Developer</div><div class="who">Free Browser Tools</div><div class="duty">Builds small single-job tools that run in the browser.</div></div></li></ul></li></ul></div>
+      </div>
+
+      <div class="band">
+        <div class="band-h">Shared services · used by every division</div>
+        <div class="services">
+          <div class="node"><div class="title">Market Data Service</div><div class="duty">Türkiye and GB market data, draft storage, publishing.</div></div>
+          <div class="node"><div class="title">Content Repository</div><div class="duty">Versioned instructions, change log and chart generation.</div></div>
+          <div class="node"><div class="title">Public Reporting</div><div class="duty">This site and the <a href="/status/">Live Work Status</a> page.</div></div>
+        </div>
       </div>
 
       <div class="legend">
         <span><i></i>Reporting line</span>
         <span><i class="dash"></i>Independent oversight</span>
+        <span><i class="dash2"></i>On demand, no daily deadline</span>
       </div>
     </div>
   </div>
@@ -241,21 +189,5 @@
   <div class="wrap">Published in a personal capacity. Roles describe automated agents, not employees. · <a href="/">alibingul-dev.github.io</a></div>
 </footer>
 
-<script>
-(function(){
-  var divs = document.getElementById("divs"), bus = document.getElementById("bus");
-  function place(){
-    var cols = divs.querySelectorAll(".div");
-    if (!cols.length || getComputedStyle(bus).display === "none") return;
-    var box = divs.getBoundingClientRect();
-    var first = cols[0].getBoundingClientRect(), last = cols[cols.length - 1].getBoundingClientRect();
-    var l = first.left + first.width / 2 - box.left, r = last.left + last.width / 2 - box.left;
-    bus.style.left = l + "px"; bus.style.width = (r - l) + "px";
-  }
-  place();
-  window.addEventListener("resize", place);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
-})();
-</script>
 </body>
 </html>
