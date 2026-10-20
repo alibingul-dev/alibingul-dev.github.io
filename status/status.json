@@ -1,6 +1,6 @@
 {
- "updated": "2026-10-19T20:47:43.448362Z",
- "date": "2026-10-19",
+ "updated": "2026-10-20T04:48:17.768152Z",
+ "date": "2026-10-20",
  "timezone": "Europe/Istanbul",
  "plan": [
   {
@@ -9,7 +9,7 @@
    "name": "Scoreboard update",
    "deadline": "07:10",
    "verdict": "on_time",
-   "published_at": "2026-10-19T01:13:34Z",
+   "published_at": "2026-10-20T01:14:22Z",
    "url": "https://alibingul-dev.github.io/masterchef-2026/"
   },
   {
@@ -17,36 +17,36 @@
    "market": "Great Britain",
    "name": "Tomorrow's wind outlook",
    "deadline": "11:00",
-   "verdict": "on_time",
-   "published_at": "2026-10-19T06:29:09.042041Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7517834201036050432"
+   "verdict": "pending",
+   "published_at": null,
+   "url": null
   },
   {
    "id": "tr-outlook",
    "market": "Türkiye",
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
-   "verdict": "on_time",
-   "published_at": "2026-10-19T08:27:53.536774Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7517864083409547264"
+   "verdict": "pending",
+   "published_at": null,
+   "url": null
   },
   {
    "id": "gb-dayend",
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "on_time",
-   "published_at": "2026-10-19T10:17:37.041920Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7517891697305972736"
+   "verdict": "pending",
+   "published_at": null,
+   "url": null
   },
   {
    "id": "tr-dayend",
    "market": "Türkiye",
    "name": "Day-end scorecard",
    "deadline": "15:15",
-   "verdict": "on_time",
-   "published_at": "2026-10-19T12:06:52.412885Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7517919191509954560"
+   "verdict": "pending",
+   "published_at": null,
+   "url": null
   }
  ],
  "series": [
@@ -58,16 +58,11 @@
    "covers": "Last night's episode turned into points. Every result is confirmed by three news sources before it counts.",
    "source": "Three independent news sources per result",
    "deadline": "07:10",
-   "deadline_utc": "2026-10-19T04:10:00Z",
+   "deadline_utc": "2026-10-20T04:10:00Z",
    "verdict": "on_time",
-   "published_at": "2026-10-19T01:13:34Z",
+   "published_at": "2026-10-20T01:14:22Z",
    "url": "https://alibingul-dev.github.io/masterchef-2026/",
    "days": [
-    {
-     "date": "2026-10-13",
-     "verdict": "on_time",
-     "url": "https://alibingul-dev.github.io/masterchef-2026/"
-    },
     {
      "date": "2026-10-14",
      "verdict": "on_time",
@@ -97,6 +92,11 @@
      "date": "2026-10-19",
      "verdict": "on_time",
      "url": "https://alibingul-dev.github.io/masterchef-2026/"
+    },
+    {
+     "date": "2026-10-20",
+     "verdict": "on_time",
+     "url": "https://alibingul-dev.github.io/masterchef-2026/"
     }
    ]
   },
@@ -108,16 +108,11 @@
    "covers": "The system operator's wind forecast for tomorrow, hour by hour, published before the London auction.",
    "source": "Elexon BMRS",
    "deadline": "11:00",
-   "deadline_utc": "2026-10-19T08:00:00Z",
-   "verdict": "on_time",
-   "published_at": "2026-10-19T06:29:09.042041Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7517834201036050432",
+   "deadline_utc": "2026-10-20T08:00:00Z",
+   "verdict": "pending",
+   "published_at": null,
+   "url": null,
    "days": [
-    {
-     "date": "2026-10-13",
-     "verdict": "missed",
-     "url": null
-    },
     {
      "date": "2026-10-14",
      "verdict": "missed",
@@ -147,6 +142,11 @@
      "date": "2026-10-19",
      "verdict": "on_time",
      "url": "https://www.linkedin.com/feed/update/urn:li:share:7517834201036050432"
+    },
+    {
+     "date": "2026-10-20",
+     "verdict": "pending",
+     "url": null
     }
    ]
   },
@@ -158,16 +158,11 @@
    "covers": "How much demand is left for thermal plants tomorrow once wind and solar are counted, published before the day-ahead auction.",
    "source": "EPİAŞ Transparency Platform",
    "deadline": "12:30",
-   "deadline_utc": "2026-10-19T09:30:00Z",
-   "verdict": "on_time",
-   "published_at": "2026-10-19T08:27:53.536774Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7517864083409547264",
+   "deadline_utc": "2026-10-20T09:30:00Z",
+   "verdict": "pending",
+   "published_at": null,
+   "url": null,
    "days": [
-    {
-     "date": "2026-10-13",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7515699940552134656"
-    },
     {
      "date": "2026-10-14",
      "verdict": "on_time",
@@ -197,6 +192,11 @@
      "date": "2026-10-19",
      "verdict": "on_time",
      "url": "https://www.linkedin.com/feed/update/urn:li:share:7517864083409547264"
+    },
+    {
+     "date": "2026-10-20",
+     "verdict": "pending",
+     "url": null
     }
    ]
   },
@@ -208,16 +208,11 @@
    "covers": "Yesterday in the GB balancing market: system prices and which way the system was out of balance.",
    "source": "Elexon BMRS",
    "deadline": "14:30",
-   "deadline_utc": "2026-10-19T11:30:00Z",
-   "verdict": "on_time",
-   "published_at": "2026-10-19T10:17:37.041920Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7517891697305972736",
+   "deadline_utc": "2026-10-20T11:30:00Z",
+   "verdict": "pending",
+   "published_at": null,
+   "url": null,
    "days": [
-    {
-     "date": "2026-10-13",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7515728400129552384"
-    },
     {
      "date": "2026-10-14",
      "verdict": "on_time",
@@ -247,6 +242,11 @@
      "date": "2026-10-19",
      "verdict": "on_time",
      "url": "https://www.linkedin.com/feed/update/urn:li:share:7517891697305972736"
+    },
+    {
+     "date": "2026-10-20",
+     "verdict": "pending",
+     "url": null
     }
    ]
   },
@@ -258,16 +258,11 @@
    "covers": "What happened in yesterday's Turkish power market: prices, the generation mix and what set the price.",
    "source": "EPİAŞ Transparency Platform",
    "deadline": "15:15",
-   "deadline_utc": "2026-10-19T12:15:00Z",
-   "verdict": "on_time",
-   "published_at": "2026-10-19T12:06:52.412885Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7517919191509954560",
+   "deadline_utc": "2026-10-20T12:15:00Z",
+   "verdict": "pending",
+   "published_at": null,
+   "url": null,
    "days": [
-    {
-     "date": "2026-10-13",
-     "verdict": "late",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7515770504054697984"
-    },
     {
      "date": "2026-10-14",
      "verdict": "missed",
@@ -297,16 +292,21 @@
      "date": "2026-10-19",
      "verdict": "on_time",
      "url": "https://www.linkedin.com/feed/update/urn:li:share:7517919191509954560"
+    },
+    {
+     "date": "2026-10-20",
+     "verdict": "pending",
+     "url": null
     }
    ]
   }
  ],
  "week": {
-  "on_time": 27,
-  "late": 3,
-  "missed": 5,
+  "on_time": 25,
+  "late": 2,
+  "missed": 4,
   "overdue": 0,
-  "pending": 0,
-  "closed": 35
+  "pending": 4,
+  "closed": 31
  }
 }
