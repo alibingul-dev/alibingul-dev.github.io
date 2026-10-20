@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20T12:48:15.484452Z",
+ "updated": "2026-10-20T20:47:39.297700Z",
  "date": "2026-10-20",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -17,7 +17,7 @@
    "market": "Great Britain",
    "name": "Tomorrow's wind outlook",
    "deadline": "11:00",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null
   },
@@ -35,7 +35,7 @@
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null
   },
@@ -109,7 +109,7 @@
    "source": "Elexon BMRS",
    "deadline": "11:00",
    "deadline_utc": "2026-10-20T08:00:00Z",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null,
    "days": [
@@ -145,7 +145,7 @@
     },
     {
      "date": "2026-10-20",
-     "verdict": "overdue",
+     "verdict": "missed",
      "url": null
     }
    ]
@@ -209,7 +209,7 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-10-20T11:30:00Z",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null,
    "days": [
@@ -245,7 +245,7 @@
     },
     {
      "date": "2026-10-20",
-     "verdict": "overdue",
+     "verdict": "missed",
      "url": null
     }
    ]
@@ -304,9 +304,9 @@
  "week": {
   "on_time": 27,
   "late": 2,
-  "missed": 4,
-  "overdue": 2,
+  "missed": 6,
+  "overdue": 0,
   "pending": 0,
-  "closed": 33
+  "closed": 35
  }
 }
