@@ -1,12 +1,12 @@
 /* Shared styles for every tool under /tools/. Same tokens as the root site. */
 :root{
-  --bg:#f6f4ef; --ink:#16161a; --muted:#5d5d66; --line:#dcd8cf;
-  --card:#ffffff; --accent:#d9480f; --accent-soft:#fde8dc; --ok:#2b8a3e; --err:#c92a2a;
+  --bg:#EEF1F4; --ink:#0E1520; --muted:#4A5768; --line:#CDD5DE;
+  --card:#ffffff; --accent:#0B6A8C; --accent-soft:#DCEEF5; --ok:#1F7A4D; --err:#c92a2a;
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#111114; --ink:#ecebe6; --muted:#9d9ca6; --line:#2a2a31;
-    --card:#18181d; --accent:#ff7a3d; --accent-soft:#2b1a12; --ok:#51cf66; --err:#ff6b6b;
+    --bg:#0E1520; --ink:#E6EDF3; --muted:#93A1B3; --line:#263243;
+    --card:#16202E; --accent:#38BDF8; --accent-soft:#0F2A3A; --ok:#34D399; --err:#ff6b6b;
   }
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -16,14 +16,14 @@ a{color:inherit}
 
 .topbar{border-bottom:1px solid var(--line);padding:14px 0}
 .topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.brand{font:700 18px/1 Fraunces,Georgia,serif;text-decoration:none}
+.brand{font:700 18px/1 Archivo,system-ui,sans-serif;text-decoration:none}
 .brand span{color:var(--accent)}
 .lang{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 10px}
 .lang:hover{border-color:var(--ink);color:var(--ink)}
 
 .hero{padding:40px 0 20px}
 .kicker{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-h1{font:700 clamp(30px,6vw,46px)/1.08 Fraunces,Georgia,serif;letter-spacing:-.02em;margin:14px 0 12px}
+h1{font:700 clamp(30px,6vw,46px)/1.08 Archivo,system-ui,sans-serif;letter-spacing:-.02em;margin:14px 0 12px}
 .lead{color:var(--muted);font-size:18px;max-width:600px}
 .privacy{display:inline-flex;gap:8px;align-items:center;margin-top:16px;font-size:13px;color:var(--ok)}
 .privacy::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
