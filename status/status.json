@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-22T11:48:11.881511Z",
+ "updated": "2026-10-22T12:48:41.109094Z",
  "date": "2026-10-22",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -44,9 +44,9 @@
    "market": "Türkiye",
    "name": "Day-end scorecard",
    "deadline": "15:15",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null
+   "verdict": "on_time",
+   "published_at": "2026-10-22T12:07:15.650086Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7519006451521183744"
   }
  ],
  "series": [
@@ -259,9 +259,9 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "15:15",
    "deadline_utc": "2026-10-22T12:15:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
+   "verdict": "on_time",
+   "published_at": "2026-10-22T12:07:15.650086Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7519006451521183744",
    "days": [
     {
      "date": "2026-10-16",
@@ -295,18 +295,18 @@
     },
     {
      "date": "2026-10-22",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7519006451521183744"
     }
    ]
   }
  ],
  "week": {
-  "on_time": 26,
+  "on_time": 27,
   "late": 2,
   "missed": 5,
   "overdue": 1,
-  "pending": 1,
-  "closed": 33
+  "pending": 0,
+  "closed": 34
  }
 }
