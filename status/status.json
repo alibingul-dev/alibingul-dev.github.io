@@ -299,20 +299,6 @@
      "url": null
     }
    ]
-  },
-  {
-   "id": "tr-dayend",
-   "group": "energy",
-   "market": "Türkiye",
-   "name": "Day-end scorecard",
-   "covers": "What happened in yesterday's Turkish power market: prices, the generation mix and what set the price.",
-   "source": "EPİAŞ Transparency Platform",
-   "deadline": "15:15",
-   "deadline_utc": "2026-10-22T12:15:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "days": []
   }
  ],
  "week": {
