@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-23T12:48:34.245275Z",
+ "updated": "2026-10-23T20:47:50.613496Z",
  "date": "2026-10-23",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -26,7 +26,7 @@
    "market": "Türkiye",
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null
   },
@@ -35,7 +35,7 @@
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null
   },
@@ -44,7 +44,7 @@
    "market": "Türkiye",
    "name": "Day-end scorecard",
    "deadline": "15:15",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null
   }
@@ -159,7 +159,7 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "12:30",
    "deadline_utc": "2026-10-23T09:30:00Z",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null,
    "days": [
@@ -195,7 +195,7 @@
     },
     {
      "date": "2026-10-23",
-     "verdict": "overdue",
+     "verdict": "missed",
      "url": null
     }
    ]
@@ -209,7 +209,7 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-10-23T11:30:00Z",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null,
    "days": [
@@ -245,7 +245,7 @@
     },
     {
      "date": "2026-10-23",
-     "verdict": "overdue",
+     "verdict": "missed",
      "url": null
     }
    ]
@@ -259,7 +259,7 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "15:15",
    "deadline_utc": "2026-10-23T12:15:00Z",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null,
    "days": [
@@ -295,7 +295,7 @@
     },
     {
      "date": "2026-10-23",
-     "verdict": "overdue",
+     "verdict": "missed",
      "url": null
     }
    ]
@@ -304,9 +304,9 @@
  "week": {
   "on_time": 27,
   "late": 1,
-  "missed": 4,
-  "overdue": 3,
+  "missed": 7,
+  "overdue": 0,
   "pending": 0,
-  "closed": 32
+  "closed": 35
  }
 }
