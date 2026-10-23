@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-23T09:47:49.912242Z",
+ "updated": "2026-10-23T11:48:04.537034Z",
  "date": "2026-10-23",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -35,7 +35,7 @@
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null
   },
@@ -209,7 +209,7 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-10-23T11:30:00Z",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null,
    "days": [
@@ -245,7 +245,7 @@
     },
     {
      "date": "2026-10-23",
-     "verdict": "pending",
+     "verdict": "overdue",
      "url": null
     }
    ]
@@ -305,8 +305,8 @@
   "on_time": 27,
   "late": 1,
   "missed": 4,
-  "overdue": 1,
-  "pending": 2,
+  "overdue": 2,
+  "pending": 1,
   "closed": 32
  }
 }
