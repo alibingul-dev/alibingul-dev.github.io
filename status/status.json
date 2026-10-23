@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-23T04:47:43.551029Z",
+ "updated": "2026-10-23T08:47:02.891162Z",
  "date": "2026-10-23",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -17,9 +17,9 @@
    "market": "Great Britain",
    "name": "Tomorrow's wind outlook",
    "deadline": "11:00",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null
+   "verdict": "on_time",
+   "published_at": "2026-10-23T06:28:22.761274Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7519283558964862978"
   },
   {
    "id": "tr-outlook",
@@ -109,9 +109,9 @@
    "source": "Elexon BMRS",
    "deadline": "11:00",
    "deadline_utc": "2026-10-23T08:00:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
+   "verdict": "on_time",
+   "published_at": "2026-10-23T06:28:22.761274Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7519283558964862978",
    "days": [
     {
      "date": "2026-10-17",
@@ -145,8 +145,8 @@
     },
     {
      "date": "2026-10-23",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7519283558964862978"
     }
    ]
   },
@@ -302,11 +302,11 @@
   }
  ],
  "week": {
-  "on_time": 26,
+  "on_time": 27,
   "late": 1,
   "missed": 4,
   "overdue": 0,
-  "pending": 4,
-  "closed": 31
+  "pending": 3,
+  "closed": 32
  }
 }
