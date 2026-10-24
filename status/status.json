@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-24T04:46:54.820887Z",
+ "updated": "2026-10-24T08:48:08.628921Z",
  "date": "2026-10-24",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -17,7 +17,7 @@
    "market": "Great Britain",
    "name": "Tomorrow's wind outlook",
    "deadline": "11:00",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null
   },
@@ -109,7 +109,7 @@
    "source": "Elexon BMRS",
    "deadline": "11:00",
    "deadline_utc": "2026-10-24T08:00:00Z",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null,
    "days": [
@@ -145,7 +145,7 @@
     },
     {
      "date": "2026-10-24",
-     "verdict": "pending",
+     "verdict": "overdue",
      "url": null
     }
    ]
@@ -305,8 +305,8 @@
   "on_time": 24,
   "late": 0,
   "missed": 7,
-  "overdue": 0,
-  "pending": 4,
+  "overdue": 1,
+  "pending": 3,
   "closed": 31
  }
 }
