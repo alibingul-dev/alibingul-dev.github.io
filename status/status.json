@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-25T11:47:04.501387Z",
+ "updated": "2026-10-25T12:47:54.836376Z",
  "date": "2026-10-25",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -35,18 +35,18 @@
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null
+   "verdict": "late",
+   "published_at": "2026-10-25T11:53:33.636913Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7520090168138260480"
   },
   {
    "id": "tr-dayend",
    "market": "Türkiye",
    "name": "Day-end scorecard",
    "deadline": "15:15",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null
+   "verdict": "on_time",
+   "published_at": "2026-10-25T12:08:01.365000Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7520093808487874560"
   }
  ],
  "series": [
@@ -209,9 +209,9 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-10-25T11:30:00Z",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
+   "verdict": "late",
+   "published_at": "2026-10-25T11:53:33.636913Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7520090168138260480",
    "days": [
     {
      "date": "2026-10-19",
@@ -245,8 +245,8 @@
     },
     {
      "date": "2026-10-25",
-     "verdict": "overdue",
-     "url": null
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520090168138260480"
     }
    ]
   },
@@ -259,9 +259,9 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "15:15",
    "deadline_utc": "2026-10-25T12:15:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
+   "verdict": "on_time",
+   "published_at": "2026-10-25T12:08:01.365000Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7520093808487874560",
    "days": [
     {
      "date": "2026-10-19",
@@ -295,18 +295,18 @@
     },
     {
      "date": "2026-10-25",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520093808487874560"
     }
    ]
   }
  ],
  "week": {
-  "on_time": 22,
-  "late": 1,
+  "on_time": 23,
+  "late": 2,
   "missed": 10,
-  "overdue": 1,
-  "pending": 1,
-  "closed": 33
+  "overdue": 0,
+  "pending": 0,
+  "closed": 35
  }
 }
