@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-25T09:47:00.459656Z",
+ "updated": "2026-10-25T11:47:04.501387Z",
  "date": "2026-10-25",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -26,16 +26,16 @@
    "market": "Türkiye",
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null
+   "verdict": "late",
+   "published_at": "2026-10-25T09:53:25.508194Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7520059935108337664"
   },
   {
    "id": "gb-dayend",
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null
   },
@@ -159,9 +159,9 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "12:30",
    "deadline_utc": "2026-10-25T09:30:00Z",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
+   "verdict": "late",
+   "published_at": "2026-10-25T09:53:25.508194Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7520059935108337664",
    "days": [
     {
      "date": "2026-10-19",
@@ -195,8 +195,8 @@
     },
     {
      "date": "2026-10-25",
-     "verdict": "overdue",
-     "url": null
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520059935108337664"
     }
    ]
   },
@@ -209,7 +209,7 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-10-25T11:30:00Z",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null,
    "days": [
@@ -245,7 +245,7 @@
     },
     {
      "date": "2026-10-25",
-     "verdict": "pending",
+     "verdict": "overdue",
      "url": null
     }
    ]
@@ -303,10 +303,10 @@
  ],
  "week": {
   "on_time": 22,
-  "late": 0,
+  "late": 1,
   "missed": 10,
   "overdue": 1,
-  "pending": 2,
-  "closed": 32
+  "pending": 1,
+  "closed": 33
  }
 }
