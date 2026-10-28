@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28T13:00:23.257614Z",
+ "updated": "2026-10-28T20:49:30.482352Z",
  "date": "2026-10-28",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -10,7 +10,10 @@
    "deadline": "07:10",
    "verdict": "on_time",
    "published_at": "2026-10-28T01:14:39Z",
-   "url": "https://alibingul-dev.github.io/masterchef-2026/"
+   "url": "https://alibingul-dev.github.io/masterchef-2026/",
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": null
   },
   {
    "id": "gb-outlook",
@@ -19,16 +22,22 @@
    "deadline": "12:00",
    "verdict": "on_time",
    "published_at": "2026-10-28T07:28:12.619249Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521110554183098368"
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521110554183098368",
+   "review_attempt": 1,
+   "published_by": null,
+   "delta_min": -92
   },
   {
    "id": "tr-outlook",
    "market": "Türkiye",
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
-   "url": null
+   "url": null,
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": null
   },
   {
    "id": "gb-dayend",
@@ -37,16 +46,22 @@
    "deadline": "14:30",
    "verdict": "on_time",
    "published_at": "2026-10-28T11:22:09.771002Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521169430735876098"
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521169430735876098",
+   "review_attempt": 1,
+   "published_by": null,
+   "delta_min": -23
   },
   {
    "id": "tr-dayend",
    "market": "Türkiye",
    "name": "Day-end scorecard",
    "deadline": "15:15",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null
+   "verdict": "late",
+   "published_at": "2026-10-28T19:56:56.798460Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521298978634850304",
+   "review_attempt": 2,
+   "published_by": null,
+   "delta_min": 417
   }
  ],
  "series": [
@@ -62,6 +77,9 @@
    "verdict": "on_time",
    "published_at": "2026-10-28T01:14:39Z",
    "url": "https://alibingul-dev.github.io/masterchef-2026/",
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": null,
    "days": [
     {
      "date": "2026-10-22",
@@ -112,6 +130,9 @@
    "verdict": "on_time",
    "published_at": "2026-10-28T07:28:12.619249Z",
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7521110554183098368",
+   "review_attempt": 1,
+   "published_by": null,
+   "delta_min": -92,
    "days": [
     {
      "date": "2026-10-22",
@@ -159,9 +180,12 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "12:30",
    "deadline_utc": "2026-10-28T09:30:00Z",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null,
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": null,
    "days": [
     {
      "date": "2026-10-22",
@@ -195,7 +219,7 @@
     },
     {
      "date": "2026-10-28",
-     "verdict": "overdue",
+     "verdict": "missed",
      "url": null
     }
    ]
@@ -212,6 +236,9 @@
    "verdict": "on_time",
    "published_at": "2026-10-28T11:22:09.771002Z",
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7521169430735876098",
+   "review_attempt": 1,
+   "published_by": null,
+   "delta_min": -23,
    "days": [
     {
      "date": "2026-10-22",
@@ -259,9 +286,12 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "15:15",
    "deadline_utc": "2026-10-28T12:15:00Z",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
+   "verdict": "late",
+   "published_at": "2026-10-28T19:56:56.798460Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521298978634850304",
+   "review_attempt": 2,
+   "published_by": null,
+   "delta_min": 417,
    "days": [
     {
      "date": "2026-10-22",
@@ -295,18 +325,18 @@
     },
     {
      "date": "2026-10-28",
-     "verdict": "overdue",
-     "url": null
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7521298978634850304"
     }
    ]
   }
  ],
  "week": {
   "on_time": 22,
-  "late": 4,
-  "missed": 7,
-  "overdue": 2,
+  "late": 5,
+  "missed": 8,
+  "overdue": 0,
   "pending": 0,
-  "closed": 33
+  "closed": 35
  }
 }
