@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29T08:48:47.756704Z",
+ "updated": "2026-10-29T09:49:49.435501Z",
  "date": "2026-10-29",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -32,7 +32,7 @@
    "market": "Türkiye",
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null,
    "review_attempt": null,
@@ -180,7 +180,7 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "12:30",
    "deadline_utc": "2026-10-29T09:30:00Z",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null,
    "review_attempt": null,
@@ -219,7 +219,7 @@
     },
     {
      "date": "2026-10-29",
-     "verdict": "pending",
+     "verdict": "overdue",
      "url": null
     }
    ]
@@ -335,8 +335,8 @@
   "on_time": 20,
   "late": 5,
   "missed": 7,
-  "overdue": 0,
-  "pending": 3,
+  "overdue": 1,
+  "pending": 2,
   "closed": 32
  }
 }
