@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29T09:49:49.435501Z",
+ "updated": "2026-10-29T11:50:44.788850Z",
  "date": "2026-10-29",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -32,19 +32,19 @@
    "market": "Türkiye",
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
+   "verdict": "late",
+   "published_at": "2026-10-29T10:52:50.538223Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521524439965069312",
    "review_attempt": null,
    "published_by": null,
-   "delta_min": null
+   "delta_min": 83
   },
   {
    "id": "gb-dayend",
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null,
    "review_attempt": null,
@@ -180,12 +180,12 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "12:30",
    "deadline_utc": "2026-10-29T09:30:00Z",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
+   "verdict": "late",
+   "published_at": "2026-10-29T10:52:50.538223Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521524439965069312",
    "review_attempt": null,
    "published_by": null,
-   "delta_min": null,
+   "delta_min": 83,
    "days": [
     {
      "date": "2026-10-23",
@@ -219,8 +219,8 @@
     },
     {
      "date": "2026-10-29",
-     "verdict": "overdue",
-     "url": null
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7521524439965069312"
     }
    ]
   },
@@ -233,7 +233,7 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-10-29T11:30:00Z",
-   "verdict": "pending",
+   "verdict": "overdue",
    "published_at": null,
    "url": null,
    "review_attempt": null,
@@ -272,7 +272,7 @@
     },
     {
      "date": "2026-10-29",
-     "verdict": "pending",
+     "verdict": "overdue",
      "url": null
     }
    ]
@@ -333,10 +333,10 @@
  ],
  "week": {
   "on_time": 20,
-  "late": 5,
+  "late": 6,
   "missed": 7,
   "overdue": 1,
-  "pending": 2,
-  "closed": 32
+  "pending": 1,
+  "closed": 33
  }
 }
