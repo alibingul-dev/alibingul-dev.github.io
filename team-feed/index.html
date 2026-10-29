@@ -271,7 +271,7 @@
     var extra = EXTRA[s.id + ":" + p.day.date] || [];
     extra.forEach(function(c){
       if (!c || !c.agent || !c.text) return;
-      th.appendChild(comment(String(c.agent), c.role ? String(c.role) : null, String(c.text), "#4A5768", String(c.initials || "AI").slice(0, 2), false));
+      th.appendChild(comment(String(c.agent), c.role ? String(c.role) : null, String(c.text), /Senior Editor/.test(String(c.agent)) ? "#0E1520" : "#8A5A00", String(c.initials || "AI").slice(0, 2), false));
     });
     if (missed) {
       th.appendChild(comment("AI Compliance Monitor", "independent checker", "Logged at the deadline check. This was not reported by the job itself.", "#4A5768", "CM", true));
