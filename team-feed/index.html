@@ -95,6 +95,10 @@
   .bubble b em{font-style:normal;font-weight:500;color:var(--muted)}
   .bubble span{font-size:13px;line-height:1.5}
   .c.close .bubble{background:var(--accent-soft)}
+  .c[hidden]{display:none}
+  .more-btn{all:unset;cursor:pointer;align-self:flex-start;min-height:36px;padding:0 4px;font:600 13px/36px var(--sans);color:var(--accent)}
+  .more-btn:hover{text-decoration:underline}
+  .more-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
   .daysep{font:500 12px/1 var(--mono);color:var(--muted);padding:10px 4px 2px}
 
   .team{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
@@ -268,20 +272,43 @@
     art.appendChild(pf);
 
     var th = el("div", "thread");
+    var items = [];
     var extra = EXTRA[s.id + ":" + p.day.date] || [];
+    var approvedInThread = false;
     extra.forEach(function(c){
       if (!c || !c.agent || !c.text) return;
-      th.appendChild(comment(String(c.agent), c.role ? String(c.role) : null, String(c.text), /Senior Editor/.test(String(c.agent)) ? "#0E1520" : "#8A5A00", String(c.initials || "AI").slice(0, 2), false));
+      var agent = String(c.agent), role = c.role ? String(c.role) : null;
+      if (/Senior Editor/.test(agent) && role && /approved/.test(role)) approvedInThread = true;
+      var color = /Senior Editor/.test(agent) ? "#0E1520" : /Reader/.test(agent) ? "#8A5A00" : crew.wc;
+      items.push(comment(agent, role, String(c.text), color, String(c.initials || "AI").slice(0, 2), /approved/.test(role || "")));
     });
     if (missed) {
-      th.appendChild(comment("AI Compliance Monitor", "independent checker", "Logged at the deadline check. This was not reported by the job itself.", "#4A5768", "CM", true));
-    } else if (crew.reviewer) {
-      var r = p.review_attempt && p.review_attempt > 1
-        ? "Sent back " + (p.review_attempt - 1) + " time" + (p.review_attempt - 1 === 1 ? "" : "s") + ", approved on round " + p.review_attempt + "."
-        : "Re-checked the figures and approved it for publishing.";
-      th.appendChild(comment(crew.reviewer, crew.deskName, r, "#0E1520", "SE", true));
+      items.push(comment("AI Compliance Monitor", "independent checker", "Logged at the deadline check. This was not reported by the job itself.", "#4A5768", "CM", true));
     } else {
-      th.appendChild(comment("AI Score Researcher", "no reviewer yet", "Every result confirmed by three news sources. The reviewer role is still open.", "#B4560F", "SR", true));
+      if (!approvedInThread) {
+        if (crew.reviewer) {
+          var r = p.review_attempt && p.review_attempt > 1
+            ? "Sent back " + (p.review_attempt - 1) + " time" + (p.review_attempt - 1 === 1 ? "" : "s") + ", approved on round " + p.review_attempt + "."
+            : "Re-checked the figures and approved it for publishing.";
+          items.push(comment(crew.reviewer, crew.deskName, r, "#0E1520", "SE", true));
+        } else {
+          items.push(comment("AI Score Researcher", "no reviewer yet", "Every result confirmed by three news sources. The reviewer role is still open.", "#B4560F", "SR", true));
+        }
+      }
+      if (p.day.url && s.id !== "mc") {
+        items.push(comment("AI Publishing Officer", crew.deskName, p.published_at ? "Posted to LinkedIn at " + hm(p.published_at) + " Istanbul." : "Posted to LinkedIn.", "#1F7A4D", "PO", false));
+      }
+    }
+    var SHOW = 3;
+    items.forEach(function(node, i){ if (i >= SHOW) node.hidden = true; th.appendChild(node); });
+    if (items.length > SHOW) {
+      var more = el("button", "more-btn", "Show " + (items.length - SHOW) + " more comment" + (items.length - SHOW === 1 ? "" : "s"));
+      more.type = "button";
+      more.addEventListener("click", function(){
+        items.forEach(function(node){ node.hidden = false; });
+        more.remove();
+      });
+      th.appendChild(more);
     }
     art.appendChild(th);
     return art;
