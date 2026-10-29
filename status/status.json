@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29T12:53:48.277006Z",
+ "updated": "2026-10-29T20:49:43.698329Z",
  "date": "2026-10-29",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -44,24 +44,24 @@
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
+   "verdict": "late",
+   "published_at": "2026-10-29T17:16:45.284834Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521621053778046977",
+   "review_attempt": 1,
    "published_by": null,
-   "delta_min": null
+   "delta_min": 332
   },
   {
    "id": "tr-dayend",
    "market": "Türkiye",
    "name": "Day-end scorecard",
    "deadline": "15:15",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null
+   "verdict": "late",
+   "published_at": "2026-10-29T12:55:29.701635Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521555305999233024",
+   "review_attempt": 1,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01AVGkk2Y9YRy3Hsb9pedJgV · 1,579 chars · GIF media/tr-2026-10-28.gif",
+   "delta_min": -5
   }
  ],
  "series": [
@@ -233,12 +233,12 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-10-29T11:30:00Z",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
+   "verdict": "late",
+   "published_at": "2026-10-29T17:16:45.284834Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521621053778046977",
+   "review_attempt": 1,
    "published_by": null,
-   "delta_min": null,
+   "delta_min": 332,
    "days": [
     {
      "date": "2026-10-23",
@@ -272,8 +272,8 @@
     },
     {
      "date": "2026-10-29",
-     "verdict": "overdue",
-     "url": null
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7521621053778046977"
     }
    ]
   },
@@ -286,12 +286,12 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "15:15",
    "deadline_utc": "2026-10-29T12:15:00Z",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null,
+   "verdict": "late",
+   "published_at": "2026-10-29T12:55:29.701635Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521555305999233024",
+   "review_attempt": 1,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01AVGkk2Y9YRy3Hsb9pedJgV · 1,579 chars · GIF media/tr-2026-10-28.gif",
+   "delta_min": -5,
    "days": [
     {
      "date": "2026-10-23",
@@ -325,18 +325,18 @@
     },
     {
      "date": "2026-10-29",
-     "verdict": "overdue",
-     "url": null
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7521555305999233024"
     }
    ]
   }
  ],
  "week": {
   "on_time": 20,
-  "late": 6,
+  "late": 8,
   "missed": 7,
-  "overdue": 2,
+  "overdue": 0,
   "pending": 0,
-  "closed": 33
+  "closed": 35
  }
 }
