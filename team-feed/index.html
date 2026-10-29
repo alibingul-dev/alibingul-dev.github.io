@@ -199,6 +199,12 @@
   function fmt(iso, opts){ return new Intl.DateTimeFormat("en-GB", Object.assign({ timeZone: TZ }, opts)).format(new Date(iso)); }
   function hm(iso){ return fmt(iso, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" }); }
   function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  // LinkedIn post ids carry their publish time: the first 41 bits are milliseconds since 1970.
+  function urnTime(url){
+    var m = /share:(\d+)/.exec(url || "");
+    if (!m || typeof BigInt !== "function") return null;
+    try { return new Date(Number(BigInt(m[1]) >> 22n)).toISOString(); } catch (e) { return null; }
+  }
   function av(initials, color){ var a = el("div", "av", initials); a.setAttribute("aria-hidden", "true"); a.style.background = color; return a; }
 
   function comment(name, role, text, color, initials, closing){
@@ -245,8 +251,12 @@
       who.appendChild(el("b", null, crew.writer));
       who.appendChild(el("span", null, crew.deskName + " · " + s.name));
     }
-    var when = fmt(p.day.date + "T12:00:00Z", { weekday: "short", day: "numeric", month: "short" });
-    who.appendChild(el("span", null, p.published_at ? when + " · out at " + hm(p.published_at) : when + " · deadline " + s.deadline));
+    var postedIso = missed ? (p.today ? DATA.updated : null) : (p.published_at || urnTime(p.day.url));
+    var dayLabel = function(iso){ return fmt(iso, { weekday: "short", day: "numeric", month: "short" }); };
+    var stamp = postedIso
+      ? dayLabel(postedIso) + ", " + hm(postedIso)
+      : dayLabel(p.day.date + "T12:00:00Z") + (missed ? ", after " + s.deadline : "");
+    who.appendChild(el("span", null, stamp + " · deadline " + s.deadline));
     ph.appendChild(who);
     ph.appendChild(el("span", "pill v-" + v, WORD[v] || v));
     art.appendChild(ph);
