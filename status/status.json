@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-30T12:49:38.944950Z",
+ "updated": "2026-10-30T20:49:41.891515Z",
  "date": "2026-10-30",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -44,12 +44,12 @@
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
+   "verdict": "late",
+   "published_at": "2026-10-30T20:38:28.993398Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7522034208240955393",
+   "review_attempt": 1,
    "published_by": null,
-   "delta_min": null
+   "delta_min": 533
   },
   {
    "id": "tr-dayend",
@@ -233,12 +233,12 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-10-30T11:30:00Z",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
+   "verdict": "late",
+   "published_at": "2026-10-30T20:38:28.993398Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7522034208240955393",
+   "review_attempt": 1,
    "published_by": null,
-   "delta_min": null,
+   "delta_min": 533,
    "days": [
     {
      "date": "2026-10-24",
@@ -272,8 +272,8 @@
     },
     {
      "date": "2026-10-30",
-     "verdict": "overdue",
-     "url": null
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7522034208240955393"
     }
    ]
   },
@@ -333,10 +333,10 @@
  ],
  "week": {
   "on_time": 21,
-  "late": 9,
+  "late": 10,
   "missed": 4,
-  "overdue": 1,
+  "overdue": 0,
   "pending": 0,
-  "closed": 34
+  "closed": 35
  }
 }
