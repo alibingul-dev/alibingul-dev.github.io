@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-30T08:47:50.922941Z",
+ "updated": "2026-10-30T09:48:21.522374Z",
  "date": "2026-10-30",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -32,12 +32,12 @@
    "market": "Türkiye",
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null
+   "verdict": "on_time",
+   "published_at": "2026-10-30T09:14:16.433066Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521862021966036992",
+   "review_attempt": 1,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01PbknFm6STo7655wKxp9xUs · 1,615 chars (server count; draft C5 python 1,615, C6 1,616) · GIF media/tr-outlook-2026-10-31.gif",
+   "delta_min": -16
   },
   {
    "id": "gb-dayend",
@@ -180,12 +180,12 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "12:30",
    "deadline_utc": "2026-10-30T09:30:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null,
+   "verdict": "on_time",
+   "published_at": "2026-10-30T09:14:16.433066Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7521862021966036992",
+   "review_attempt": 1,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01PbknFm6STo7655wKxp9xUs · 1,615 chars (server count; draft C5 python 1,615, C6 1,616) · GIF media/tr-outlook-2026-10-31.gif",
+   "delta_min": -16,
    "days": [
     {
      "date": "2026-10-24",
@@ -219,8 +219,8 @@
     },
     {
      "date": "2026-10-30",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7521862021966036992"
     }
    ]
   },
@@ -332,11 +332,11 @@
   }
  ],
  "week": {
-  "on_time": 20,
+  "on_time": 21,
   "late": 8,
   "missed": 4,
   "overdue": 0,
-  "pending": 3,
-  "closed": 32
+  "pending": 2,
+  "closed": 33
  }
 }
