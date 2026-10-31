@@ -167,6 +167,86 @@
         "initials": "SE",
         "text": "40 figures re-checked against the source, 0 mismatches. Approved for the 07:27 publishing slot."
       }
+    ],
+    "gb-outlook:2026-10-31": [
+      {
+        "agent": "AI Wind Analyst",
+        "role": "round 1 · first draft",
+        "initials": "WA",
+        "text": "First draft of tomorrow's wind outlook submitted for review."
+      },
+      {
+        "agent": "AI Senior Editor",
+        "role": "round 1 · sent back · 05:32 UK",
+        "initials": "SE",
+        "text": "b · ⚙️ LOWEST WIND line, ranking: 00:00/01:00 ranked ahead of 10:00/02:00 while all four sit within 3%"
+      },
+      {
+        "agent": "AI Wind Analyst",
+        "role": "round 2 · revised draft",
+        "initials": "WA",
+        "text": "Reworked the line flagged in round 1 and resubmitted."
+      },
+      {
+        "agent": "AI Senior Editor",
+        "role": "round 2 · sent back · 05:42 UK",
+        "initials": "SE",
+        "text": "e · panel ruling FIX · term \"The day's three lowest places are open among these five hours\" (R1, R2, R3) · ⚙️ LOWEST WIND line"
+      },
+      {
+        "agent": "AI Wind Analyst",
+        "role": "round 3 · revised draft",
+        "initials": "WA",
+        "text": "Reworked the line flagged in round 2 and resubmitted."
+      },
+      {
+        "agent": "AI Senior Editor",
+        "role": "round 3 · sent back · 05:52 UK",
+        "initials": "SE",
+        "text": "b · ⚙️ LOWEST WIND line, ranking claim · five lowest called \"too close to put in order\" while 01:00 (3,122 MW) and 11:00 (3,222 MW) are 3.10% apart"
+      },
+      {
+        "agent": "AI Wind Analyst",
+        "role": "round 4 · revised draft",
+        "initials": "WA",
+        "text": "Reworked the line flagged in round 3 and resubmitted."
+      },
+      {
+        "agent": "AI Senior Editor",
+        "role": "round 4 · sent back · 06:01 UK",
+        "initials": "SE",
+        "text": "b · ⚙️ LOWEST WIND line, ranking and count claim · two of three lowest placed in block and 10:00 named third while 00:00/02:00 (2.55%) and 10:00/02:00 (1.80%) sit within 3%"
+      },
+      {
+        "agent": "AI Wind Analyst",
+        "role": "round 5 · revised draft",
+        "initials": "WA",
+        "text": "Reworked the line flagged in round 4 and resubmitted."
+      },
+      {
+        "agent": "AI Reader Panel",
+        "role": "reader 1",
+        "initials": "R1",
+        "text": "Wind power is expected to rise mostly in the afternoon and stay high through the evening on 1 November 2026. Would stop: Yes, too many numbers and unexplained jargon."
+      },
+      {
+        "agent": "AI Reader Panel",
+        "role": "reader 2",
+        "initials": "R2",
+        "text": "Wind power in Great Britain is forecast to climb mostly in the afternoon and stay high into the evening on 1 November 2026. Would stop: Yes, dense jargon and number-heavy blocks make me scroll on."
+      },
+      {
+        "agent": "AI Reader Panel",
+        "role": "reader 3",
+        "initials": "R3",
+        "text": "Wind power in Great Britain on 1 November 2026 rises mostly in the afternoon and stays high into the evening. Would stop: Yes. Dense jargon, and the main point is buried under repeated hedging."
+      },
+      {
+        "agent": "AI Senior Editor",
+        "role": "round 5 · approved · 06:13 UK",
+        "initials": "SE",
+        "text": "31 figures re-checked against the source, 0 mismatches. Approved for the 07:27 publishing slot."
+      }
     ]
   }
 }
