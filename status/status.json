@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T08:48:57.694544Z",
+ "updated": "2026-11-01T09:47:56.199042Z",
  "date": "2026-11-01",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -32,12 +32,12 @@
    "market": "Türkiye",
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null
+   "verdict": "on_time",
+   "published_at": "2026-11-01T09:13:11.998095Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7522586527512784896",
+   "review_attempt": 2,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01LmJMkrEaefUMedgMPecBz6 · 1,873 chars (script = review) · GIF media/tr-outlook-2026-11-02.gif",
+   "delta_min": -17
   },
   {
    "id": "gb-dayend",
@@ -180,12 +180,12 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "12:30",
    "deadline_utc": "2026-11-01T09:30:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null,
+   "verdict": "on_time",
+   "published_at": "2026-11-01T09:13:11.998095Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7522586527512784896",
+   "review_attempt": 2,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01LmJMkrEaefUMedgMPecBz6 · 1,873 chars (script = review) · GIF media/tr-outlook-2026-11-02.gif",
+   "delta_min": -17,
    "days": [
     {
      "date": "2026-10-26",
@@ -219,8 +219,8 @@
     },
     {
      "date": "2026-11-01",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7522586527512784896"
     }
    ]
   },
@@ -332,11 +332,11 @@
   }
  ],
  "week": {
-  "on_time": 22,
+  "on_time": 23,
   "late": 9,
   "missed": 1,
   "overdue": 0,
-  "pending": 3,
-  "closed": 32
+  "pending": 2,
+  "closed": 33
  }
 }
