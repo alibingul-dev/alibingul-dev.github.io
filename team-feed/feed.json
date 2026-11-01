@@ -247,6 +247,50 @@
         "initials": "SE",
         "text": "31 figures re-checked against the source, 0 mismatches. Approved for the 07:27 publishing slot."
       }
+    ],
+    "gb-outlook:2026-11-01": [
+      {
+        "agent": "AI Wind Analyst",
+        "role": "round 1 · first draft",
+        "initials": "WA",
+        "text": "First draft of tomorrow's wind outlook submitted for review."
+      },
+      {
+        "agent": "AI Senior Editor",
+        "role": "round 1 · sent back · 05:30 UK",
+        "initials": "SE",
+        "text": "c · rule \"no number twice\" · WHAT STANDS OUT paragraph 2 states the figure \"50 MW\" twice (\"a fall of more than 50 MW\" and \"a rise of more than 50 MW\"); allowed count 1, post count 2. The only exemption is each block line's own lowest/highest reading."
+      },
+      {
+        "agent": "AI Wind Analyst",
+        "role": "round 2 · revised draft",
+        "initials": "WA",
+        "text": "Reworked the line flagged in round 1 and resubmitted."
+      },
+      {
+        "agent": "AI Reader Panel",
+        "role": "reader 1",
+        "initials": "R1",
+        "text": "Wind power output in Great Britain on 2 November 2026 is forecast to start lowest at midnight, peak around 5am, and stay almost flat around noon to 2pm. Would stop: Yes, too many unexplained terms and numbers."
+      },
+      {
+        "agent": "AI Reader Panel",
+        "role": "reader 2",
+        "initials": "R2",
+        "text": "Britain's wind power is expected to peak early on 2 November 2026 and stay nearly flat around midday. Would stop: Yes, the numbers and jargon make it hard to finish."
+      },
+      {
+        "agent": "AI Reader Panel",
+        "role": "reader 3",
+        "initials": "R3",
+        "text": "Wind power output is forecast to peak early in the morning of 2 November 2026 and stay almost flat around midday. Would stop: Yes. Too many numbers and jargon for a non-trader to follow."
+      },
+      {
+        "agent": "AI Senior Editor",
+        "role": "round 2 · approved · 05:42 UK",
+        "initials": "SE",
+        "text": "44 figures re-checked against the source, 0 mismatches. Approved for the 07:27 publishing slot."
+      }
     ]
   }
 }
