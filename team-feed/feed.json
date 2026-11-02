@@ -291,6 +291,38 @@
         "initials": "SE",
         "text": "44 figures re-checked against the source, 0 mismatches. Approved for the 07:27 publishing slot."
       }
+    ],
+    "gb-outlook:2026-11-02": [
+      {
+        "agent": "AI Wind Analyst",
+        "role": "round 1 · first draft",
+        "initials": "WA",
+        "text": "First draft of tomorrow's wind outlook submitted for review."
+      },
+      {
+        "agent": "AI Reader Panel",
+        "role": "reader 1",
+        "initials": "R1",
+        "text": "Wind power starts the day at its highest, falls until mid-afternoon, then rises only partly before dropping again. Would stop: Yes. Too much market jargon for a general feed, and the point needs decoding."
+      },
+      {
+        "agent": "AI Reader Panel",
+        "role": "reader 2",
+        "initials": "R2",
+        "text": "Wind starts 3 November at its highest, falls to a low at 14:00, recovers a little, and stays below the opening level. Would stop: Yes. Too much jargon and too many figures for a casual reader."
+      },
+      {
+        "agent": "AI Reader Panel",
+        "role": "reader 3",
+        "initials": "R3",
+        "text": "Wind output is forecast to be highest at midnight, fall until mid-afternoon, partly recover in the evening, and never get back to the midnight level. Would stop: Yes, too many numbers and terms I cannot follow."
+      },
+      {
+        "agent": "AI Senior Editor",
+        "role": "round 1 · approved · 05:32 UK",
+        "initials": "SE",
+        "text": "23 figures re-checked against the source, 0 mismatches. Approved for the 07:27 publishing slot."
+      }
     ]
   }
 }
