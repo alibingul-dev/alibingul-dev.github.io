@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T04:48:48.948339Z",
+ "updated": "2026-11-02T08:50:22.208979Z",
  "date": "2026-11-02",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -20,12 +20,12 @@
    "market": "Great Britain",
    "name": "Tomorrow's wind outlook",
    "deadline": "12:00",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null
+   "verdict": "on_time",
+   "published_at": "2026-11-02T07:34:30.897345Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7522924081093169152",
+   "review_attempt": 1,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01WeuuxM5UAJdmytB31cCQBk (bekçi; ana iş trig_01LhUr61p3mYvRQ2hgpgmNDx sohbete düşmedi) · 1,975 chars · GIF media/gb-outlook-2026-11-03.gif",
+   "delta_min": -85
   },
   {
    "id": "tr-outlook",
@@ -127,12 +127,12 @@
    "source": "Elexon BMRS",
    "deadline": "12:00",
    "deadline_utc": "2026-11-02T09:00:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null,
+   "verdict": "on_time",
+   "published_at": "2026-11-02T07:34:30.897345Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7522924081093169152",
+   "review_attempt": 1,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01WeuuxM5UAJdmytB31cCQBk (bekçi; ana iş trig_01LhUr61p3mYvRQ2hgpgmNDx sohbete düşmedi) · 1,975 chars · GIF media/gb-outlook-2026-11-03.gif",
+   "delta_min": -85,
    "days": [
     {
      "date": "2026-10-27",
@@ -166,8 +166,8 @@
     },
     {
      "date": "2026-11-02",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7522924081093169152"
     }
    ]
   },
@@ -332,11 +332,11 @@
   }
  ],
  "week": {
-  "on_time": 20,
+  "on_time": 21,
   "late": 9,
   "missed": 1,
   "overdue": 1,
-  "pending": 4,
-  "closed": 30
+  "pending": 3,
+  "closed": 31
  }
 }
