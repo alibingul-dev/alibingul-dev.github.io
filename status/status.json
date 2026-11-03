@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T09:48:32.624038Z",
+ "updated": "2026-11-03T11:49:24.904557Z",
  "date": "2026-11-03",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -44,12 +44,12 @@
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null
+   "verdict": "on_time",
+   "published_at": "2026-11-03T11:14:34.578494Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7523341849827311616",
+   "review_attempt": 1,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01UTikHWUwdfjDzquvPkKJLH · 2,216 chars · GIF media/gb-2026-11-02.gif",
+   "delta_min": -30
   },
   {
    "id": "tr-dayend",
@@ -233,12 +233,12 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-11-03T11:30:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null,
+   "verdict": "on_time",
+   "published_at": "2026-11-03T11:14:34.578494Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7523341849827311616",
+   "review_attempt": 1,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01UTikHWUwdfjDzquvPkKJLH · 2,216 chars · GIF media/gb-2026-11-02.gif",
+   "delta_min": -30,
    "days": [
     {
      "date": "2026-10-28",
@@ -272,8 +272,8 @@
     },
     {
      "date": "2026-11-03",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7523341849827311616"
     }
    ]
   },
@@ -332,11 +332,11 @@
   }
  ],
  "week": {
-  "on_time": 22,
+  "on_time": 23,
   "late": 10,
   "missed": 1,
   "overdue": 0,
-  "pending": 2,
-  "closed": 33
+  "pending": 1,
+  "closed": 34
  }
 }
