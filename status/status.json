@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T04:48:24.165578Z",
+ "updated": "2026-11-03T08:48:06.763130Z",
  "date": "2026-11-03",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -20,12 +20,12 @@
    "market": "Great Britain",
    "name": "Tomorrow's wind outlook",
    "deadline": "12:00",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null
+   "verdict": "on_time",
+   "published_at": "2026-11-03T07:27:59.176666Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7523284825819127808",
+   "review_attempt": 2,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01EmV4Ddtkd8szM1AhQsKhGh · 2,032 chars · GIF media/gb-outlook-2026-11-04.gif",
+   "delta_min": -92
   },
   {
    "id": "tr-outlook",
@@ -127,12 +127,12 @@
    "source": "Elexon BMRS",
    "deadline": "12:00",
    "deadline_utc": "2026-11-03T09:00:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null,
+   "verdict": "on_time",
+   "published_at": "2026-11-03T07:27:59.176666Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7523284825819127808",
+   "review_attempt": 2,
+   "published_by": "chat e41e9d59-dffb-4cec-b58b-444a07ad8d3e · job trig_01EmV4Ddtkd8szM1AhQsKhGh · 2,032 chars · GIF media/gb-outlook-2026-11-04.gif",
+   "delta_min": -92,
    "days": [
     {
      "date": "2026-10-28",
@@ -166,8 +166,8 @@
     },
     {
      "date": "2026-11-03",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7523284825819127808"
     }
    ]
   },
@@ -332,11 +332,11 @@
   }
  ],
  "week": {
-  "on_time": 20,
+  "on_time": 21,
   "late": 10,
   "missed": 1,
   "overdue": 0,
-  "pending": 4,
-  "closed": 31
+  "pending": 3,
+  "closed": 32
  }
 }
