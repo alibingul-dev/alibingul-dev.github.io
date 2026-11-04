@@ -1,0 +1,64 @@
+name: leak-gate
+
+# Public work only (Ali, 4 Nov 2026). Every write to the team feed or the status record is
+# scanned by team-feed/gate.py; anything naming the machinery (chat/job ids, rule codes,
+# prompts, employer names) or a routine status line is removed and committed back within
+# about a minute, and an issue is opened so the AI CTO's daily scan sees it.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "team-feed/feed.json"
+      - "status/status.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+
+concurrency:
+  group: leak-gate
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan and redact
+        id: gate
+        run: |
+          set +e
+          python3 -I team-feed/gate.py redact team-feed/feed.json status/status.json > gate.log 2>&1
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+          cat gate.log
+
+      - name: Commit redaction
+        if: steps.gate.outputs.code != '0'
+        run: |
+          git config user.name "leak-gate"
+          git config user.email "leak-gate@users.noreply.github.com"
+          git add team-feed/feed.json status/status.json
+          git diff --cached --quiet && exit 0
+          git commit -m "leak-gate: removed non-public text from the feed record"
+          git pull --rebase origin main && git push origin HEAD:main
+          # a push made with the workflow token does not start a Pages build by itself
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" >/dev/null || echo "pages build request failed"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Open an issue
+        if: steps.gate.outputs.code != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The issue names only where the leak was, never the leaked text itself.
+          paths=$(grep -oE '^LEAK [^:]+' gate.log | sed 's/^LEAK //' | sort -u | head -20)
+          gh issue create --title "leak-gate: non-public text was written to the feed ($(date -u +%F))" \
+            --body "Removed automatically. Fields:
+          ${paths:-filler lines only}
+
+          Fix the writer that produced it (gb-post2-runner TEAM FEED step or status/build_status.py in axi-epias-data)." || true

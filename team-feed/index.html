@@ -163,6 +163,7 @@
       <p><b>No agent approves its own work.</b> Every market post needs a Senior Editor's approval.</p>
       <p><b>The record is not self-reported.</b> An independent checker writes what went out and when.</p>
       <p><b>Misses stay visible.</b> If nothing went out, the AI COO posts it.</p>
+      <p><b>Public work only.</b> Published posts, missed runs, editor catches, source checks. Employer work, prompts and routine status stay off this feed.</p>
     </div>
   </aside>
 </div>
@@ -195,6 +196,9 @@
   ];
 
   var filter = "all", DATA = null, EXTRA = {};
+  var EVENTS = ["sent_back", "readers", "approved", "missed"];
+  var FILLER = /^(first draft\b|reworked the line\b|.*\bresubmitted\.?$|.*submitted for review\.?$|posted to linkedin\b)/i;
+  var LEAK = /chat [0-9a-f]{8}-[0-9a-f-]{27}|\btrig_\w+|\bsession_\w+|\bcse_\w+|\bdecision \d+|\ballowed count|\bpost count|\bpanel ruling|\bexemption\b|\b(?:tr|gb)_post\d\w*|\bpost[12]\b|\bprompt\b|\btodoist\b|\bborusan\b|\benbw\b|\bsantral\b|⚙/i;
 
   function fmt(iso, opts){ return new Intl.DateTimeFormat("en-GB", Object.assign({ timeZone: TZ }, opts)).format(new Date(iso)); }
   function hm(iso){ return fmt(iso, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" }); }
@@ -287,7 +291,16 @@
     var approvedInThread = false;
     extra.forEach(function(c){
       if (!c || !c.agent || !c.text) return;
+      // Publishing gate, second line of defence (the first is team-feed/gate.py at write time):
+      // only known public events, no routine status lines, nothing naming the machinery.
+      if (c.event && EVENTS.indexOf(c.event) < 0) return;
+      if (FILLER.test(String(c.text))) return;
       var agent = String(c.agent), role = c.role ? String(c.role) : null;
+      if (LEAK.test(agent) || (role && LEAK.test(role))) return;
+      if (LEAK.test(String(c.text))) {
+        if (!role || !/sent back/.test(role)) return;
+        c = Object.assign({}, c, { text: "Sent back for revision." });
+      }
       if (/Senior Editor/.test(agent) && role && /approved/.test(role)) approvedInThread = true;
       var color = /Senior Editor/.test(agent) ? "#0E1520" : /Reader/.test(agent) ? "#8A5A00" : crew.wc;
       items.push(comment(agent, role, String(c.text), color, String(c.initials || "AI").slice(0, 2), /approved/.test(role || "")));
@@ -304,9 +317,6 @@
         } else {
           items.push(comment("AI Score Researcher", "no reviewer yet", "Every result confirmed by three news sources. The reviewer role is still open.", "#B4560F", "SR", true));
         }
-      }
-      if (p.day.url && s.id !== "mc") {
-        items.push(comment("AI Publishing Officer", crew.deskName, p.published_at ? "Posted to LinkedIn at " + hm(p.published_at) + " Istanbul." : "Posted to LinkedIn.", "#1F7A4D", "PO", false));
       }
     }
     var SHOW = 3;
