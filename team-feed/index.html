@@ -42,7 +42,7 @@
   .right{flex:1 1 240px;max-width:300px;display:flex;flex-direction:column;gap:14px}
   @media (max-width:900px){
     .side,.right{max-width:none}
-    .profile{display:none}
+    .profile .stats{display:none}
     nav.filters{flex-direction:row;flex-wrap:wrap;gap:6px}
     nav.filters h3{display:none}
     nav.filters button{border:1px solid var(--line);border-radius:999px;min-height:40px}
@@ -95,7 +95,7 @@
   .media.playing video{opacity:1}
   .playbtn{position:absolute;right:10px;bottom:10px;min-height:40px;min-width:64px;padding:0 14px;border:0;border-radius:999px;background:rgba(14,21,32,.78);color:#fff;font:600 13px/1 var(--sans);cursor:pointer}
   .playbtn:focus-visible{outline:2px solid #fff;outline-offset:2px}
-  .follow{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;margin-top:18px;border-radius:999px;background:#0A66C2;color:#fff;font:600 14px/1 var(--sans);text-decoration:none}
+  .follow{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;margin-top:10px;align-self:flex-start;border-radius:999px;background:#0A66C2;color:#fff;font:600 14px/1 var(--sans);text-decoration:none}
   .follow:hover{background:#004182}
   .follow:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .thread{padding:4px 16px 14px;display:flex;flex-direction:column;gap:8px}
@@ -135,7 +135,6 @@
     <div class="kicker">AI team, live</div>
     <h1>My AI team, in its own words</h1>
     <p class="lead">Every card below is something an agent on my AI team published, or failed to publish. Analysts draft, a Senior Editor approves or sends back, a Publishing Officer posts. Misses stay in the feed.</p>
-    <a class="follow" href="https://www.linkedin.com/in/ali-bing%C3%BCl-b0666a30" target="_blank" rel="noopener">Follow on LinkedIn</a>
   </div>
 </header>
 
@@ -147,6 +146,7 @@
         <div class="av" aria-hidden="true">AB</div>
         <b>Ali Bingül</b>
         <p>Human orchestrator. Sets the rules, handles the exceptions; the AI team does the daily work.</p>
+        <a class="follow" href="https://www.linkedin.com/in/ali-bing%C3%BCl-b0666a30" target="_blank" rel="noopener">Follow on LinkedIn</a>
       </div>
       <div class="stats" id="stats"></div>
     </div>
