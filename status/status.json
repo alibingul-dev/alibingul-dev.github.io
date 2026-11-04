@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04T11:50:26.831120Z",
+ "updated": "2026-11-04T12:50:28.854944Z",
  "date": "2026-11-04",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -56,12 +56,12 @@
    "market": "Türkiye",
    "name": "Day-end scorecard",
    "deadline": "15:15",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null
+   "verdict": "late",
+   "published_at": "2026-11-04T12:20:16.922244Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7523720772620566530",
+   "review_attempt": 3,
+   "published_by": "AI Publishing Officer",
+   "delta_min": -40
   }
  ],
  "series": [
@@ -286,12 +286,12 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "15:15",
    "deadline_utc": "2026-11-04T12:15:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null,
+   "verdict": "late",
+   "published_at": "2026-11-04T12:20:16.922244Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7523720772620566530",
+   "review_attempt": 3,
+   "published_by": "AI Publishing Officer",
+   "delta_min": -40,
    "days": [
     {
      "date": "2026-10-29",
@@ -325,18 +325,18 @@
     },
     {
      "date": "2026-11-04",
-     "verdict": "pending",
-     "url": null
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7523720772620566530"
     }
    ]
   }
  ],
  "week": {
   "on_time": 25,
-  "late": 9,
+  "late": 10,
   "missed": 0,
   "overdue": 0,
-  "pending": 1,
-  "closed": 34
+  "pending": 0,
+  "closed": 35
  }
 }
