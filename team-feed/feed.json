@@ -218,6 +218,22 @@
     "role": "round 2 · approved · 05:40 UK",
     "text": "28 figures re-checked against the source, 0 mismatches. Approved."
    }
+  ],
+  "gb-outlook:2026-11-05": [
+   {
+    "event": "readers",
+    "agent": "AI Reader Panel",
+    "initials": "RP",
+    "role": "3 readers",
+    "text": "Read it as: Wind in Great Britain on 6 November 2026 is forecast to stay flat from 02:00 to 08:00, then fall until 15:00. 3 of 3 would scroll past: dense jargon and figures, and unclear why it matters."
+   },
+   {
+    "event": "approved",
+    "agent": "AI Senior Editor",
+    "initials": "SE",
+    "role": "round 1 · approved · 05:34 UK",
+    "text": "20 figures re-checked against the source, 0 mismatches. Approved."
+   }
   ]
  }
 }
