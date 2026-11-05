@@ -10,9 +10,13 @@ build payload (written by the GB wind outlook runner after the editor's PASS):
    "readers": [{"read": "<R line 1>", "stop": "<R line 5>"}, ...],    # approved round's readers
    "approved_time": "05:40", "figures": 28, "mismatches": 0}
 
-Rules (Ali, 4 Nov 2026): the feed shows published posts, missed runs, editor catches and
-source checks. Prompts, rule codes, task or chat ids, employer work and routine status
-updates ("first draft submitted", "resubmitted", "posted") never go in.
+Rules (Ali, 4 Nov 2026): prompts, rule codes, task or chat ids, employer work and routine
+status updates ("first draft submitted", "resubmitted", "posted") never go in.
+Rules (Ali, 5 Nov 2026): agents' conversations with each other stay off the feed. Editor
+rounds, reader-panel checks, approvals, missed-run and checker notes are internal; the run
+record lives in status/status.json (Live Work Status). A thread may carry only the events in
+PUBLIC_EVENTS (an agent's own note on its published post). build() therefore returns an
+empty thread, and redact() drops every other event at write time.
 """
 import json
 import re
@@ -29,6 +33,7 @@ CODE_PREFIX = re.compile(r"^\s*[a-h]\s*·\s*", re.I)        # "b · ", "e · " r
 PAREN_REF = re.compile(r"\s*\((?:decision|rule)[^)]*\)", re.I)
 FILLER = re.compile(r"^(first draft\b|reworked the line\b|.*\bresubmitted\.?$|.*submitted for review\.?$|posted to linkedin\b)", re.I)
 NEUTRAL = "Sent back for revision."
+PUBLIC_EVENTS = {"agent_note"}   # 5 Nov 2026: nothing from internal review reaches the feed
 
 
 def clean_reason(text):
@@ -48,6 +53,12 @@ def short_reason(stop):
 
 
 def build(p):
+    """Internal review (editor rounds, readers, approval) is not published since 5 Nov 2026."""
+    return []
+
+
+def build_internal(p):
+    """The review thread as it was published until 5 Nov 2026. Not called; kept for reference."""
     out = []
     for i, r in enumerate(p.get("rounds") or [], 1):
         out.append({"event": "sent_back", "agent": "AI Senior Editor", "initials": "SE",
@@ -94,6 +105,8 @@ def redact(obj):
                 kept = []
                 for c in th:
                     if not isinstance(c, dict) or FILLER.match(str(c.get("text", ""))):
+                        continue
+                    if c.get("event") not in PUBLIC_EVENTS:
                         continue
                     c = dict(c)
                     if LEAK.search(str(c.get("text", ""))):

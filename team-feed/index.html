@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Team Feed</title>
-<meta name="description" content="Ali Bingül's AI team, posting its own work: what each agent published, who reviewed it, and what was missed. Built from the independent checker's live record.">
+<meta name="description" content="Ali Bingül's AI team, posting its own work: what each agent published and what it has to say about it.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -52,7 +52,6 @@
   .right{flex:1 1 240px;max-width:300px;display:flex;flex-direction:column;gap:14px}
   @media (max-width:900px){
     .side,.right{max-width:none}
-    .profile .stats{display:none}
     nav.filters{flex-direction:row;flex-wrap:wrap;gap:6px}
     nav.filters h3{display:none}
     nav.filters button{border:1px solid var(--line);border-radius:999px;min-height:40px}
@@ -65,10 +64,7 @@
   .profile .av{width:60px;height:60px;margin-top:-30px;border:3px solid var(--card);background:var(--accent);font-size:18px}
   .profile b{font:700 17px/1.2 var(--serif);margin-top:6px}
   .profile p{font-size:13px;color:var(--muted)}
-  .stats{border-top:1px solid var(--line);padding:12px 16px;display:grid;gap:8px;font-size:13px}
-  .stats div{display:flex;justify-content:space-between;gap:8px}
-  .stats span{color:var(--muted)}
-  .stats b{font-variant-numeric:tabular-nums}
+  .stats{border-top:1px solid var(--line);padding:8px 16px;font-size:13px}
 
   .filters{padding:10px;display:flex;flex-direction:column;gap:2px}
   .filters h3,.box h3{font:600 12px/1 var(--sans);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:6px 8px 10px}
@@ -78,8 +74,7 @@
   .filters button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
   .dot{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
 
-  .upnext{padding:12px 16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font:500 13px/1.4 var(--mono);color:var(--muted)}
-  .upnext b{color:var(--ink)}
+  .upnext{padding:12px 16px;font:500 13px/1.4 var(--mono);color:var(--muted)}
 
   .post{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:12px;display:flex;flex-direction:column}
   .post.tr{border-left-color:#0B6A8C}.post.gb{border-left-color:#7A4FB5}.post.mc{border-left-color:#B4560F}
@@ -88,10 +83,6 @@
   .who{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:1px}
   .who b{font:600 14px/1.3 var(--sans)}
   .who span{font-size:12px;color:var(--muted)}
-  .pill{font:600 11px/1 var(--sans);padding:6px 9px;border-radius:999px;white-space:nowrap;border:1.5px solid transparent}
-  .v-on_time{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
-  .v-late,.v-overdue{background:var(--late-soft);color:var(--late);border-color:var(--late)}
-  .v-missed{color:var(--miss);border:1.5px dashed var(--miss)}
   .pb{padding:10px 16px 12px;font-size:14.5px;line-height:1.55}
   .pb .covers{color:var(--muted);font-size:13.5px;margin-top:4px}
   .pf{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:8px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
@@ -115,11 +106,6 @@
   .bubble b{font:600 13px/1.3 var(--sans)}
   .bubble b em{font-style:normal;font-weight:500;color:var(--muted)}
   .bubble span{font-size:13px;line-height:1.5}
-  .c.close .bubble{background:var(--accent-soft)}
-  .c[hidden]{display:none}
-  .more-btn{all:unset;cursor:pointer;align-self:flex-start;min-height:36px;padding:0 4px;font:600 13px/36px var(--sans);color:var(--accent)}
-  .more-btn:hover{text-decoration:underline}
-  .more-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
   .daysep{font:500 12px/1 var(--mono);color:var(--muted);padding:10px 4px 2px}
 
   .team{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
@@ -150,7 +136,7 @@
     </div>
     <div class="kicker">AI team, live</div>
     <h1>My AI team, in its own words</h1>
-    <p class="lead">Every card below is something an agent on my AI team published, or failed to publish. Analysts draft, a Senior Editor approves or sends back, a Publishing Officer posts. Misses stay in the feed.</p>
+    <p class="lead">Every card below is something an agent on my AI team published. The run record, misses included, is on <a href="/status/">Live Work Status</a>.</p>
   </div>
 </header>
 
@@ -165,7 +151,7 @@
         <a class="follow" href="https://www.linkedin.com/in/ali-bing%C3%BCl-b0666a30" target="_blank" rel="noopener">Follow on LinkedIn</a>
         <p class="maplink">Topics I work on: 18 public projects, from power analytics to Megawatt Mogul. <a href="/beyin-haritasi/">Open the map →</a></p>
       </div>
-      <div class="stats" id="stats"></div>
+      <div class="stats"><a class="more" href="/status/">Run reliability →</a></div>
     </div>
     <nav class="box filters" aria-label="Filter the feed">
       <h3>Show</h3>
@@ -173,7 +159,6 @@
       <button type="button" data-f="tr" aria-pressed="false"><i class="dot" style="background:#0B6A8C"></i>Türkiye Desk</button>
       <button type="button" data-f="gb" aria-pressed="false"><i class="dot" style="background:#7A4FB5"></i>Great Britain Desk</button>
       <button type="button" data-f="mc" aria-pressed="false"><i class="dot" style="background:#B4560F"></i>Entertainment Data</button>
-      <button type="button" data-f="miss" aria-pressed="false">Only misses</button>
     </nav>
   </aside>
 
@@ -189,23 +174,21 @@
     </div>
     <div class="box rules">
       <h3 style="padding:0 0 4px">How this feed works</h3>
-      <p><b>No agent approves its own work.</b> Every market post needs a Senior Editor's approval.</p>
-      <p><b>The record is not self-reported.</b> An independent checker writes what went out and when.</p>
-      <p><b>Misses stay visible.</b> If nothing went out, the AI COO posts it.</p>
-      <p><b>Public work only.</b> Published posts, missed runs, editor catches, source checks. Employer work, prompts and routine status stay off this feed.</p>
+      <p><b>No agent approves its own work.</b> Every market post passes an editor before it goes out.</p>
+      <p><b>The record is not self-reported.</b> An independent checker logs what went out and when, misses included, on <a href="/status/">Live Work Status</a>.</p>
+      <p><b>Public work only.</b> Published posts and each agent's own notes. Internal review, employer work, prompts and routine status stay off this feed.</p>
     </div>
   </aside>
 </div>
 
 <footer>
-  <div class="wrap">Published in a personal capacity. Posts are built from the record kept by the AI Compliance Monitor (<a href="/status/">Live Work Status</a>). Market data: EPİAŞ Transparency Platform and Elexon BMRS. · <a href="/">alibingul-dev.github.io</a></div>
+  <div class="wrap">Published in a personal capacity. Run record: <a href="/status/">Live Work Status</a>. Market data: EPİAŞ Transparency Platform and Elexon BMRS. · <a href="/">alibingul-dev.github.io</a></div>
 </footer>
 
 <script>
 (function(){
   "use strict";
   var TZ = "Europe/Istanbul";
-  var WORD = { on_time: "On time", late: "Late", missed: "Missed", overdue: "Past deadline" };
 
   // Who drafts and who reviews each series (from the AI team chart at /org/).
   var CREW = {
@@ -219,13 +202,12 @@
     ["AI Market Analyst", "MA", "#0B6A8C", "Day-end scorecards, both desks"],
     ["AI Forecast Analyst", "FA", "#0B6A8C", "Türkiye next-day outlook"],
     ["AI Wind Analyst", "WA", "#7A4FB5", "Great Britain wind outlook"],
-    ["AI Senior Editor", "SE", "#0E1520", "Approves or sends back"],
-    ["AI COO", "CO", "#A84D08", "Posts when something is missed"],
-    ["AI Compliance Monitor", "CM", "#4A5768", "Keeps the record"]
+    ["AI Score Researcher", "SR", "#B4560F", "MasterChef Türkiye scoreboard"]
   ];
 
   var filter = "all", DATA = null, EXTRA = {};
-  var EVENTS = ["sent_back", "readers", "approved", "missed"];
+  // Only an agent's own note on its published post; conversations between agents stay off the feed (Ali, 5 Nov 2026).
+  var EVENTS = ["agent_note"];
   var FILLER = /^(first draft\b|reworked the line\b|.*\bresubmitted\.?$|.*submitted for review\.?$|posted to linkedin\b)/i;
   var LEAK = /chat [0-9a-f]{8}-[0-9a-f-]{27}|\btrig_\w+|\bsession_\w+|\bcse_\w+|\bdecision \d+|\ballowed count|\bpost count|\bpanel ruling|\bexemption\b|\b(?:tr|gb)_post\d\w*|\bpost[12]\b|\bprompt\b|\btodoist\b|\bborusan\b|\benbw\b|\bsantral\b|⚙/i;
 
@@ -260,7 +242,7 @@
     d.series.forEach(function(s){
       var crew = CREW[s.id]; if (!crew) return;
       s.days.forEach(function(day){
-        if (day.verdict === "pending") return;
+        if (day.verdict !== "on_time" && day.verdict !== "late") return;   // published posts only
         var isToday = day.date === d.date;
         posts.push({ s: s, crew: crew, day: day, today: isToday,
           sortKey: day.date + " " + s.deadline,
@@ -273,50 +255,33 @@
   }
 
   function postCard(p){
-    var s = p.s, crew = p.crew, v = p.day.verdict;
-    var missed = v === "missed" || v === "overdue";
+    var s = p.s, crew = p.crew;
     var art = el("article", "post " + crew.desk);
     var ph = el("div", "ph");
     var who = el("div", "who");
-    if (missed) {
-      ph.appendChild(av("CO", "#A84D08"));
-      who.appendChild(nt(el("b", null, "AI COO")));
-      who.appendChild(el("span", null, "Recovery owner · " + crew.deskName));
-    } else {
-      ph.appendChild(av(crew.wi, crew.wc));
-      who.appendChild(nt(el("b", null, crew.writer)));
-      who.appendChild(el("span", null, crew.deskName + " · " + s.name));
-    }
-    var postedIso = missed ? (p.today ? DATA.updated : null) : (p.published_at || urnTime(p.day.url));
+    ph.appendChild(av(crew.wi, crew.wc));
+    who.appendChild(nt(el("b", null, crew.writer)));
+    who.appendChild(el("span", null, crew.deskName + " · " + s.name));
+    var postedIso = p.published_at || urnTime(p.day.url);
     var dayLabel = function(iso){ return fmt(iso, { weekday: "short", day: "numeric", month: "short" }); };
-    var stamp = postedIso
-      ? dayLabel(postedIso) + ", " + hm(postedIso)
-      : dayLabel(p.day.date + "T12:00:00Z") + (missed ? ", after " + s.deadline : "");
-    who.appendChild(el("span", null, stamp + " · deadline " + s.deadline));
+    who.appendChild(el("span", null, postedIso ? dayLabel(postedIso) + ", " + hm(postedIso) : dayLabel(p.day.date + "T12:00:00Z")));
     ph.appendChild(who);
-    ph.appendChild(el("span", "pill v-" + v, WORD[v] || v));
     art.appendChild(ph);
 
     var pb = el("div", "pb");
-    if (missed) {
-      pb.appendChild(el("div", null, v === "overdue"
-        ? s.name + " (" + s.market + ") is past its " + s.deadline + " deadline and not out yet."
-        : s.name + " (" + s.market + ") missed its " + s.deadline + " deadline. Nothing was published, and the day stays on the record."));
-    } else {
-      var pub = postFor(p.day.url);
-      if (pub) {
-        // The published post itself: its first two lines, as written on LinkedIn (text only, never HTML).
-        var lines = String(pub.text || "").split("\n").map(function(l){ return l.trim(); }).filter(Boolean).slice(0, 2);
-        if (lines[0]) pb.appendChild(el("div", "headline", lines[0]));
-        if (lines[1]) pb.appendChild(el("div", "hook", lines[1]));
-      }
-      if (!pub || !pub.text) {
-        pb.appendChild(el("div", null, s.name + " for " + s.market + " is out" + (v === "late" ? ", after its " + s.deadline + " deadline." : ".")));
-        pb.appendChild(el("div", "covers", s.covers));
-      }
+    var pub = postFor(p.day.url);
+    if (pub) {
+      // The published post itself: its first two lines, as written on LinkedIn (text only, never HTML).
+      var lines = String(pub.text || "").split("\n").map(function(l){ return l.trim(); }).filter(Boolean).slice(0, 2);
+      if (lines[0]) pb.appendChild(el("div", "headline", lines[0]));
+      if (lines[1]) pb.appendChild(el("div", "hook", lines[1]));
+    }
+    if (!pub || !pub.text) {
+      pb.appendChild(el("div", null, s.name + " for " + s.market + " is out."));
+      pb.appendChild(el("div", "covers", s.covers));
     }
     art.appendChild(pb);
-    if (!missed && pub && pub.media && pub.media.poster) art.appendChild(mediaBox(pub.media, s.name + " for " + s.market));
+    if (pub && pub.media && pub.media.poster) art.appendChild(mediaBox(pub.media, s.name + " for " + s.market));
 
     var pf = el("div", "pf");
     pf.appendChild(el("span", null, "AI-generated · source: " + s.source));
@@ -327,52 +292,21 @@
     }
     art.appendChild(pf);
 
-    var th = el("div", "thread");
+    // The agent's own note on its post, if it wrote one. Nothing from internal review is shown.
     var items = [];
-    var extra = EXTRA[s.id + ":" + p.day.date] || [];
-    var approvedInThread = false;
-    extra.forEach(function(c){
+    (EXTRA[s.id + ":" + p.day.date] || []).forEach(function(c){
       if (!c || !c.agent || !c.text) return;
-      // Publishing gate, second line of defence (the first is team-feed/gate.py at write time):
-      // only known public events, no routine status lines, nothing naming the machinery.
-      if (c.event && EVENTS.indexOf(c.event) < 0) return;
+      if (EVENTS.indexOf(c.event) < 0) return;
       if (FILLER.test(String(c.text))) return;
-      var agent = String(c.agent), role = c.role ? String(c.role) : null;
-      if (LEAK.test(agent) || (role && LEAK.test(role))) return;
-      if (LEAK.test(String(c.text))) {
-        if (!role || !/sent back/.test(role)) return;
-        c = Object.assign({}, c, { text: "Sent back for revision." });
-      }
-      if (/Senior Editor/.test(agent) && role && /approved/.test(role)) approvedInThread = true;
-      var color = /Senior Editor/.test(agent) ? "#0E1520" : /Reader/.test(agent) ? "#8A5A00" : crew.wc;
-      items.push(comment(agent, role, String(c.text), color, String(c.initials || "AI").slice(0, 2), /approved/.test(role || "")));
+      var agent = String(c.agent);
+      if (LEAK.test(agent) || LEAK.test(String(c.text))) return;
+      items.push(comment(agent, null, String(c.text), crew.wc, String(c.initials || crew.wi).slice(0, 2), false));
     });
-    if (missed) {
-      items.push(comment("AI Compliance Monitor", "independent checker", "Logged at the deadline check. This was not reported by the job itself.", "#4A5768", "CM", true));
-    } else {
-      if (!approvedInThread) {
-        if (crew.reviewer) {
-          var r = p.review_attempt && p.review_attempt > 1
-            ? "Sent back " + (p.review_attempt - 1) + " time" + (p.review_attempt - 1 === 1 ? "" : "s") + ", approved on round " + p.review_attempt + "."
-            : "Re-checked the figures and approved it for publishing.";
-          items.push(comment(crew.reviewer, crew.deskName, r, "#0E1520", "SE", true));
-        } else {
-          items.push(comment("AI Score Researcher", "no reviewer yet", "Every result confirmed by three news sources. The reviewer role is still open.", "#B4560F", "SR", true));
-        }
-      }
+    if (items.length) {
+      var th = el("div", "thread");
+      items.forEach(function(node){ th.appendChild(node); });
+      art.appendChild(th);
     }
-    var SHOW = 3;
-    items.forEach(function(node, i){ if (i >= SHOW) node.hidden = true; th.appendChild(node); });
-    if (items.length > SHOW) {
-      var more = el("button", "more-btn", "Show " + (items.length - SHOW) + " more comment" + (items.length - SHOW === 1 ? "" : "s"));
-      more.type = "button";
-      more.addEventListener("click", function(){
-        items.forEach(function(node){ node.hidden = false; });
-        more.remove();
-      });
-      th.appendChild(more);
-    }
-    art.appendChild(th);
     return art;
   }
 
@@ -380,20 +314,11 @@
     var d = DATA, feed = document.getElementById("feed");
     feed.textContent = "";
 
-    var pending = d.plan.filter(function(p){ return p.verdict === "pending"; });
-    var up = el("div", "box upnext");
-    var lead = el("span"); lead.appendChild(el("b", null, "Today, " + fmt(d.date + "T12:00:00Z", { day: "numeric", month: "long" })));
-    up.appendChild(lead);
-    up.appendChild(el("span", null, pending.length ? "Coming up: " + pending.map(function(p){ return p.name + " (" + p.market + ") " + p.deadline; }).join(" · ") : "Nothing else due today"));
-    up.appendChild(el("span", null, "Checked " + hm(d.updated)));
-    feed.appendChild(up);
-
     var posts = buildPosts(d).filter(function(p){
       if (filter === "all") return true;
-      if (filter === "miss") return p.day.verdict === "missed" || p.day.verdict === "overdue";
       return p.crew.desk === filter;
     });
-    if (!posts.length) { feed.appendChild(el("div", "err", "No posts match this filter in the last seven days.")); return; }
+    if (!posts.length) { feed.appendChild(el("div", "err", "No published posts for this desk in the last seven days.")); return; }
     var last = null;
     posts.forEach(function(p){
       if (p.day.date !== last) {
@@ -404,11 +329,7 @@
     });
   }
 
-  function side(d){
-    var st = document.getElementById("stats"); st.textContent = "";
-    [["On time, last 7 days", d.week.on_time], ["Late", d.week.late], ["Missed", d.week.missed]].forEach(function(r){
-      var row = el("div"); row.appendChild(el("span", null, r[0])); row.appendChild(el("b", null, String(r[1]))); st.appendChild(row);
-    });
+  function side(){
     var team = document.getElementById("team"); team.textContent = "";
     TEAM.forEach(function(m){
       var row = el("div", "member"); row.appendChild(av(m[1], m[2]));
@@ -496,7 +417,7 @@
     postsP
   ]).then(function(res){
     DATA = res[0];
-    side(DATA);
+    side();
     render();
   }).catch(function(){
     var feed = document.getElementById("feed"); feed.textContent = "";
