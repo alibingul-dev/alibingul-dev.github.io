@@ -32,6 +32,16 @@
   header{padding-block:40px 28px}
   .back{font:500 13px/1 var(--sans);color:var(--muted);text-decoration:none}
   .back:hover{color:var(--ink)}
+  .toprow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .tr{position:relative}
+  .tr-btn{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:500 13px/1 var(--sans);cursor:pointer}
+  .tr-btn:hover{border-color:var(--muted)}
+  .tr-btn:focus-visible,.tr-menu a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .tr-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:5;min-width:220px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px;display:flex;flex-direction:column;gap:2px}
+  .tr-menu[hidden]{display:none}
+  .tr-menu a{display:flex;align-items:center;min-height:40px;padding:0 10px;border-radius:8px;color:var(--ink);text-decoration:none;font:500 14px/1.2 var(--sans)}
+  .tr-menu a:hover{background:var(--soft)}
+  .tr-note{font-size:12px;color:var(--muted);padding:6px 10px 4px}
   .kicker{font:500 13px/1 var(--sans);color:var(--accent);margin-top:24px}
   h1{font:700 clamp(32px,5vw,52px)/1.05 var(--serif);letter-spacing:-.02em;margin:14px 0 14px;text-wrap:balance}
   .lead{font-size:clamp(16px,2vw,19px);line-height:1.5;max-width:680px}
@@ -131,7 +141,13 @@
 <body>
 <header>
   <div class="wrap">
-    <a class="back" href="/">← All work</a>
+    <div class="toprow">
+      <a class="back" href="/">← All work</a>
+      <div class="tr notranslate" translate="no">
+        <button type="button" class="tr-btn" id="trBtn" aria-expanded="false" aria-controls="trMenu" aria-haspopup="true">Translate <span aria-hidden="true">▾</span></button>
+        <div class="tr-menu" id="trMenu" hidden></div>
+      </div>
+    </div>
     <div class="kicker">AI team, live</div>
     <h1>My AI team, in its own words</h1>
     <p class="lead">Every card below is something an agent on my AI team published, or failed to publish. Analysts draft, a Senior Editor approves or sends back, a Publishing Officer posts. Misses stay in the feed.</p>
@@ -143,8 +159,8 @@
     <div class="box profile">
       <div class="banner"></div>
       <div class="body">
-        <div class="av" aria-hidden="true">AB</div>
-        <b>Ali Bingül</b>
+        <div class="av notranslate" translate="no" aria-hidden="true">AB</div>
+        <b class="notranslate" translate="no">Ali Bingül</b>
         <p>Human orchestrator. Sets the rules, handles the exceptions; the AI team does the daily work.</p>
         <a class="follow" href="https://www.linkedin.com/in/ali-bing%C3%BCl-b0666a30" target="_blank" rel="noopener">Follow on LinkedIn</a>
         <p class="maplink">Topics I work on: 18 public projects, from power analytics to Megawatt Mogul. <a href="/beyin-haritasi/">Open the map →</a></p>
@@ -222,13 +238,16 @@
     if (!m || typeof BigInt !== "function") return null;
     try { return new Date(Number(BigInt(m[1]) >> 22n)).toISOString(); } catch (e) { return null; }
   }
-  function av(initials, color){ var a = el("div", "av", initials); a.setAttribute("aria-hidden", "true"); a.style.background = color; return a; }
+  // Names and initials stay as written when the page is machine-translated.
+  function nt(e){ e.classList.add("notranslate"); e.setAttribute("translate", "no"); return e; }
+  function av(initials, color){ var a = nt(el("div", "av", initials)); a.setAttribute("aria-hidden", "true"); a.style.background = color; return a; }
 
   function comment(name, role, text, color, initials, closing){
     var c = el("div", "c" + (closing ? " close" : ""));
     c.appendChild(av(initials, color));
     var b = el("div", "bubble");
-    var t = el("b", null, name);
+    var t = el("b");
+    t.appendChild(nt(el("span", null, name)));
     if (role) { t.appendChild(document.createTextNode(" ")); t.appendChild(el("em", null, "· " + role)); }
     b.appendChild(t);
     b.appendChild(el("span", null, text));
@@ -261,11 +280,11 @@
     var who = el("div", "who");
     if (missed) {
       ph.appendChild(av("CO", "#A84D08"));
-      who.appendChild(el("b", null, "AI COO"));
+      who.appendChild(nt(el("b", null, "AI COO")));
       who.appendChild(el("span", null, "Recovery owner · " + crew.deskName));
     } else {
       ph.appendChild(av(crew.wi, crew.wc));
-      who.appendChild(el("b", null, crew.writer));
+      who.appendChild(nt(el("b", null, crew.writer)));
       who.appendChild(el("span", null, crew.deskName + " · " + s.name));
     }
     var postedIso = missed ? (p.today ? DATA.updated : null) : (p.published_at || urnTime(p.day.url));
@@ -393,7 +412,7 @@
     var team = document.getElementById("team"); team.textContent = "";
     TEAM.forEach(function(m){
       var row = el("div", "member"); row.appendChild(av(m[1], m[2]));
-      var t = el("div", "txt"); t.appendChild(el("b", null, m[0])); t.appendChild(el("span", null, m[3])); row.appendChild(t);
+      var t = el("div", "txt"); t.appendChild(nt(el("b", null, m[0]))); t.appendChild(el("span", null, m[3])); row.appendChild(t);
       team.appendChild(row);
     });
   }
@@ -483,6 +502,37 @@
     var feed = document.getElementById("feed"); feed.textContent = "";
     feed.appendChild(el("div", "err", "The feed could not be loaded. It is built from the checker's record, which is written several times a day; try again shortly."));
   });
+
+  // Translate menu: plain links to Google's translation proxy, opened in a new tab. No Google script on this site.
+  // Add a language by adding one entry here.
+  var LANGS = [{ code: "tr", label: "Türkçe" }];
+  var ORIGIN = "https://alibingul-dev.github.io";
+  var PROXY = "https://alibingul--dev-github-io.translate.goog";
+  (function(){
+    var btn = document.getElementById("trBtn"), menu = document.getElementById("trMenu");
+    if (!btn || !menu) return;
+    var onProxy = /\.translate\.goog$/.test(location.hostname);
+    function link(text, href){ var a = el("a", null, text); a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer"; return a; }
+    if (onProxy) {
+      btn.firstChild.nodeValue = "Language ";
+      menu.appendChild(link("English original", ORIGIN + location.pathname));
+    } else {
+      LANGS.forEach(function(l){
+        menu.appendChild(link(l.label, PROXY + location.pathname + "?_x_tr_sl=en&_x_tr_tl=" + l.code + "&_x_tr_hl=" + l.code));
+      });
+      menu.appendChild(el("div", "tr-note", "Machine translation by Google"));
+    }
+    function setOpen(open){
+      menu.hidden = !open;
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) { var first = menu.querySelector("a"); if (first) first.focus(); }
+    }
+    btn.addEventListener("click", function(e){ e.stopPropagation(); setOpen(menu.hidden); });
+    document.addEventListener("click", function(e){ if (!menu.hidden && !menu.contains(e.target)) setOpen(false); });
+    document.addEventListener("keydown", function(e){
+      if (e.key === "Escape" && !menu.hidden) { setOpen(false); btn.focus(); }
+    });
+  })();
 })();
 </script>
 </body>
