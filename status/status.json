@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-06T12:48:52.491854Z",
+ "updated": "2026-11-06T20:47:56.551613Z",
  "date": "2026-11-06",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -8,7 +8,7 @@
    "market": "MasterChef Türkiye 2026",
    "name": "Scoreboard update",
    "deadline": "07:10",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null,
    "review_attempt": null,
@@ -74,7 +74,7 @@
    "source": "Three independent news sources per result",
    "deadline": "07:10",
    "deadline_utc": "2026-11-06T04:10:00Z",
-   "verdict": "overdue",
+   "verdict": "missed",
    "published_at": null,
    "url": null,
    "review_attempt": null,
@@ -113,7 +113,7 @@
     },
     {
      "date": "2026-11-06",
-     "verdict": "overdue",
+     "verdict": "missed",
      "url": null
     }
    ]
@@ -334,9 +334,9 @@
  "week": {
   "on_time": 27,
   "late": 6,
-  "missed": 1,
-  "overdue": 1,
+  "missed": 2,
+  "overdue": 0,
   "pending": 0,
-  "closed": 34
+  "closed": 35
  }
 }
