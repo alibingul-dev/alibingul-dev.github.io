@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-07T09:47:35.654621Z",
+ "updated": "2026-11-07T11:49:06.993409Z",
  "date": "2026-11-07",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -44,12 +44,12 @@
    "market": "Great Britain",
    "name": "Day-end scorecard",
    "deadline": "14:30",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null
+   "verdict": "on_time",
+   "published_at": "2026-11-07T11:14:24.009395Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7524791356058247170",
+   "review_attempt": 1,
+   "published_by": "AI Publishing Officer",
+   "delta_min": -31
   },
   {
    "id": "tr-dayend",
@@ -233,12 +233,12 @@
    "source": "Elexon BMRS",
    "deadline": "14:30",
    "deadline_utc": "2026-11-07T11:30:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null,
+   "verdict": "on_time",
+   "published_at": "2026-11-07T11:14:24.009395Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7524791356058247170",
+   "review_attempt": 1,
+   "published_by": "AI Publishing Officer",
+   "delta_min": -31,
    "days": [
     {
      "date": "2026-11-01",
@@ -272,8 +272,8 @@
     },
     {
      "date": "2026-11-07",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524791356058247170"
     }
    ]
   },
@@ -332,11 +332,11 @@
   }
  ],
  "week": {
-  "on_time": 26,
+  "on_time": 27,
   "late": 5,
   "missed": 2,
   "overdue": 0,
-  "pending": 2,
-  "closed": 33
+  "pending": 1,
+  "closed": 34
  }
 }
