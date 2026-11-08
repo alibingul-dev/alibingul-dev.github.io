@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08T08:49:06.683349Z",
+ "updated": "2026-11-08T09:47:08.864129Z",
  "date": "2026-11-08",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -32,12 +32,12 @@
    "market": "Türkiye",
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null
+   "verdict": "on_time",
+   "published_at": "2026-11-08T09:13:36.539732Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7525123345936220160",
+   "review_attempt": 1,
+   "published_by": "AI Publishing Officer",
+   "delta_min": -16
   },
   {
    "id": "gb-dayend",
@@ -180,12 +180,12 @@
    "source": "EPİAŞ Transparency Platform",
    "deadline": "12:30",
    "deadline_utc": "2026-11-08T09:30:00Z",
-   "verdict": "pending",
-   "published_at": null,
-   "url": null,
-   "review_attempt": null,
-   "published_by": null,
-   "delta_min": null,
+   "verdict": "on_time",
+   "published_at": "2026-11-08T09:13:36.539732Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7525123345936220160",
+   "review_attempt": 1,
+   "published_by": "AI Publishing Officer",
+   "delta_min": -16,
    "days": [
     {
      "date": "2026-11-02",
@@ -219,8 +219,8 @@
     },
     {
      "date": "2026-11-08",
-     "verdict": "pending",
-     "url": null
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7525123345936220160"
     }
    ]
   },
@@ -332,11 +332,11 @@
   }
  ],
  "week": {
-  "on_time": 26,
+  "on_time": 27,
   "late": 4,
   "missed": 2,
   "overdue": 0,
-  "pending": 3,
-  "closed": 32
+  "pending": 2,
+  "closed": 33
  }
 }
