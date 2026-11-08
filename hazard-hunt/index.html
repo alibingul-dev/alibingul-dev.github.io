@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Hazard Hunt</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: safety-signage control strip on top, the room as the playfield, findings log below like an inspection checklist */
+:root {
+  --bg: #16181b;
+  --panel: #1f2226;
+  --line: #34383e;
+  --fg: #eceae4;
+  --muted: #9a9ea5;
+  --signal: #f5c518;      /* safety yellow */
+  --safe: #2fb36b;        /* emergency-exit green */
+  --danger: #e5484d;
+  --display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+html, body { background: var(--bg); color: var(--fg); }
+body { font-family: var(--body); font-size: 15px; line-height: 1.5; }
+.wrap {
+  max-width: 1180px; margin: 0 auto;
+  padding-block: 16px 32px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 14px;
+}
+.bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px;
+  border-bottom: 3px solid var(--signal); padding-bottom: 10px;
+}
+.brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; }
+.brand h1 { font-family: var(--display); font-weight: 800; font-size: 30px; letter-spacing: .02em; margin: 0; text-transform: uppercase; }
+.brand h1 span { color: var(--signal); }
+.brand small { color: var(--muted); font-family: var(--display); font-weight: 600; font-size: 16px; letter-spacing: .08em; text-transform: uppercase; }
+.stats { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.stat { display: grid; line-height: 1.1; }
+.stat b { font-family: var(--display); font-weight: 800; font-size: 26px; font-variant-numeric: tabular-nums; }
+.stat i { font-style: normal; color: var(--muted); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.stat.low b { color: var(--danger); }
+button {
+  font-family: var(--display); font-weight: 800; font-size: 17px; letter-spacing: .06em; text-transform: uppercase;
+  border: 0; border-radius: 4px; padding: 9px 16px; cursor: pointer;
+  background: var(--signal); color: #16181b;
+}
+button.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+button:disabled { opacity: .4; cursor: not-allowed; }
+button:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
+
+.info {
+  width: 34px; height: 34px; padding: 0; border-radius: 50%;
+  background: transparent; color: var(--signal); border: 2px solid var(--signal);
+  font-family: Georgia, "Times New Roman", serif; font-style: italic; font-weight: 700; font-size: 19px; line-height: 1;
+  text-transform: none; letter-spacing: 0; display: grid; place-items: center;
+}
+.info:hover { background: var(--signal); color: var(--bg); }
+.bar .info { padding: 0; font-size: 19px; }
+.stage { position: relative; width: fit-content; max-width: 100%; margin-inline: auto; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
+.stage img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100svh - 120px); user-select: none; -webkit-user-drag: none; }
+.field { position: absolute; inset: 0 0 auto; aspect-ratio: 2576 / 1438; cursor: crosshair; }
+.mark { position: absolute; pointer-events: none; transform: translate(-50%, -50%); }
+.mark.hit {
+  border: 4px solid var(--safe); border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(0,0,0,.45), 0 0 18px rgba(47,179,107,.6);
+  animation: pop .35s ease-out;
+}
+.mark.hit::after {
+  content: attr(data-n); position: absolute; top: -12px; right: -12px;
+  width: 26px; height: 26px; border-radius: 50%; background: var(--safe); color: #fff;
+  font-family: var(--display); font-weight: 800; font-size: 16px; display: grid; place-items: center;
+}
+.mark.reveal { border: 3px dashed var(--danger); border-radius: 50%; box-shadow: 0 0 0 3px rgba(0,0,0,.45); }
+.mark.miss {
+  width: 34px; height: 34px; color: var(--danger); font-size: 34px; font-weight: 800; line-height: 34px; text-align: center;
+  text-shadow: 0 0 4px #000, 0 0 2px #000; animation: fade 0.9s ease-out forwards;
+}
+.mark.hint { border: 3px solid var(--signal); border-radius: 50%; animation: pulse 1s ease-in-out 3; opacity: 0; }
+@keyframes pop { from { transform: translate(-50%,-50%) scale(.4); opacity: 0; } to { transform: translate(-50%,-50%) scale(1); opacity: 1; } }
+@keyframes fade { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes pulse { 0%,100% { opacity: 0; transform: translate(-50%,-50%) scale(1.3); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1); } }
+.stage.shake { animation: shake .3s; }
+@keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+.overlay {
+  position: fixed; inset: 0; z-index: 20; display: grid; overflow-y: auto;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  background: rgba(14,15,17,.78); backdrop-filter: blur(3px);
+}
+.card {
+  margin: auto; max-width: 460px; width: 100%; background: var(--panel); border: 1px solid var(--line);
+  border-top: 6px solid var(--signal); border-radius: 6px; padding: 20px 22px; display: grid; gap: 12px;
+}
+.card h2 { font-family: var(--display); font-weight: 800; font-size: 28px; margin: 0; text-transform: uppercase; text-wrap: balance; }
+.card p { margin: 0; color: var(--muted); }
+.card ul { margin: 0; padding-left: 18px; color: var(--muted); display: grid; gap: 2px; }
+.score { font-family: var(--display); font-weight: 800; font-size: 54px; line-height: 1; color: var(--signal); font-variant-numeric: tabular-nums; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.log h3 { font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 8px; color: var(--muted); }
+.list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+.item { min-width: 0; background: var(--panel); border: 1px solid var(--line); border-left: 5px solid var(--line); border-radius: 4px; padding: 12px 14px; display: grid; gap: 6px; }
+.item.found { border-left-color: var(--safe); }
+.item.missed { border-left-color: var(--danger); }
+.item header { display: flex; gap: 8px; align-items: baseline; }
+.item header b { font-family: var(--display); font-weight: 800; font-size: 19px; }
+.item header em { font-style: normal; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-left: auto; white-space: nowrap; }
+.item.found header em { color: var(--safe); }
+.item.missed header em { color: var(--danger); }
+.item p { margin: 0; font-size: 14px; color: var(--muted); }
+.item p strong { color: var(--fg); font-weight: 600; }
+.item.locked { color: var(--muted); }
+.item.locked b { color: var(--muted); letter-spacing: .3em; }
+.toast {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+  background: var(--panel); border: 1px solid var(--line); border-left: 5px solid var(--safe);
+  padding: 8px 14px; border-radius: 4px; font-weight: 600; max-width: 90%; pointer-events: none;
+}
+@media (max-width: 560px) {
+  .brand h1 { font-size: 24px; }
+  .stat b { font-size: 21px; }
+  .mark.hit::after { width: 20px; height: 20px; font-size: 13px; top: -9px; right: -9px; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } .mark.hint { opacity: 1; } }
+/* Opening: a flashlight sweeps the dark room, hazard tape rolls in, the brief card rises */
+@property --sx { syntax: "<percentage>"; inherits: false; initial-value: -25%; }
+.sweep {
+  position: absolute; inset: 0 0 auto; aspect-ratio: 2576 / 1438; pointer-events: none; z-index: 2;
+  background: radial-gradient(ellipse 22% 60% at var(--sx) 55%, rgba(245,197,24,.10) 0 30%, rgba(10,11,13,.94) 75%);
+  animation: sweep 1.7s cubic-bezier(.45,.05,.3,1) forwards, unveil .5s ease-out 1.6s forwards;
+}
+@keyframes sweep { from { --sx: -25%; } to { --sx: 125%; } }
+@keyframes unveil { to { opacity: 0; visibility: hidden; } }
+#startOv { animation: dim-in .4s ease-out 1.4s both; }
+#startOv .card { animation: rise .6s cubic-bezier(.2,.9,.3,1.2) 1.55s both; position: relative; overflow: hidden; border-top: 0; padding-top: 30px; }
+#startOv .card::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 12px;
+  background: repeating-linear-gradient(-45deg, var(--signal) 0 14px, var(--bg) 14px 28px);
+  transform-origin: left; animation: tape .5s ease-out 1.9s both, crawl 1.2s linear 2.4s infinite;
+}
+#startOv .card h2 { animation: stamp .35s ease-out 2.1s both; }
+#startOv .card li { animation: slide .35s ease-out both; }
+#startOv .card li:nth-child(1) { animation-delay: 2.25s; }
+#startOv .card li:nth-child(2) { animation-delay: 2.35s; }
+#startOv .card li:nth-child(3) { animation-delay: 2.45s; }
+#startBtn { animation: slide .35s ease-out 2.6s both; }
+.brand h1 { animation: stamp .4s ease-out .2s both; }
+.stats { animation: slide .4s ease-out .4s both; }
+@keyframes dim-in { from { background: rgba(14,15,17,0); backdrop-filter: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(40px) scale(.96); } }
+@keyframes tape { from { transform: scaleX(0); } }
+@keyframes crawl { to { background-position: 39.6px 0; } }
+@keyframes stamp { 0% { opacity: 0; transform: scale(1.6); letter-spacing: .3em; } 70% { opacity: 1; transform: scale(.97); } 100% { transform: scale(1); } }
+@keyframes slide { from { opacity: 0; transform: translateX(-14px); } }
+@media (prefers-reduced-motion: reduce) { .sweep { display: none; } }
+@media (max-width: 700px) {
+  .card { padding: 16px; }
+  #startOv .card { padding-top: 26px; }
+  .card h2 { font-size: 23px; }
+  .score { font-size: 42px; }
+}
+/* Phone (portrait or landscape): compact bar, room fills the screen edge to edge */
+@media (max-width: 900px), (max-height: 600px) {
+  .wrap { gap: 8px; padding-block: 6px 24px; }
+  .bar { gap: 6px 14px; padding-bottom: 6px; border-bottom-width: 2px; }
+  .brand small { display: none; }
+  .brand h1 { font-size: 20px; }
+  .stats { gap: 12px; }
+  .stat b { font-size: 18px; }
+  .stat i { font-size: 9px; }
+  .bar button { font-size: 13px; padding: 6px 10px; }
+  .stage img { max-height: calc(100svh - 52px); }
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  .stage { margin-inline: -16px; max-width: calc(100% + 32px); border: 0; border-radius: 0; }
+}
+</style>
+
+<div class="wrap">
+  <div class="bar">
+    <div class="brand"><h1>Hazard <span>Hunt</span></h1><small>Oda 1 · Ofis</small></div>
+    <div class="stats">
+      <div class="stat" id="timeStat"><b id="time">60</b><i>saniye</i></div>
+      <div class="stat"><b id="found">0/5</b><i>risk</i></div>
+      <div class="stat"><b id="misses">0</b><i>hatalı tık</i></div>
+      <button class="ghost" id="hintBtn" disabled>İpucu −10 sn</button>
+      <button class="info" id="infoBtn" aria-label="Oyun hakkında bilgi" title="Bilgi">i</button>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <img id="room" src="oda1c.jpg" alt="Ofis odası: kitaplık, su sebili, acil çıkış kapısı, iki çalışma masası, mutfak tezgâhı" width="2576" height="1438">
+    <div class="field" id="field" aria-label="Oyun alanı"></div>
+    <div class="toast" id="toast" hidden></div>
+    <div class="sweep" aria-hidden="true"></div>
+    <div class="overlay" id="startOv">
+      <div class="card">
+        <h2>Odadaki 5 riski bul</h2>
+        <p>Bu ofiste iş sağlığı ve güvenliğini tehdit eden 5 risk saklı. 60 saniyen var.</p>
+        <ul>
+          <li>Riski gördüğün yere tıkla.</li>
+          <li>Boş yere her tıklama 5 saniye götürür.</li>
+          <li>İpucu 10 saniye götürür.</li>
+        </ul>
+        <div class="actions"><button id="startBtn">Başla</button></div>
+      </div>
+    </div>
+    <div class="overlay" id="infoOv" hidden>
+      <div class="card">
+        <h2>Hazard Hunt nedir?</h2>
+        <p>SEÇ, sağlık, emniyet ve çevre demek. Bu oyun her gün yanından geçtiğin riskleri fark etmeyi alıştırır: her oda bir çalışma ortamı çizimi, içinde saklı riskler var.</p>
+        <p style="opacity:.75;font-size:.9em">Eğitim ve farkındalık amaçlıdır; iş sağlığı ve güvenliği mevzuatı ya da tavsiyesi yerine geçmez. Görseller yapay zekâ ile çizilmiştir, gerçek bir işyerini göstermez.</p>
+        <ul>
+          <li>Riski gördüğün yere tıkla. Bulunan risk yeşil çemberle işaretlenir.</li>
+          <li>Süre 60 saniye. Boş yere tıklamak 5, ipucu 10 saniye götürür.</li>
+          <li>Puan: bulunan her risk 100, hepsini bulursan kalan her saniye 10, her hatalı tık −20.</li>
+          <li>Oyun bitince denetim listesinde her riskin nedeni ve doğrusu açılır.</li>
+        </ul>
+        <p>Bilgi penceresi açıkken süre durur.</p>
+        <div class="actions"><button id="infoClose">Kapat</button></div>
+      </div>
+    </div>
+    <div class="overlay" id="endOv" hidden>
+      <div class="card">
+        <h2 id="endTitle">Oda güvenli</h2>
+        <div class="score" id="endScore">0</div>
+        <p id="endText"></p>
+        <div class="actions"><button id="againBtn">Tekrar oyna</button><button class="ghost" id="reviewBtn">Odayı incele</button></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="log">
+    <h3>Denetim listesi</h3>
+    <div class="list" id="list"></div>
+  </section>
+</div>
+
+<script>
+(function () {
+  const W = 2576, H = 1438, START = 60, MISS_PEN = 5, HINT_PEN = 10, PAD = 30;
+  const RISKS = [
+    { id: "strip", box: [600, 1083, 838, 1347], name: "Zincirlenmiş çoklu priz",
+      why: "Üst üste takılan çoklu prizler hattın kapasitesini aşar, ısınır ve yangın çıkarabilir.",
+      fix: "Her cihaz duvar prizine ya da tek, sigortalı bir grup prize takılır. Çoklu priz çoklu prize takılmaz." },
+    { id: "cables", box: [844, 1148, 1367, 1367], name: "Yerde dağınık kablolar",
+      why: "Yürüme alanındaki kablolar takılıp düşmeye yol açar, ezilen kablonun yalıtımı bozulur.",
+      fix: "Kablolar masa altı kablo tavası ya da kablo kanalıyla yerden kaldırılır." },
+    { id: "ext", box: [1089, 516, 1186, 600], name: "Eksik yangın söndürücü",
+      why: "Askı boş. Yangın başladığında ilk müdahale yapılamaz.",
+      fix: "Tüp yerinde, önü açık ve kontrol etiketi güncel olmalı. Eksik tüp hemen iş güvenliği sorumlusuna bildirilir." },
+    { id: "exit", box: [864, 587, 1180, 903], name: "Kapatılmış acil çıkış",
+      why: "Acil çıkış kapısının önündeki koliler tahliyeyi yavaşlatır, panik anında kapı açılamayabilir.",
+      fix: "Acil çıkış kapısının önü ve kaçış yolu her zaman boş tutulur. Koliler depoya kaldırılır." },
+    { id: "water", box: [238, 1231, 561, 1347], name: "Uyarısız ıslak zemin",
+      why: "Sebil yanındaki su birikintisi kayıp düşmeye yol açar, işaret olmadığı için kimse fark etmez.",
+      fix: "Dökülen su hemen silinir, silinene kadar ıslak zemin uyarı levhası konur, sızıntı varsa sebil bildirilir." }
+  ];
+
+  const $ = id => document.getElementById(id);
+  const field = $("field"), stage = $("stage");
+  let state = null, tick = null;
+
+  function reset() {
+    state = { time: START, found: new Set(), misses: 0, running: false, over: false };
+    field.querySelectorAll(".mark").forEach(m => m.remove());
+    render();
+  }
+
+  function render() {
+    $("time").textContent = Math.max(0, Math.ceil(state.time));
+    $("timeStat").classList.toggle("low", state.time <= 10 && state.running);
+    $("found").textContent = state.found.size + "/" + RISKS.length;
+    $("misses").textContent = state.misses;
+    $("hintBtn").disabled = !state.running || state.time <= HINT_PEN;
+    const list = $("list");
+    list.innerHTML = "";
+    RISKS.forEach((r, i) => {
+      const got = state.found.has(r.id);
+      const missed = state.over && !got;
+      const el = document.createElement("article");
+      el.className = "item " + (got ? "found" : missed ? "missed" : "locked");
+      if (got || missed) {
+        el.innerHTML = `<header><b>${i + 1}. ${r.name}</b><em>${got ? "Bulundu" : "Kaçırıldı"}</em></header>
+          <p><strong>Neden risk:</strong> ${r.why}</p><p><strong>Doğrusu:</strong> ${r.fix}</p>`;
+      } else {
+        el.innerHTML = `<header><b>? ? ?</b><em>Bulunmadı</em></header><p>Odayı tara.</p>`;
+      }
+      list.appendChild(el);
+    });
+  }
+
+  function pct(x, y) { return { left: (x / W * 100) + "%", top: (y / H * 100) + "%" }; }
+
+  function addMark(cls, x, y, size, n) {
+    const m = document.createElement("div");
+    m.className = "mark " + cls;
+    const p = pct(x, y);
+    m.style.left = p.left; m.style.top = p.top;
+    if (size) { m.style.width = (size / W * 100) + "%"; m.style.aspectRatio = "1"; }
+    if (n) m.dataset.n = n;
+    field.appendChild(m);
+    return m;
+  }
+
+  function circleFor(r) {
+    const [x1, y1, x2, y2] = r.box;
+    return { x: (x1 + x2) / 2, y: (y1 + y2) / 2, d: Math.max(x2 - x1, y2 - y1) * 0.9 + 40 };
+  }
+
+  function toast(msg) {
+    const t = $("toast");
+    t.textContent = msg; t.hidden = false;
+    clearTimeout(toast.h); toast.h = setTimeout(() => t.hidden = true, 1800);
+  }
+
+  field.addEventListener("click", e => {
+    if (state.over) { $("endOv").hidden = false; return; }
+    if (!state.running) return;
+    const rect = field.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width * W;
+    const y = (e.clientY - rect.top) / rect.height * H;
+    const hit = RISKS.find(r => !state.found.has(r.id) &&
+      x >= r.box[0] - PAD && x <= r.box[2] + PAD && y >= r.box[1] - PAD && y <= r.box[3] + PAD);
+    if (hit) {
+      state.found.add(hit.id);
+      const c = circleFor(hit);
+      addMark("hit", c.x, c.y, c.d, RISKS.indexOf(hit) + 1);
+      toast("Bulundu: " + hit.name);
+      if (state.found.size === RISKS.length) finish(true);
+    } else if (!RISKS.some(r => x >= r.box[0] && x <= r.box[2] && y >= r.box[1] && y <= r.box[3])) {
+      state.misses++;
+      state.time -= MISS_PEN;
+      addMark("miss", x, y).textContent = "✕";
+      stage.classList.remove("shake"); void stage.offsetWidth; stage.classList.add("shake");
+      if (state.time <= 0) finish(false);
+    }
+    render();
+  });
+
+  $("hintBtn").addEventListener("click", () => {
+    const left = RISKS.filter(r => !state.found.has(r.id));
+    if (!left.length || !state.running) return;
+    const r = left[Math.floor(Math.random() * left.length)];
+    const c = circleFor(r);
+    // loose hint: offset the circle and make it larger than the target
+    const m = addMark("hint", c.x + (Math.random() - .5) * 160, c.y + (Math.random() - .5) * 120, c.d * 2.2);
+    setTimeout(() => m.remove(), 3200);
+    state.time -= HINT_PEN;
+    render();
+  });
+
+  function start() {
+    reset();
+    $("startOv").hidden = true; $("endOv").hidden = true;
+    state.running = true;
+    const t0 = performance.now(); let last = t0;
+    clearInterval(tick);
+    tick = setInterval(() => {
+      const now = performance.now();
+      if (!state.paused) state.time -= (now - last) / 1000;
+      last = now;
+      if (state.time <= 0) { state.time = 0; finish(false); }
+      render();
+    }, 200);
+    render();
+  }
+
+  function best(score) {
+    try {
+      const b = Number(localStorage.getItem("sec-avi-oda1-best") || 0);
+      if (score > b) { localStorage.setItem("sec-avi-oda1-best", String(score)); return { best: score, isNew: true }; }
+      return { best: b, isNew: false };
+    } catch (e) { return { best: score, isNew: false }; }
+  }
+
+  function finish(win) {
+    if (state.over) return;
+    state.running = false; state.over = true;
+    clearInterval(tick);
+    RISKS.filter(r => !state.found.has(r.id)).forEach(r => { const c = circleFor(r); addMark("reveal", c.x, c.y, c.d); });
+    const remaining = Math.max(0, Math.ceil(state.time));
+    const score = state.found.size * 100 + (win ? remaining * 10 : 0) - state.misses * 20;
+    const final = Math.max(0, score);
+    const b = best(final);
+    $("endTitle").textContent = win ? "Oda güvenli" : "Süre doldu";
+    $("endScore").textContent = final;
+    $("endText").textContent = (win
+      ? `${RISKS.length} riskin hepsini ${START - remaining} saniyede buldun, ${state.misses} hatalı tıkla.`
+      : `${state.found.size}/${RISKS.length} risk buldun. Kaçırdıkların kırmızı çemberle işaretli.`) +
+      (b.isNew ? " Yeni en iyi skorun." : ` En iyi skorun: ${b.best}.`);
+    $("endOv").hidden = false;
+    render();
+  }
+
+  $("infoBtn").addEventListener("click", () => { state.paused = true; $("infoOv").hidden = false; $("infoClose").focus(); });
+  $("infoClose").addEventListener("click", () => { state.paused = false; $("infoOv").hidden = true; });
+  $("startBtn").addEventListener("click", start);
+  $("againBtn").addEventListener("click", start);
+  $("reviewBtn").addEventListener("click", () => { $("endOv").hidden = true; });
+
+  reset();
+})();
+</script>
+
+</body>
+</html>
