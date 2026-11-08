@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08T12:49:03.515997Z",
+ "updated": "2026-11-08T20:47:36.229544Z",
  "date": "2026-11-08",
  "timezone": "Europe/Istanbul",
  "plan": [
@@ -13,7 +13,9 @@
    "url": "https://alibingul-dev.github.io/masterchef-2026/",
    "review_attempt": null,
    "published_by": null,
-   "delta_min": null
+   "delta_min": null,
+   "channel": "site",
+   "commit": null
   },
   {
    "id": "gb-outlook",
@@ -25,7 +27,9 @@
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7525096900081954817",
    "review_attempt": 1,
    "published_by": "AI Publishing Officer",
-   "delta_min": -91
+   "delta_min": -91,
+   "channel": "linkedin",
+   "commit": null
   },
   {
    "id": "tr-outlook",
@@ -37,7 +41,9 @@
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7525123345936220160",
    "review_attempt": 1,
    "published_by": "AI Publishing Officer",
-   "delta_min": -16
+   "delta_min": -16,
+   "channel": "linkedin",
+   "commit": null
   },
   {
    "id": "gb-dayend",
@@ -49,7 +55,9 @@
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7525153620296761344",
    "review_attempt": 2,
    "published_by": "AI Publishing Officer",
-   "delta_min": -31
+   "delta_min": -31,
+   "channel": "linkedin",
+   "commit": null
   },
   {
    "id": "tr-dayend",
@@ -61,7 +69,9 @@
    "url": "https://www.linkedin.com/feed/update/urn:li:share:7525169511839252480",
    "review_attempt": 3,
    "published_by": "AI Publishing Officer",
-   "delta_min": -43
+   "delta_min": -43,
+   "channel": "linkedin",
+   "commit": null
   }
  ],
  "series": [
@@ -80,6 +90,8 @@
    "review_attempt": null,
    "published_by": null,
    "delta_min": null,
+   "channel": "site",
+   "commit": null,
    "days": [
     {
      "date": "2026-11-02",
@@ -133,6 +145,8 @@
    "review_attempt": 1,
    "published_by": "AI Publishing Officer",
    "delta_min": -91,
+   "channel": "linkedin",
+   "commit": null,
    "days": [
     {
      "date": "2026-11-02",
@@ -186,6 +200,8 @@
    "review_attempt": 1,
    "published_by": "AI Publishing Officer",
    "delta_min": -16,
+   "channel": "linkedin",
+   "commit": null,
    "days": [
     {
      "date": "2026-11-02",
@@ -239,6 +255,8 @@
    "review_attempt": 2,
    "published_by": "AI Publishing Officer",
    "delta_min": -31,
+   "channel": "linkedin",
+   "commit": null,
    "days": [
     {
      "date": "2026-11-02",
@@ -292,6 +310,8 @@
    "review_attempt": 3,
    "published_by": "AI Publishing Officer",
    "delta_min": -43,
+   "channel": "linkedin",
+   "commit": null,
    "days": [
     {
      "date": "2026-11-02",
