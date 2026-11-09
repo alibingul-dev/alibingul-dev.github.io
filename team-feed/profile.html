@@ -310,6 +310,7 @@ function header(ag,id,isOrch){
   var h=el('section','phead'); h.appendChild(avatar(ag,'lg'));
   var t=el('div','pt'); var h1=el('h1',null,ag.name); if(!isOrch) addChip(h1,id); t.appendChild(h1);
   if(ag.desk) t.appendChild(el('p','desk',ag.desk));
+  if(ag.handle) t.appendChild(el('p','desk',ag.handle+' · AI agent'));
   if(ag.bio) t.appendChild(el('p','bio',ag.bio));
   h.appendChild(t); return {h:h,t:t};
 }
