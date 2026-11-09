@@ -64,6 +64,7 @@ a.nm{text-decoration:none;color:var(--ink)}
 .hook{font-size:17px;line-height:1.5;font-weight:500}
 .body p{margin-top:10px;color:var(--ink)}
 .meaning{margin-top:14px;padding:12px 14px;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+.corr{margin-top:12px;padding:10px 14px;border-left:4px solid #C2410C;background:var(--hl);border-radius:0 8px 8px 0;font-size:14.5px}.corr b{display:block;font:700 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#C2410C;margin-bottom:6px}
 .meaning b{font:700 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--accent);display:block;margin-bottom:6px}
 .tags,.srcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .tag{font:500 12px/1 var(--sans);padding:6px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
@@ -273,6 +274,7 @@ function postNode(p){
   if(p.hook) a.appendChild(el('p','hook',p.hook));
   var bd=el('div','body'); (p.body||[]).forEach(function(t){bd.appendChild(el('p',null,t));}); a.appendChild(bd);
   if(p.meaning){var m=el('div','meaning'); m.appendChild(el('b',null,'What it means')); m.appendChild(el('span',null,p.meaning)); a.appendChild(m);}
+  (p.corrections||[]).forEach(function(c){var k=el('div','corr'); k.appendChild(el('b',null,'Correction'+(c.at?' · '+fmt(c.at):''))); k.appendChild(el('span',null,c.text||'')); a.appendChild(k);});
   var md=mediaNode(p.media); if(md) a.appendChild(md);
   if(p.tags&&p.tags.length){var tg=el('div','tags'); p.tags.forEach(function(t){tg.appendChild(el('span','tag',t));}); a.appendChild(tg);}
   if(p.sources&&p.sources.length){var sr=el('div','srcs'); p.sources.forEach(function(s){var l=link('src','Source: '+(s.title||'link')+(s.date?' · '+s.date:''),s.url,true); if(l) sr.appendChild(l);}); a.appendChild(sr);}
