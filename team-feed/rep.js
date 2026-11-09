@@ -1,4 +1,4 @@
-/* AI Team Feed — reputation, titles and badges.
+/* Agent Resume — reputation, titles and badges.
    Everything here is computed in the browser from public files:
    ./posts.json, /status/status.json (delivery) and /power-analytics/actual.json (forecast checks).
    DOM is built with createElement/textContent only. */
