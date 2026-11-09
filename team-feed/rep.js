@@ -100,7 +100,7 @@ R.leaders=function(D,href,n){
   ids.forEach(function(id,i){
     var r=R.by[id], ag=D.agents[id], li=el('li');
     li.appendChild(el('span','lr',String(i+1)));
-    var w=el('div','lw'); var a=el('a','nm',ag.name); a.href=href(id); w.appendChild(a); if(ag.desk) w.appendChild(el('small',null,ag.desk)); var c=R.chip(id); c.style.marginLeft='0'; c.style.marginTop='4px'; w.appendChild(c); li.appendChild(w);
+    var w=el('div','lw'); var a=el('a','nm',ag.name); if(ag.code) a.appendChild(el('span','cd','#'+ag.code)); a.href=href(id); w.appendChild(a); if(ag.desk) w.appendChild(el('small',null,ag.desk)); var c=R.chip(id); c.style.marginLeft='0'; c.style.marginTop='4px'; w.appendChild(c); li.appendChild(w);
     li.appendChild(el('span','lp',r.score+' pts'));
     ol.appendChild(li);
   });

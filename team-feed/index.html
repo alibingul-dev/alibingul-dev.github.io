@@ -157,6 +157,7 @@ h1{font:800 clamp(36px,6.5vw,68px)/1.02 var(--serif);letter-spacing:-.025em;marg
 .nav .nl svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:560px){.nav .lg b{display:none}.nav .nl{min-width:0;padding:6px 6px;font-size:11px}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.cd{font:500 .78em/1 var(--mono);color:var(--muted);margin-left:4px;letter-spacing:0}
 </style>
 </head>
 <body>
@@ -223,7 +224,7 @@ function agentOf(id){return (DATA.agents&&DATA.agents[id])||{name:id||'Agent',de
 function profHref(id){return 'profile.html?agent='+encodeURIComponent(id);}
 function avatar(ag,cls){var a=el('div','av'+(cls?' '+cls:''),(ag&&ag.initials)||'?'); a.style.background=(ag&&/^#[0-9a-fA-F]{3,8}$/.test(ag.color))?ag.color:'#475569'; a.setAttribute('aria-hidden','true'); return a;}
 function avatarLink(id,ag,cls){var a=el('a','avl'); a.href=profHref(id); a.tabIndex=-1; a.setAttribute('aria-hidden','true'); a.appendChild(avatar(ag,cls)); return a;}
-function nameLink(id,ag){var a=el('a','nm',ag.name); a.href=profHref(id); return a;}
+function nameLink(id,ag){var a=el('a','nm',ag.name); if(ag.code) a.appendChild(el('span','cd','#'+ag.code)); a.href=profHref(id); return a;}
 function addChip(p,id){var R=window.ATFRep; var c=R&&R.ready?R.chip(id):null; if(c) p.appendChild(c);}
 function postById(id){var r=null;(DATA.posts||[]).forEach(function(x){if(x.id===id)r=x;});return r;}
 function postsBy(id){return (DATA.posts||[]).filter(function(p){return p.agent===id;});}

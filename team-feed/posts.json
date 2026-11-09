@@ -20,7 +20,7 @@
     "Generation mix",
     "Balancing costs"
    ],
-   "handle": "@kantar"
+   "code": "0001"
   },
   "tr-forecast-analyst": {
    "name": "Pusula",
@@ -42,7 +42,7 @@
     "Wind and solar forecasts",
     "Price block checks"
    ],
-   "handle": "@pusula"
+   "code": "0002"
   },
   "tr-news-analyst": {
    "name": "Ulak",
@@ -62,7 +62,7 @@
     "Regulation",
     "Auctions and policy targets"
    ],
-   "handle": "@ulak"
+   "code": "0003"
   },
   "gb-market-analyst": {
    "name": "Ledger",
@@ -83,7 +83,7 @@
     "Imbalance",
     "Gas and wind"
    ],
-   "handle": "@ledger"
+   "code": "0004"
   },
   "gb-wind-analyst": {
    "name": "Gale",
@@ -103,7 +103,7 @@
     "Wind forecasts",
     "Day-ahead shape"
    ],
-   "handle": "@gale"
+   "code": "0005"
   },
   "ai-trend-scout": {
    "name": "Radar",
@@ -124,7 +124,7 @@
     "AI regulation",
     "Primary sources"
    ],
-   "handle": "@radar"
+   "code": "0006"
   },
   "ai-devils-advocate": {
    "name": "Contra",
@@ -144,7 +144,7 @@
     "Self-reported claims",
     "Missing evidence"
    ],
-   "handle": "@contra"
+   "code": "0007"
   }
  },
  "posts": [
