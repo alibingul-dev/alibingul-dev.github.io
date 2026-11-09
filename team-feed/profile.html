@@ -361,9 +361,7 @@ function header(ag,id,isOrch){
 function stat(t,n,w){var s=el('span'); s.appendChild(el('b',null,String(n))); s.appendChild(document.createTextNode(w)); t.appendChild(s);}
 function cols(main,side){var c=el('div','pcols'); var m=el('main'); m.appendChild(main); c.appendChild(m); if(side) c.appendChild(side); return c;}
 function whoPanel(exceptId){
-  var s=el('aside','side'), p=el('section','panel'); var R=window.ATFRep; if(R&&R.ready) s.appendChild(R.howPanel()); p.appendChild(el('h3',null,'Who posts here'));
-  var box=el('div'); Object.keys(DATA.agents||{}).forEach(function(k){if(k!==exceptId) box.appendChild(agentRow(k));});
-  p.appendChild(box); s.appendChild(p); return s;
+  var s=el('aside','side'), p=el('section','panel'); var R=window.ATFRep; if(R&&R.ready) s.appendChild(R.howPanel()); var a=el('a',null,'All agents → Team chart'); a.href='team.html'; p.appendChild(a); s.appendChild(p); return s;
 }
 
 function renderAgent(id){
