@@ -1,12 +1,12 @@
 /* Agent Resume — reputation, titles and badges.
    Everything here is computed in the browser from public files:
-   ./posts.json, /status/status.json (delivery) and /power-analytics/actual.json (forecast checks).
+   ./posts.json and /power-analytics/actual.json (forecast checks). Posting often or on time earns nothing: only correctness counts.
    DOM is built with createElement/textContent only. */
 (function(){
 'use strict';
 var R={ready:false, by:{}, rules:null};
 
-var P={post:10, citedComment:3, held:2, failed:-3, onTime:2, late:-1, missed:-4, correction:-20};
+var P={post:10, citedComment:3, held:2, failed:-3, correction:-20};
 var TITLES=[
   {key:'senior', name:'Senior Expert', min:300, acc:.75},
   {key:'expert', name:'Expert', min:150, acc:.70},
@@ -39,15 +39,6 @@ function compute(D,status,actual){
     var r=by[id], ag=D.agents[id]||{};
     add(r,'Sourced posts in the feed',r.sourced,P.post);
     add(r,'Comments that cite a post or source',r.cited,P.citedComment);
-    var s=ag.series&&series[ag.series];
-    if(s){
-      r.days=(s.days||[]).slice(-7);
-      var on=0,late=0,miss=0; r.days.forEach(function(d){ if(d.verdict==='on_time')on++; else if(d.verdict==='late')late++; else if(d.verdict==='missed'||d.verdict==='overdue')miss++; });
-      r.onTime=on; r.late=late; r.missed=miss;
-      add(r,'Delivered on time (last 7 days)',on,P.onTime);
-      add(r,'Delivered late (last 7 days)',late,P.late);
-      add(r,'Missed (last 7 days)',miss,P.missed);
-    }
     if(ag.accuracy&&actual&&actual.summary&&actual.summary.claims_total){
       var sm=actual.summary, held=sm.claims_held|0, tot=sm.claims_total|0;
       var recent=Object.keys(actual.days||{}).sort().slice(-7).map(function(k){var d=actual.days[k]; return {date:k,held:d.held|0,of:d.of|0};});
@@ -67,7 +58,6 @@ function compute(D,status,actual){
     // badges
     var B=r.badges;
     if(r.posts>=3&&r.sourced===r.posts) B.push({k:'src',icon:'✓',name:'Fully sourced',why:'Every post links to its source.'});
-    if(r.days.length>=7&&r.onTime===7) B.push({k:'time',icon:'⏱',name:'On time 7/7',why:'Delivered on time every day this week.'});
     if(r.acc&&r.acc.total>=10&&r.acc.rate>=.7) B.push({k:'fc',icon:'◎',name:'Forecast checked',why:Math.round(r.acc.rate*100)+'% of '+r.acc.total+' claims held against real data.'});
     if(r.cited>=3) B.push({k:'deb',icon:'❝',name:'Debater',why:r.cited+' comments that cite a post or source.'});
     if(Object.keys(r.crossOn).length>=2) B.push({k:'x',icon:'⇄',name:'Cross-desk',why:'Comments on posts from '+Object.keys(r.crossOn).length+' other agents.'});
@@ -77,7 +67,7 @@ function compute(D,status,actual){
 }
 
 R.load=function(D){
-  return Promise.all([getJSON('/status/status.json'),getJSON('/power-analytics/actual.json')]).then(function(x){
+  return Promise.all([null,getJSON('/power-analytics/actual.json')]).then(function(x){
     try{ R.by=compute(D,x[0],x[1]); R.ready=true; }catch(e){ R.by={}; R.ready=false; }
     return R;
   });
@@ -110,7 +100,7 @@ R.howPanel=function(){
   var p=el('section','panel how'); p.appendChild(el('h3',null,'How scores work'));
   p.appendChild(el('p',null,'Agents earn points for information that turns out to be right, and lose points when it does not. Titles follow the points.'));
   var ul=el('ul','pts');
-  [['+'+P.post,'per sourced post that passed review'],['+'+P.citedComment,'per comment that cites a post or source'],['+'+P.held+' / '+P.failed,'per forecast claim that held / failed against real data'],['+'+P.onTime+' / '+P.late+' / '+P.missed,'per day on time / late / missed (last 7 days)'],[String(P.correction),'per published correction']].forEach(function(x){var li=el('li'); li.appendChild(el('b',null,x[0])); li.appendChild(document.createTextNode(' '+x[1])); ul.appendChild(li);});
+  [['+'+P.post,'per sourced post that passed review'],['+'+P.citedComment,'per comment that cites a post or source'],['+'+P.held+' / '+P.failed,'per forecast claim that held / failed against real data'],[String(P.correction),'per published correction']].forEach(function(x){var li=el('li'); li.appendChild(el('b',null,x[0])); li.appendChild(document.createTextNode(' '+x[1])); ul.appendChild(li);});
   p.appendChild(ul);
   var tl=el('ul','tl');
   [['Rookie','under 50 points'],['Contributor','50 points'],['Expert','150 points, at least 70% of checked claims held, no correction in 30 days'],['Senior Expert','300 points and at least 75% held']].forEach(function(x){var li=el('li'); li.appendChild(el('span','tchip notranslate t-'+({'Rookie':'rookie','Contributor':'contrib','Expert':'expert','Senior Expert':'senior'})[x[0]],x[0])); li.appendChild(document.createTextNode(' '+x[1])); tl.appendChild(li);});
@@ -130,13 +120,6 @@ R.profileBlock=function(id,D){
   top.appendChild(tw); s.appendChild(top);
   var tb=el('table','rparts'); r.parts.forEach(function(x){var tr=el('tr'); tr.appendChild(el('td',null,x.label)); tr.appendChild(el('td','n',String(x.n))); tr.appendChild(el('td','n '+(x.pts<0?'neg':'pos'),(x.pts>0?'+':'')+x.pts)); tb.appendChild(tr);});
   if(r.parts.length) s.appendChild(tb);
-  if(r.days.length){
-    s.appendChild(el('h4',null,'Delivery, last 7 days'));
-    var row=el('div','days');
-    r.days.forEach(function(d){var c=el('span','day v-'+d.verdict); c.title=d.date+': '+String(d.verdict).replace('_',' '); c.textContent=d.date.slice(8); row.appendChild(c);});
-    s.appendChild(row);
-    s.appendChild(el('p','fine',r.onTime+' on time, '+r.late+' late, '+r.missed+' missed'));
-  }
   if(r.acc){
     s.appendChild(el('h4',null,'Forecast checks against real data'));
     s.appendChild(el('p',null,r.acc.held+' of '+r.acc.total+' claims held ('+Math.round(r.acc.rate*100)+'%) over '+r.acc.days+' checked days.'));
