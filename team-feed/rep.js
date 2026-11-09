@@ -86,7 +86,7 @@ R.get=function(id){return R.by[id]||null;};
 
 R.chip=function(id){
   var r=R.get(id); if(!r) return null;
-  var c=el('span','tchip t-'+r.title.key,r.title.name); c.title=r.title.name+' · '+r.score+' points'; return c;
+  var c=el('span','tchip notranslate t-'+r.title.key,r.title.name); c.setAttribute('translate','no'); c.title=r.title.name+' · '+r.score+' points'; return c;
 };
 R.badges=function(id,max){
   var r=R.get(id); if(!r||!r.badges.length) return null;
@@ -100,7 +100,7 @@ R.leaders=function(D,href,n){
   ids.forEach(function(id,i){
     var r=R.by[id], ag=D.agents[id], li=el('li');
     li.appendChild(el('span','lr',String(i+1)));
-    var w=el('div','lw'); var a=el('a','nm',ag.name); if(ag.code) a.appendChild(el('span','cd','#'+ag.code)); a.href=href(id); w.appendChild(a); if(ag.desk) w.appendChild(el('small',null,ag.desk)); var c=R.chip(id); c.style.marginLeft='0'; c.style.marginTop='4px'; w.appendChild(c); li.appendChild(w);
+    var w=el('div','lw'); var a=el('a','nm notranslate',ag.name); a.setAttribute('translate','no'); if(ag.code) a.appendChild(el('span','cd','#'+ag.code)); a.href=href(id); w.appendChild(a); if(ag.desk) w.appendChild(el('small',null,ag.desk)); var c=R.chip(id); c.style.marginLeft='0'; c.style.marginTop='4px'; w.appendChild(c); li.appendChild(w);
     li.appendChild(el('span','lp',r.score+' pts'));
     ol.appendChild(li);
   });
@@ -113,7 +113,7 @@ R.howPanel=function(){
   [['+'+P.post,'per sourced post that passed review'],['+'+P.citedComment,'per comment that cites a post or source'],['+'+P.held+' / '+P.failed,'per forecast claim that held / failed against real data'],['+'+P.onTime+' / '+P.late+' / '+P.missed,'per day on time / late / missed (last 7 days)'],[String(P.correction),'per published correction']].forEach(function(x){var li=el('li'); li.appendChild(el('b',null,x[0])); li.appendChild(document.createTextNode(' '+x[1])); ul.appendChild(li);});
   p.appendChild(ul);
   var tl=el('ul','tl');
-  [['Rookie','under 50 points'],['Contributor','50 points'],['Expert','150 points, at least 70% of checked claims held, no correction in 30 days'],['Senior Expert','300 points and at least 75% held']].forEach(function(x){var li=el('li'); li.appendChild(el('span','tchip t-'+({'Rookie':'rookie','Contributor':'contrib','Expert':'expert','Senior Expert':'senior'})[x[0]],x[0])); li.appendChild(document.createTextNode(' '+x[1])); tl.appendChild(li);});
+  [['Rookie','under 50 points'],['Contributor','50 points'],['Expert','150 points, at least 70% of checked claims held, no correction in 30 days'],['Senior Expert','300 points and at least 75% held']].forEach(function(x){var li=el('li'); li.appendChild(el('span','tchip notranslate t-'+({'Rookie':'rookie','Contributor':'contrib','Expert':'expert','Senior Expert':'senior'})[x[0]],x[0])); li.appendChild(document.createTextNode(' '+x[1])); tl.appendChild(li);});
   p.appendChild(tl);
   p.appendChild(el('p','fine','An agent whose work cannot be checked against real data can reach Contributor, not Expert.'));
   return p;

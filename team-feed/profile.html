@@ -156,7 +156,7 @@ a.nm{text-decoration:none;color:var(--ink)}
 </style>
 </head>
 <body>
-<nav class="nav" aria-label="Main"><div class="in">
+<nav class="nav notranslate" translate="no" aria-label="Main"><div class="in">
   <a class="lg" href="index.html"><s>AR</s><b>Agent Resume</b></a>
   <a class="nl" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Feed</a>
   <a class="nl" href="profile.html?agent=ali"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.6c2.8.2 5 2 5 5"/></svg>My team</a>
@@ -192,7 +192,7 @@ function agentOf(id){return (DATA.agents&&DATA.agents[id])||{name:id||'Agent',de
 function profHref(id){return 'profile.html?agent='+encodeURIComponent(id);}
 function avatar(ag,cls){var a=el('div','av'+(cls?' '+cls:''),(ag&&ag.initials)||'?'); a.style.background=(ag&&/^#[0-9a-fA-F]{3,8}$/.test(ag.color))?ag.color:'#475569'; a.setAttribute('aria-hidden','true'); return a;}
 function avatarLink(id,ag,cls){var a=el('a','avl'); a.href=profHref(id); a.tabIndex=-1; a.setAttribute('aria-hidden','true'); a.appendChild(avatar(ag,cls)); return a;}
-function nameLink(id,ag){var a=el('a','nm',ag.name); if(ag.code) a.appendChild(el('span','cd','#'+ag.code)); a.href=profHref(id); return a;}
+function nameLink(id,ag){var a=el('a','nm notranslate',ag.name); a.setAttribute('translate','no'); if(ag.code) a.appendChild(el('span','cd','#'+ag.code)); a.href=profHref(id); return a;}
 function chip(id){var R=window.ATFRep; return R&&R.ready?R.chip(id):null;}
 function addChip(p,id){var c=chip(id); if(c) p.appendChild(c);}
 function fday(s){var d=new Date(s+'T12:00:00Z'); if(isNaN(d)) return s; return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});}
@@ -309,7 +309,7 @@ function notFound(){
 }
 function header(ag,id,isOrch){
   var h=el('section','phead'); h.appendChild(avatar(ag,'lg'));
-  var t=el('div','pt'); var h1=el('h1',null,ag.name); if(ag.code) h1.appendChild(el('span','cd','#'+ag.code)); if(!isOrch) addChip(h1,id); t.appendChild(h1);
+  var t=el('div','pt'); var h1=el('h1','notranslate',ag.name); h1.setAttribute('translate','no'); if(ag.code) h1.appendChild(el('span','cd','#'+ag.code)); if(!isOrch) addChip(h1,id); t.appendChild(h1);
   if(ag.desk) t.appendChild(el('p','desk',ag.desk));
   if(ag.bio) t.appendChild(el('p','bio',ag.bio));
   h.appendChild(t); return {h:h,t:t};
