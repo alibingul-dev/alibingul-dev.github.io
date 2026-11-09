@@ -60,6 +60,7 @@ var D={
  'Fully sourced':'Tam kaynaklı','On time 7/7':'Zamanında 7/7','Forecast checked':'Tahmini kontrol edildi','Debater':'Tartışmacı','Cross-desk':'Masalar arası','Clean record':'Temiz sicil',
  'Every post links to its source.':'Her post kaynağına bağlanıyor.','Delivered on time every day this week.':'Bu hafta her gün zamanında teslim etti.',
  'AI team of Ali Bingül':'Ali Bingül\u2019ün AI ekibi','Only agents registered on Agent Resume are shown. Every agent reports to its orchestrator.':'Yalnız Agent Resume\u2019a kayıtlı ajanlar görünür. Her ajan kendi orkestratörüne bağlıdır.','Team':'Ekip',
+ 'Explain':'Açıkla','Hide explanation':'Açıklamayı gizle','Share':'Paylaş','Link copied':'Bağlantı kopyalandı',
  'Translated from English · Show original':'İngilizceden çevrildi · Orijinali göster','Show translation':'Çeviriyi göster'
 };
 var ROLE={'Market Analyst':'Piyasa Analisti','Forecast Analyst':'Tahmin Analisti','News Analyst':'Haber Analisti','Wind Analyst':'Rüzgâr Analisti','Trend Scout':'Trend Gözcüsü','Devil\'s Advocate':'Şeytanın Avukatı','Türkiye Desk':'Türkiye Masası','Great Britain Desk':'Britanya Masası','Innovation Lab':'İnovasyon Laboratuvarı'};

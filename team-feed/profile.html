@@ -155,6 +155,10 @@ a.nm{text-decoration:none;color:var(--ink)}
 .cd{font:500 .78em/1 var(--mono);color:var(--muted);margin-left:4px;letter-spacing:0}
 .tlink{display:inline-block;margin-top:8px;background:none;border:0;padding:4px 0;font:500 12.5px/1.3 var(--sans);color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:2px}.tlink:hover{color:var(--accent)}
 .btn .bi{width:18px;height:18px;flex:none;margin-right:8px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.btn .bi.bf{fill:currentColor;stroke:none}.btn.sm .bi{width:16px;height:16px}.btns .btn,.pbtns .btn{gap:0}
+.pbar{display:flex;gap:4px;margin-top:14px;padding-top:6px;border-top:1px solid var(--line)}
+.pa{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;border-radius:8px;background:none;color:var(--muted);font:600 14px/1 var(--sans);cursor:pointer}
+.pa:hover{background:var(--bg);color:var(--ink)}.pa[aria-expanded="true"]{color:var(--accent)}.pa .em{font-size:18px;line-height:1}
+.meaning.open{animation:mopen .2s ease-out}@keyframes mopen{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -265,7 +269,7 @@ function postNode(p){
   a.appendChild(el('h2','ugc',L(p,'title')||''));
   if(p.hook) a.appendChild(el('p','hook ugc',L(p,'hook')));
   var bd=el('div','body'); ((useTr(p)&&p.tr.body)||p.body||[]).forEach(function(t){bd.appendChild(el('p','ugc',t));}); a.appendChild(bd);
-  if(p.meaning){var m=el('div','meaning'); m.appendChild(el('b',null,'What it means')); m.appendChild(el('span','ugc',L(p,'meaning'))); a.appendChild(m);}
+  var m=null; if(p.meaning){m=el('div','meaning'); m.appendChild(el('b',null,'What it means')); m.appendChild(el('span','ugc',L(p,'meaning'))); m.hidden=true;}
   trToggle(p,a);
   (p.corrections||[]).forEach(function(c){var k=el('div','corr'); k.appendChild(el('b',null,'Correction'+(c.at?' · '+fmt(c.at):''))); k.appendChild(el('span','ugc',c.text||'')); a.appendChild(k);});
   var md=mediaNode(p.media); if(md) a.appendChild(md);
@@ -275,6 +279,21 @@ function postNode(p){
   if(p.more&&p.more.url){var mo=plink('btn primary full','Full analysis and chart on Power Analytics →',p.more.url); if(mo) acts.appendChild(mo);}
   var li=p.linkedin?link('li','Read on LinkedIn →',p.linkedin,true):null; if(li) acts.appendChild(li);
   if(acts.children.length) a.appendChild(acts);
+  var pb=el('div','pbar'), TT=window.ATFT||function(x){return x;};
+  if(m){
+    var ex=el('button','pa'); ex.type='button'; ex.setAttribute('aria-expanded','false'); ex.appendChild(el('span','em','💡')); var exl=el('span',null,TT('Explain')); ex.appendChild(exl);
+    ex.addEventListener('click',function(){var open=m.hidden; m.hidden=!open; m.classList.toggle('open',open); ex.setAttribute('aria-expanded',String(open)); exl.textContent=TT(open?'Hide explanation':'Explain');});
+    pb.appendChild(ex);
+  }
+  var sh=el('button','pa'); sh.type='button'; sh.appendChild(el('span','em','↗')); var shl=el('span',null,TT('Share')); sh.appendChild(shl);
+  sh.addEventListener('click',function(){
+    var url=location.origin+location.pathname.replace(/[^\/]*$/,'')+'index.html#post-'+encodeURIComponent(p.id);
+    if(navigator.share){ navigator.share({title:L(p,'title')||'',url:url}).catch(function(){}); return; }
+    var done=function(){shl.textContent=TT('Link copied'); setTimeout(function(){shl.textContent=TT('Share');},1800);};
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done,function(){prompt('Link',url);}); else done();
+  });
+  pb.appendChild(sh);
+  a.appendChild(pb); if(m) a.appendChild(m);
   var cs=p.comments||[];
   if(cs.length){
     var cm=el('div','cm'); cm.appendChild(el('div','cm-h',plural(cs.length,'comment')));
