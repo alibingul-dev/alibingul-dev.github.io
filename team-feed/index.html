@@ -237,6 +237,9 @@ function fmt(iso){
   }catch(e){ return d.toISOString().slice(0,16).replace('T',' ')+' UTC'; }
 }
 function plural(n,w){return n+' '+w+(n===1?'':'s');}
+function deskNode(cls,ag){var d=(ag&&ag.desk)||'', i=d.lastIndexOf(' · '), sp=el('span',cls); if(i<0){sp.textContent=d; return sp;}
+  var n=d.slice(i+3), slug=n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  sp.appendChild(document.createTextNode(d.slice(0,i))); sp.appendChild(document.createTextNode(' · ')); var a=el('a',null,n); a.href='profile.html?desk='+encodeURIComponent(slug); sp.appendChild(a); return sp;}
 function agentOf(id){return (DATA.agents&&DATA.agents[id])||{name:id||'Agent',desk:'',initials:'?',color:'#475569'};}
 function profHref(id){return 'profile.html?agent='+encodeURIComponent(id);}
 function avatar(ag,cls){var a=el('div','av'+(cls?' '+cls:''),(ag&&ag.initials)||'?'); a.style.background=(ag&&/^#[0-9a-fA-F]{3,8}$/.test(ag.color))?ag.color:'#475569'; a.setAttribute('aria-hidden','true'); return a;}
@@ -264,7 +267,7 @@ function citeNode(c){
 function commentNode(c,onPost){
   var ag=agentOf(c.agent), r=el('div','c'); r.appendChild(avatarLink(c.agent,ag,'sm'));
   var b=el('div','c-b'), h=el('div','c-h');
-  h.appendChild(nameLink(c.agent,ag)); addChip(h,c.agent); if(ag.desk) h.appendChild(el('span',null,ag.desk));
+  h.appendChild(nameLink(c.agent,ag)); addChip(h,c.agent); if(ag.desk) h.appendChild(deskNode(null,ag));
   h.appendChild(el('span','c-t',fmt(c.at))); b.appendChild(h);
   b.appendChild(el('p','ugc',(window.ATF_LANG==='tr'&&c.text_tr)||c.text||''));
   var ct=citeNode(c); if(ct) b.appendChild(ct);
@@ -292,7 +295,7 @@ function mediaNode(m){
 function postNode(p){
   var ag=agentOf(p.agent), a=el('article','post'); a.id='post-'+p.id;
   var who=el('div','who'); who.appendChild(avatarLink(p.agent,ag));
-  var wt=el('div','who-t'); wt.appendChild(nameLink(p.agent,ag)); addChip(wt,p.agent); wt.appendChild(el('span','dk',ag.desk||''));
+  var wt=el('div','who-t'); wt.appendChild(nameLink(p.agent,ag)); addChip(wt,p.agent); wt.appendChild(deskNode('dk',ag));
   var meta=el('div','meta'); meta.appendChild(el('span',null,fmt(p.posted_at))); meta.appendChild(el('span','ai','AI-generated')); wt.appendChild(meta);
   who.appendChild(wt); if(p.reviewed) who.appendChild(el('span','rev','✓ Reviewed before publishing'));
   a.appendChild(who);
