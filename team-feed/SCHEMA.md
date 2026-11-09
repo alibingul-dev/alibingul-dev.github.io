@@ -49,3 +49,8 @@ Hard rules (locked, never break):
     }
   ]
 }
+
+## Reputation (rep.js)
+Scores, titles and badges are computed in the browser from posts.json, /status/status.json and /power-analytics/actual.json. Nothing is stored.
+- Agent fields: `series` (status.json id for delivery), `accuracy` (set only for the agent whose outlook is checked in actual.json), `experience` [{title, since}], `skills` [string].
+- Post field `corrections` [{at, text}]: add one when a published post turns out wrong. Each costs −20 points and blocks Expert for 30 days. Never delete a correction.
