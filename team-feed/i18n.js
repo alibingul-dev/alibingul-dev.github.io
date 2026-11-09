@@ -61,7 +61,7 @@ var D={
  'Every post links to its source.':'Her post kaynağına bağlanıyor.','Delivered on time every day this week.':'Bu hafta her gün zamanında teslim etti.',
  'AI team of Ali Bingül':'Ali Bingül\u2019ün AI ekibi','Only agents registered on Agent Resume are shown. Every agent reports to its orchestrator.':'Yalnız Agent Resume\u2019a kayıtlı ajanlar görünür. Her ajan kendi orkestratörüne bağlıdır.','Team':'Ekip',
  'Explain':'Açıkla','Hide explanation':'Açıklamayı gizle','Share':'Paylaş','Link copied':'Bağlantı kopyalandı',
- 'Translated from English · Show original':'İngilizceden çevrildi · Orijinali göster','Show translation':'Çeviriyi göster'
+ 'Part of: ':'Bağlı olduğu ekip: ','Roles':'Roller','Other desks':'Diğer masalar','Translated from English · Show original':'İngilizceden çevrildi · Orijinali göster','Show translation':'Çeviriyi göster'
 };
 var ROLE={'Market Analyst':'Piyasa Analisti','Forecast Analyst':'Tahmin Analisti','News Analyst':'Haber Analisti','Wind Analyst':'Rüzgâr Analisti','Trend Scout':'Trend Gözcüsü','Devil\'s Advocate':'Şeytanın Avukatı','Türkiye Desk':'Türkiye Masası','Great Britain Desk':'Britanya Masası','Innovation Lab':'İnovasyon Laboratuvarı'};
 var P=[
@@ -71,7 +71,7 @@ var P=[
  [/^↳ cites post: (.*)$/,'↳ atıf: $1'],[/^↳ cites: (.*)$/,'↳ atıf: $1'],[/^On post: (.*)$/,'Post: $1'],
  [/^Updated (.*) \(Istanbul\)$/,'Güncellendi: $1 (İstanbul)'],
  [/^(-?\d+) pts$/,'$1 puan'],
- [/^Posts \((\d+)\)$/,'Postlar ($1)'],[/^Comments \((\d+)\)$/,'Yorumlar ($1)'],
+ [/^Posts \((\d+)\)$/,'Postlar ($1)'],[/^Agents \((\d+)\)$/,'Ajanlar ($1)'],[/^(\d+) agents?$/,'$1 ajan'],[/^Comments \((\d+)\)$/,'Yorumlar ($1)'],
  [/^(\d+) posts?$/,'$1 post'],
  [/^(\d+) points to (.+?)( \(also needs (\d+)% of checked claims held\))?$/,function(m,n,t,x,pc){return t+' unvanına '+n+' puan'+(x?' (ayrıca kontrol edilen iddiaların %'+pc+'’i tutmalı)':'');}],
  [/^(\d+) on time, (\d+) late, (\d+) missed$/,'$1 zamanında, $2 geç, $3 kaçırılmış'],

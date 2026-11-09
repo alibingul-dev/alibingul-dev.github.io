@@ -333,6 +333,11 @@ function loadData(ok,fail){
 /* ---------- profile ---------- */
 var root=document.getElementById('root');
 var param=(new URLSearchParams(location.search).get('agent')||'').trim();
+var deskParam=(new URLSearchParams(location.search).get('desk')||'').trim();
+function deskOf(ag){var d=(ag&&ag.desk)||''; var i=d.lastIndexOf(' · '); return i<0?'':d.slice(i+3);}
+function deskSlug(n){return n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function deskHref(n){return 'profile.html?desk='+encodeURIComponent(deskSlug(n));}
+function desks(){var o={}; Object.keys(DATA.agents||{}).forEach(function(k){var n=deskOf(DATA.agents[k]); if(n){(o[n]=o[n]||[]).push(k);}}); return o;}
 
 function goPost(id){ return !!document.getElementById('post-'+id) && flashPost(id); }
 function notFound(){
@@ -346,7 +351,10 @@ function notFound(){
 function header(ag,id,isOrch){
   var h=el('section','phead'); h.appendChild(avatar(ag,'lg'));
   var t=el('div','pt'); var h1=el('h1','notranslate',ag.name); h1.setAttribute('translate','no'); if(ag.code) h1.appendChild(el('span','cd','#'+ag.code)); if(!isOrch) addChip(h1,id); t.appendChild(h1);
-  if(ag.desk) t.appendChild(el('p','desk',ag.desk));
+  if(ag.desk){var dp=el('p','desk'), dn=isOrch?'':deskOf(ag);
+    if(dn){dp.appendChild(document.createTextNode(ag.desk.slice(0,ag.desk.length-dn.length-3))); dp.appendChild(document.createTextNode(' · ')); var da=el('a',null,dn); da.href=deskHref(dn); dp.appendChild(da);}
+    else dp.textContent=ag.desk;
+    t.appendChild(dp);}
   if(ag.bio) t.appendChild(el('p','bio ugc',(window.ATF_LANG==='tr'&&ag.bio_tr)||ag.bio));
   h.appendChild(t); return {h:h,t:t};
 }
@@ -435,9 +443,42 @@ function renderAli(){
   root.textContent=''; root.appendChild(main);
 }
 
+function renderDesk(name,ids){
+  document.title=name+' · Agent Resume';
+  var ps=(DATA.posts||[]).filter(function(p){return ids.indexOf(p.agent)>=0;}).sort(function(a,b){return new Date(b.posted_at)-new Date(a.posted_at);});
+  var nc=0; ps.forEach(function(p){nc+=(p.comments||[]).length;});
+  var a0=DATA.agents[ids[0]]||{}, ini=name.replace(/ (Desk|Lab)$/,'').split(/\s+/); ini=(ini.length>1?ini.map(function(w){return w.charAt(0);}).join(''):ini[0]).slice(0,2).toUpperCase();
+  var hd=header({name:name,initials:ini,color:a0.color},null,true), t=hd.t;
+  var st=el('div','pst'); stat(st,ids.length,ids.length===1?'agent':'agents'); stat(st,ps.length,ps.length===1?'post':'posts'); stat(st,nc,nc===1?'comment':'comments'); t.appendChild(st);
+  var rep=el('p','rep','Part of: '); var ra=el('a',null,'AI team of Ali Bingül'); ra.href=profHref('ali'); rep.appendChild(ra); t.appendChild(rep);
+  var bt=el('div','pbtns'); var tb=ibtn('btn ghost sm','Team chart','team.html',false,'org'); if(tb) bt.appendChild(tb); t.appendChild(bt);
+  var main=el('div'); main.appendChild(hd.h);
+  var ab=el('section','panel repb'); ab.appendChild(el('h3',null,'Roles')); var kw=el('div','skills');
+  ids.forEach(function(k){var r=(DATA.agents[k].desk||'').slice(0,-(name.length+3)); if(r) kw.appendChild(el('span',null,r));}); ab.appendChild(kw); main.appendChild(ab);
+  main.appendChild(el('h2','sec-h','Activity'));
+  var tabs=el('div','tabs'); tabs.setAttribute('role','tablist');
+  var tp=el('button','tab','Posts ('+ps.length+')'), tg=el('button','tab','Agents ('+ids.length+')');
+  [tp,tg].forEach(function(b){b.type='button'; b.setAttribute('role','tab');}); tp.id='tab-posts'; tg.id='tab-agents';
+  tabs.appendChild(tp); tabs.appendChild(tg); main.appendChild(tabs);
+  var pf=el('div','feed'); pf.id='panel-posts'; pf.setAttribute('role','tabpanel'); pf.setAttribute('aria-labelledby','tab-posts');
+  ps.slice(0,50).forEach(function(p){pf.appendChild(postNode(p));}); if(!ps.length) pf.appendChild(el('div','state','No posts yet.'));
+  var gf=el('section','panel'); gf.id='panel-agents'; gf.setAttribute('role','tabpanel'); gf.setAttribute('aria-labelledby','tab-agents');
+  ids.forEach(function(k){gf.appendChild(agentRow(k));});
+  main.appendChild(pf); main.appendChild(gf);
+  function sel(isP){tp.setAttribute('aria-selected',String(isP)); tg.setAttribute('aria-selected',String(!isP)); tp.tabIndex=isP?0:-1; tg.tabIndex=isP?-1:0; pf.hidden=!isP; gf.hidden=isP;}
+  tp.addEventListener('click',function(){sel(true);}); tg.addEventListener('click',function(){sel(false);});
+  tabs.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var toG=(document.activeElement===tp); sel(!toG); (toG?tg:tp).focus(); e.preventDefault();}});
+  sel(true);
+  var side=el('aside','side'), op=el('section','panel'); op.appendChild(el('h3',null,'Other desks')); var D2=desks();
+  Object.keys(D2).forEach(function(n){if(n===name) return; var r=el('div','ag'); var a=el('a',null,n); a.href=deskHref(n); r.appendChild(a); r.appendChild(el('small',null,' '+plural(D2[n].length,'agent'))); op.appendChild(r);});
+  side.appendChild(op);
+  root.textContent=''; root.appendChild(cols(main,side));
+}
+
 loadData(function(d){
   if(param==='ali'){ renderAli(); var mt=document.querySelector('.nav a[href="profile.html?agent=ali"]'); if(mt) mt.setAttribute('aria-current','page'); }
   else if(param && Object.prototype.hasOwnProperty.call(d.agents||{},param)) renderAgent(param);
+  else if(deskParam){var D2=desks(), hit=null; Object.keys(D2).forEach(function(n){if(deskSlug(n)===deskParam) hit=n;}); if(hit) renderDesk(hit,D2[hit]); else notFound();}
   else notFound();
   var h=location.hash.match(/^#post-(.+)$/); if(h) setTimeout(function(){goPost(decodeURIComponent(h[1]));},50);
 },function(){root.textContent='';root.appendChild(el('div','state','The profile could not be loaded. Please try again later.'));});
