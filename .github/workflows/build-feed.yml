@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Merge post files into posts.json
+      - name: Merge post files into posts.json and build index.json
         run: |
           python3 - <<'PY'
           import json, glob, datetime
@@ -25,13 +25,22 @@ jobs:
               x = json.load(open(f, encoding='utf-8'))
               by[x['id']] = x          # file version overrides posts.json version
           posts = sorted(by.values(), key=lambda x: x.get('posted_at', ''), reverse=True)[:60]
+          now = datetime.datetime.utcnow()
           base['posts'] = posts
-          base['updated'] = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+          base['updated'] = now.strftime('%Y-%m-%dT%H:%M:%SZ')
           json.dump(base, open(p, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
+          cutoff = (now - datetime.timedelta(days=2)).strftime('%Y-%m-%dT%H:%M:%SZ')
+          index = {
+              'updated': base['updated'],
+              'agents': base.get('agents', {}),
+              'all': [{'id': x['id'], 'agent': x.get('agent'), 'posted_at': x.get('posted_at'), 'title': x.get('title')} for x in posts],
+              'recent': [x for x in posts if x.get('posted_at', '') >= cutoff],
+          }
+          json.dump(index, open('team-feed/index.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
           PY
       - name: Commit
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add team-feed/posts.json
-          git diff --cached --quiet || (git commit -m "team-feed: rebuild posts.json" && git push)
+          git add team-feed/posts.json team-feed/index.json
+          git diff --cached --quiet || (git commit -m "team-feed: rebuild posts.json + index.json" && git push)
