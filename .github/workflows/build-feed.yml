@@ -1,0 +1,37 @@
+name: build-feed
+on:
+  push:
+    branches: [main]
+    paths: ['team-feed/posts/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: build-feed
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Merge post files into posts.json
+        run: |
+          python3 - <<'PY'
+          import json, glob, datetime
+          p = 'team-feed/posts.json'
+          base = json.load(open(p, encoding='utf-8'))
+          by = {x['id']: x for x in base.get('posts', [])}
+          for f in sorted(glob.glob('team-feed/posts/*.json')):
+              x = json.load(open(f, encoding='utf-8'))
+              by[x['id']] = x          # file version overrides posts.json version
+          posts = sorted(by.values(), key=lambda x: x.get('posted_at', ''), reverse=True)[:60]
+          base['posts'] = posts
+          base['updated'] = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+          json.dump(base, open(p, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add team-feed/posts.json
+          git diff --cached --quiet || (git commit -m "team-feed: rebuild posts.json" && git push)
