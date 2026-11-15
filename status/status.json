@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-10T12:48:06.505063Z",
- "date": "2026-11-10",
+ "updated": "2026-11-14T20:59:00Z",
+ "date": "2026-11-14",
  "timezone": "Europe/Istanbul",
  "plan": [
   {
@@ -9,27 +9,44 @@
    "name": "Scoreboard update",
    "deadline": "07:10",
    "verdict": "on_time",
-   "published_at": "2026-11-10T01:15:57Z",
+   "published_at": "2026-11-14T01:15:31Z",
    "url": "https://alibingul-dev.github.io/masterchef-2026/",
    "review_attempt": null,
    "published_by": null,
    "delta_min": null,
    "channel": "site",
-   "commit": null
+   "commit": null,
+   "note": null
+  },
+  {
+   "id": "tr-news",
+   "market": "Türkiye",
+   "name": "Energy news",
+   "deadline": "09:25",
+   "verdict": "none_today",
+   "published_at": null,
+   "url": null,
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": null,
+   "channel": "linkedin",
+   "commit": null,
+   "note": "No qualifying news today"
   },
   {
    "id": "gb-outlook",
    "market": "Great Britain",
    "name": "Tomorrow's wind outlook",
    "deadline": "12:00",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
+   "verdict": "on_time",
+   "published_at": "2026-11-14T07:28:30.762611Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7527271224473841664",
    "review_attempt": null,
    "published_by": null,
-   "delta_min": null,
-   "channel": "site",
-   "commit": null
+   "delta_min": -91,
+   "channel": "linkedin",
+   "commit": null,
+   "note": null
   },
   {
    "id": "tr-outlook",
@@ -37,13 +54,14 @@
    "name": "Tomorrow's net load outlook",
    "deadline": "12:30",
    "verdict": "on_time",
-   "published_at": "2026-11-10T08:36:25.204931Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7525838763005267968",
-   "review_attempt": 1,
+   "published_at": "2026-11-14T08:56:12.733851Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7527293295677542401",
+   "review_attempt": null,
    "published_by": null,
-   "delta_min": -54,
+   "delta_min": -34,
    "channel": "linkedin",
-   "commit": null
+   "commit": null,
+   "note": null
   },
   {
    "id": "gb-dayend",
@@ -51,13 +69,14 @@
    "name": "Day-end scorecard",
    "deadline": "14:30",
    "verdict": "on_time",
-   "published_at": "2026-11-10T11:15:32.499075Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7525878807296315392",
-   "review_attempt": 1,
-   "published_by": "AI Publishing Officer",
-   "delta_min": -29,
+   "published_at": "2026-11-14T11:13:37.075530Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7527327873863655424",
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": -16,
    "channel": "linkedin",
-   "commit": null
+   "commit": null,
+   "note": null
   },
   {
    "id": "tr-dayend",
@@ -65,13 +84,29 @@
    "name": "Day-end scorecard",
    "deadline": "15:15",
    "verdict": "late",
-   "published_at": "2026-11-10T12:20:52.833939Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7525895249571966979",
-   "review_attempt": 2,
-   "published_by": "AI Publishing Officer",
-   "delta_min": -39,
+   "published_at": "2026-11-14T13:34:20.994320Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7527363290201714691",
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": 79,
    "channel": "linkedin",
-   "commit": null
+   "commit": null,
+   "note": null
+  },
+  {
+   "id": "tr-reg",
+   "market": "Türkiye",
+   "name": "Regulation watch",
+   "deadline": "23:30",
+   "verdict": "none_today",
+   "published_at": null,
+   "url": null,
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": null,
+   "channel": "linkedin",
+   "commit": null,
+   "note": "No new regulation today"
   }
  ],
  "series": [
@@ -83,9 +118,10 @@
    "covers": "Last night's episode turned into points. Every result is confirmed by three news sources before it counts.",
    "source": "Three independent news sources per result",
    "deadline": "07:10",
-   "deadline_utc": "2026-11-10T04:10:00Z",
+   "deadline_utc": "2026-11-14T04:10:00Z",
    "verdict": "on_time",
-   "published_at": "2026-11-10T01:15:57Z",
+   "note": null,
+   "published_at": "2026-11-14T01:15:31Z",
    "url": "https://alibingul-dev.github.io/masterchef-2026/",
    "review_attempt": null,
    "published_by": null,
@@ -93,26 +129,6 @@
    "channel": "site",
    "commit": null,
    "days": [
-    {
-     "date": "2026-11-04",
-     "verdict": "on_time",
-     "url": "https://alibingul-dev.github.io/masterchef-2026/"
-    },
-    {
-     "date": "2026-11-05",
-     "verdict": "missed",
-     "url": null
-    },
-    {
-     "date": "2026-11-06",
-     "verdict": "missed",
-     "url": null
-    },
-    {
-     "date": "2026-11-07",
-     "verdict": "on_time",
-     "url": "https://alibingul-dev.github.io/masterchef-2026/"
-    },
     {
      "date": "2026-11-08",
      "verdict": "on_time",
@@ -125,6 +141,26 @@
     },
     {
      "date": "2026-11-10",
+     "verdict": "on_time",
+     "url": "https://alibingul-dev.github.io/masterchef-2026/"
+    },
+    {
+     "date": "2026-11-11",
+     "verdict": "on_time",
+     "url": "https://alibingul-dev.github.io/masterchef-2026/"
+    },
+    {
+     "date": "2026-11-12",
+     "verdict": "on_time",
+     "url": "https://alibingul-dev.github.io/masterchef-2026/"
+    },
+    {
+     "date": "2026-11-13",
+     "verdict": "on_time",
+     "url": "https://alibingul-dev.github.io/masterchef-2026/"
+    },
+    {
+     "date": "2026-11-14",
      "verdict": "on_time",
      "url": "https://alibingul-dev.github.io/masterchef-2026/"
     }
@@ -138,36 +174,17 @@
    "covers": "The system operator's wind forecast for tomorrow, hour by hour, published before the London auction.",
    "source": "Elexon BMRS",
    "deadline": "12:00",
-   "deadline_utc": "2026-11-10T09:00:00Z",
-   "verdict": "overdue",
-   "published_at": null,
-   "url": null,
+   "deadline_utc": "2026-11-14T09:00:00Z",
+   "verdict": "on_time",
+   "note": null,
+   "published_at": "2026-11-14T07:28:30.762611Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7527271224473841664",
    "review_attempt": null,
    "published_by": null,
-   "delta_min": null,
-   "channel": "site",
+   "delta_min": -91,
+   "channel": "linkedin",
    "commit": null,
    "days": [
-    {
-     "date": "2026-11-04",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7523647667109920768"
-    },
-    {
-     "date": "2026-11-05",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524010191483240448"
-    },
-    {
-     "date": "2026-11-06",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524372221453287424"
-    },
-    {
-     "date": "2026-11-07",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524734479798779904"
-    },
     {
      "date": "2026-11-08",
      "verdict": "on_time",
@@ -180,8 +197,28 @@
     },
     {
      "date": "2026-11-10",
-     "verdict": "overdue",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7525822196909338624"
+    },
+    {
+     "date": "2026-11-11",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526184539694620672"
+    },
+    {
+     "date": "2026-11-12",
+     "verdict": "late",
      "url": null
+    },
+    {
+     "date": "2026-11-13",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526908849791045633"
+    },
+    {
+     "date": "2026-11-14",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7527271224473841664"
     }
    ]
   },
@@ -193,36 +230,17 @@
    "covers": "How much demand is left for thermal plants tomorrow once wind and solar are counted, published before the day-ahead auction.",
    "source": "EPİAŞ Transparency Platform",
    "deadline": "12:30",
-   "deadline_utc": "2026-11-10T09:30:00Z",
+   "deadline_utc": "2026-11-14T09:30:00Z",
    "verdict": "on_time",
-   "published_at": "2026-11-10T08:36:25.204931Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7525838763005267968",
-   "review_attempt": 1,
+   "note": null,
+   "published_at": "2026-11-14T08:56:12.733851Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7527293295677542401",
+   "review_attempt": null,
    "published_by": null,
-   "delta_min": -54,
+   "delta_min": -34,
    "channel": "linkedin",
    "commit": null,
    "days": [
-    {
-     "date": "2026-11-04",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7523673893283401728"
-    },
-    {
-     "date": "2026-11-05",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524036141193461760"
-    },
-    {
-     "date": "2026-11-06",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524398723158896640"
-    },
-    {
-     "date": "2026-11-07",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524760925199855616"
-    },
     {
      "date": "2026-11-08",
      "verdict": "on_time",
@@ -237,6 +255,82 @@
      "date": "2026-11-10",
      "verdict": "on_time",
      "url": "https://www.linkedin.com/feed/update/urn:li:share:7525838763005267968"
+    },
+    {
+     "date": "2026-11-11",
+     "verdict": "late",
+     "url": null
+    },
+    {
+     "date": "2026-11-12",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526563502447321088"
+    },
+    {
+     "date": "2026-11-13",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526925982423728128"
+    },
+    {
+     "date": "2026-11-14",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7527293295677542401"
+    }
+   ]
+  },
+  {
+   "id": "tr-news",
+   "group": "energy",
+   "market": "Türkiye",
+   "name": "Energy news",
+   "covers": "Today's Turkish energy news that has a path to the power price, each with the direction it pushes.",
+   "source": "Public news sources, each linked",
+   "deadline": "09:25",
+   "deadline_utc": "2026-11-14T06:25:00Z",
+   "verdict": "none_today",
+   "note": "No qualifying news today",
+   "published_at": null,
+   "url": null,
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": null,
+   "channel": "linkedin",
+   "commit": null,
+   "days": [
+    {
+     "date": "2026-11-08",
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7525081223908532224"
+    },
+    {
+     "date": "2026-11-09",
+     "verdict": "none_today",
+     "url": null
+    },
+    {
+     "date": "2026-11-10",
+     "verdict": "missed",
+     "url": null
+    },
+    {
+     "date": "2026-11-11",
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526168713704841217"
+    },
+    {
+     "date": "2026-11-12",
+     "verdict": "none_today",
+     "url": null
+    },
+    {
+     "date": "2026-11-13",
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526893323920470016"
+    },
+    {
+     "date": "2026-11-14",
+     "verdict": "none_today",
+     "url": null
     }
    ]
   },
@@ -248,36 +342,17 @@
    "covers": "Yesterday in the GB balancing market: system prices and which way the system was out of balance.",
    "source": "Elexon BMRS",
    "deadline": "14:30",
-   "deadline_utc": "2026-11-10T11:30:00Z",
+   "deadline_utc": "2026-11-14T11:30:00Z",
    "verdict": "on_time",
-   "published_at": "2026-11-10T11:15:32.499075Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7525878807296315392",
-   "review_attempt": 1,
-   "published_by": "AI Publishing Officer",
-   "delta_min": -29,
+   "note": null,
+   "published_at": "2026-11-14T11:13:37.075530Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7527327873863655424",
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": -16,
    "channel": "linkedin",
    "commit": null,
    "days": [
-    {
-     "date": "2026-11-04",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7523704215634976768"
-    },
-    {
-     "date": "2026-11-05",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524066612430172161"
-    },
-    {
-     "date": "2026-11-06",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524429198262714369"
-    },
-    {
-     "date": "2026-11-07",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524791356058247170"
-    },
     {
      "date": "2026-11-08",
      "verdict": "on_time",
@@ -292,6 +367,82 @@
      "date": "2026-11-10",
      "verdict": "on_time",
      "url": "https://www.linkedin.com/feed/update/urn:li:share:7525878807296315392"
+    },
+    {
+     "date": "2026-11-11",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526242919482265600"
+    },
+    {
+     "date": "2026-11-12",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526603683015614464"
+    },
+    {
+     "date": "2026-11-13",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526965939217764352"
+    },
+    {
+     "date": "2026-11-14",
+     "verdict": "on_time",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7527327873863655424"
+    }
+   ]
+  },
+  {
+   "id": "tr-reg",
+   "group": "energy",
+   "market": "Türkiye",
+   "name": "Regulation watch",
+   "covers": "New energy rules from the Official Gazette and EPDK, explained in plain words.",
+   "source": "Resmî Gazete, EPDK",
+   "deadline": "23:30",
+   "deadline_utc": "2026-11-14T20:30:00Z",
+   "verdict": "none_today",
+   "note": "No new regulation today",
+   "published_at": null,
+   "url": null,
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": null,
+   "channel": "linkedin",
+   "commit": null,
+   "days": [
+    {
+     "date": "2026-11-08",
+     "verdict": "none_today",
+     "url": null
+    },
+    {
+     "date": "2026-11-09",
+     "verdict": "none_today",
+     "url": null
+    },
+    {
+     "date": "2026-11-10",
+     "verdict": "none_today",
+     "url": null
+    },
+    {
+     "date": "2026-11-11",
+     "verdict": "none_today",
+     "url": null
+    },
+    {
+     "date": "2026-11-12",
+     "verdict": "none_today",
+     "url": null
+    },
+    {
+     "date": "2026-11-13",
+     "verdict": "none_today",
+     "url": null
+    },
+    {
+     "date": "2026-11-14",
+     "verdict": "none_today",
+     "url": null
     }
    ]
   },
@@ -303,36 +454,17 @@
    "covers": "What happened in yesterday's Turkish power market: prices, the generation mix and what set the price.",
    "source": "EPİAŞ Transparency Platform",
    "deadline": "15:15",
-   "deadline_utc": "2026-11-10T12:15:00Z",
+   "deadline_utc": "2026-11-14T12:15:00Z",
    "verdict": "late",
-   "published_at": "2026-11-10T12:20:52.833939Z",
-   "url": "https://www.linkedin.com/feed/update/urn:li:share:7525895249571966979",
-   "review_attempt": 2,
-   "published_by": "AI Publishing Officer",
-   "delta_min": -39,
+   "note": null,
+   "published_at": "2026-11-14T13:34:20.994320Z",
+   "url": "https://www.linkedin.com/feed/update/urn:li:share:7527363290201714691",
+   "review_attempt": null,
+   "published_by": null,
+   "delta_min": 79,
    "channel": "linkedin",
    "commit": null,
    "days": [
-    {
-     "date": "2026-11-04",
-     "verdict": "late",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7523720772620566530"
-    },
-    {
-     "date": "2026-11-05",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524079918998155264"
-    },
-    {
-     "date": "2026-11-06",
-     "verdict": "late",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524444949610692609"
-    },
-    {
-     "date": "2026-11-07",
-     "verdict": "on_time",
-     "url": "https://www.linkedin.com/feed/update/urn:li:share:7524804548368973824"
-    },
     {
      "date": "2026-11-08",
      "verdict": "late",
@@ -347,16 +479,37 @@
      "date": "2026-11-10",
      "verdict": "late",
      "url": "https://www.linkedin.com/feed/update/urn:li:share:7525895249571966979"
+    },
+    {
+     "date": "2026-11-11",
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526258172249157632"
+    },
+    {
+     "date": "2026-11-12",
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526724669299908608"
+    },
+    {
+     "date": "2026-11-13",
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7526981961551278080"
+    },
+    {
+     "date": "2026-11-14",
+     "verdict": "late",
+     "url": "https://www.linkedin.com/feed/update/urn:li:share:7527363290201714691"
     }
    ]
   }
  ],
  "week": {
-  "on_time": 27,
-  "late": 5,
-  "missed": 2,
-  "overdue": 1,
+  "on_time": 26,
+  "late": 12,
+  "missed": 1,
+  "overdue": 0,
   "pending": 0,
-  "closed": 34
+  "none_today": 10,
+  "closed": 39
  }
 }
