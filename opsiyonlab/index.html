@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OpsiyonLab — Black-Scholes Ticaret ve Risk Optimizasyonu</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+:root{--bg:#0f1216;--card:#171b21;--line:#2a313b;--tx:#e6e9ee;--mut:#8b95a3;--acc:#4ea1ff;--pos:#2fbf71;--neg:#ef5350;--warn:#f0b429}
+@media (prefers-color-scheme:light){:root{--bg:#f5f6f8;--card:#fff;--line:#dfe3e8;--tx:#151a21;--mut:#5d6773;--acc:#1f6fd1}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:14px 16px 6px}h1{font-size:18px;margin:0}header p{margin:2px 0 0;color:var(--mut);font-size:12px}
+nav{display:flex;gap:6px;padding:8px 16px;overflow-x:auto;position:sticky;top:0;background:var(--bg);z-index:5;border-bottom:1px solid var(--line)}
+nav button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--tx);padding:7px 12px;border-radius:999px;cursor:pointer;font-size:13px}
+nav button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+main{padding:12px 16px 40px;max-width:1150px;margin:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.card h2{font-size:14px;margin:0 0 10px;color:var(--mut);font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px 10px}
+label{display:flex;flex-direction:column;font-size:11.5px;color:var(--mut);gap:3px}
+input,select{background:transparent;color:var(--tx);border:1px solid var(--line);border-radius:7px;padding:6px 7px;font-size:13px;width:100%;min-width:0}
+input[type=checkbox]{width:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:8px 10px}.kpi b{display:block;font-size:17px;font-variant-numeric:tabular-nums}.kpi span{font-size:11px;color:var(--mut)}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}th,td{padding:5px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}th{color:var(--mut);font-weight:600;font-size:11.5px}td:first-child,th:first-child{text-align:left}
+.tw{overflow-x:auto}.tw input,.tw select{padding:4px 5px;width:84px}
+.btn{border:1px solid var(--acc);background:var(--acc);color:#fff;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:13px}
+.btn.g{background:transparent;color:var(--acc)}.btn.x{border-color:var(--line);background:transparent;color:var(--mut);padding:3px 8px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.pos{color:var(--pos)}.neg{color:var(--neg)}.mut{color:var(--mut);font-size:12px}
+.tab{display:none}.tab.on{display:block}.plot{width:100%;height:320px}
+.heat td{font-size:12px}.note{font-size:12px;color:var(--mut);margin-top:6px}
+</style>
+</head>
+<body>
+<header>
+<h1>OpsiyonLab</h1>
+<p>Black-Scholes / Black-76 fiyatlama · Greeks · portföy riski · VaR · hedge optimizasyonu</p>
+</header>
+<nav id="nav">
+<button data-t="t-mkt" class="on">Piyasa</button><button data-t="t-price">Fiyatlama</button><button data-t="t-port">Portföy</button><button data-t="t-risk">Risk</button><button data-t="t-hedge">Hedge Optimizasyonu</button><button data-t="t-doc">Yöntem</button>
+</nav>
+<main>
+
+<!-- PİYASA -->
+<section id="t-mkt" class="tab on">
+<div class="card"><h2>Piyasa ve model parametreleri</h2>
+<div class="grid">
+<label>Model<select id="g_model"><option value="bs">Black-Scholes (spot, q)</option><option value="b76" selected>Black-76 (vadeli)</option></select></label>
+<label>Dayanak fiyatı (S / F)<input id="g_S" type="number" value="3000" step="any"></label>
+<label>Para birimi<input id="g_cur" value="TL"></label>
+<label>Miktar birimi<input id="g_qu" value="MWh"></label>
+<label>Çarpan (miktar birimi/lot)<input id="g_mult" type="number" value="1" step="any"></label>
+<label>Risksiz faiz r (%/yıl)<input id="g_r" type="number" value="35" step="any"></label>
+<label>Getiri/taşıma q (%/yıl, BS)<input id="g_q" type="number" value="0" step="any"></label>
+</div></div>
+<div class="card"><h2>Risk parametreleri</h2>
+<div class="grid">
+<label>Dayanak oynaklığı σ<sub>S</sub> (%/yıl)<input id="g_sigS" type="number" value="45" step="any"></label>
+<label>Vol şoku std (puan/gün)<input id="g_vsd" type="number" value="1.5" step="any"></label>
+<label>Spot–vol korelasyonu ρ (-1…1)<input id="g_rho" type="number" value="-0.4" step="0.05"></label>
+<label>Ufuk (gün)<input id="g_h" type="number" value="1" step="1"></label>
+<label>Güven düzeyi (%)<input id="g_conf" type="number" value="99" step="0.5"></label>
+<label>Monte Carlo yol sayısı (adet)<input id="g_N" type="number" value="5000" step="1000"></label>
+</div>
+<p class="note">Tüm sekmeler bu değerleri kullanır. Black-76 seçiliyken q = r alınır (vadeli fiyat üzerinden fiyatlama).</p></div>
+</section>
+
+<!-- FİYATLAMA -->
+<section id="t-price" class="tab">
+<div class="card"><h2>Tek opsiyon</h2>
+<div class="grid">
+<label>Tip<select id="p_t"><option value="C">Call (alım)</option><option value="P">Put (satım)</option></select></label>
+<label>Kullanım fiyatı K<input id="p_K" type="number" value="3200" step="any"></label>
+<label>Vade (gün)<input id="p_T" type="number" value="30" step="1"></label>
+<label>Zımni oynaklık σ (%/yıl)<input id="p_v" type="number" value="45" step="any"></label>
+</div>
+<div class="kpis" id="p_out" style="margin-top:10px"></div>
+<p class="note" id="p_par"></p></div>
+<div class="card"><h2>Zımni oynaklık çözücü</h2>
+<div class="grid"><label>Piyasa primi<input id="iv_px" type="number" value="150" step="any"></label></div>
+<div class="kpis" id="iv_out" style="margin-top:10px"></div></div>
+</section>
+
+<!-- PORTFÖY -->
+<section id="t-port" class="tab">
+<div class="card"><h2>Pozisyonlar</h2>
+<div class="row" style="margin-top:0"><span class="mut">Hazır yapı:</span>
+<button class="btn g" data-pre="strangle">Short strangle</button><button class="btn g" data-pre="collar">Collar</button><button class="btn g" data-pre="bull">Bull call spread</button><button class="btn g" data-pre="hedged">Delta-hedge'li short call</button></div>
+<div class="tw" style="margin-top:8px"><table id="pos_tb"></table></div>
+<div class="row"><button class="btn" id="pos_add">+ Bacak ekle</button></div>
+<p class="note">Miktar: + uzun, − kısa (lot). Giriş primi boşsa güncel model fiyatı kullanılır (bugünkü K/Z = 0).</p></div>
+<div class="card"><h2>Portföy Greeks</h2><div class="kpis" id="port_k"></div></div>
+<div class="card"><h2>Kâr/zarar profili</h2><div id="pl_payoff" class="plot"></div></div>
+<div class="card"><h2>Delta ve gamma — dayanak fiyatına göre</h2><div id="pl_greeks" class="plot"></div></div>
+</section>
+
+<!-- RİSK -->
+<section id="t-risk" class="tab">
+<div class="card"><h2>Riske maruz değer</h2><div class="kpis" id="var_k"></div><p class="note" id="var_n"></p></div>
+<div class="card"><h2>Monte Carlo K/Z dağılımı</h2><div id="pl_hist" class="plot"></div></div>
+<div class="card"><h2>Senaryo matrisi — K/Z (<span class="curl">TL</span>), ufuk sonunda</h2>
+<div class="tw"><table id="heat" class="heat"></table></div>
+<p class="note">Satır: vol şoku (puan). Sütun: dayanak değişimi (%). Tam yeniden fiyatlama, vade ufuk kadar kısaltılır.</p></div>
+<div class="card"><h2>Stres testleri</h2><div class="tw"><table id="stress"></table></div></div>
+</section>
+
+<!-- HEDGE -->
+<section id="t-hedge" class="tab">
+<div class="card"><h2>Hedge enstrümanları (adaylar)</h2>
+<div class="tw"><table id="hc_tb"></table></div>
+<div class="row"><button class="btn" id="hc_add">+ Aday ekle</button></div>
+<p class="note">Maliyet = yarım alış-satış farkı, primin %'si (dayanak için fiyatın %'si). Optimizasyon işlem maliyetini cezalandırır.</p></div>
+<div class="card"><h2>Hedefler</h2>
+<div class="grid">
+<label><span><input type="checkbox" id="h_d" checked> Delta nötr — ağırlık</span><input id="h_wd" type="number" value="1" step="any"></label>
+<label><span><input type="checkbox" id="h_g" checked> Gamma nötr — ağırlık</span><input id="h_wg" type="number" value="1" step="any"></label>
+<label><span><input type="checkbox" id="h_v" checked> Vega nötr — ağırlık</span><input id="h_wv" type="number" value="1" step="any"></label>
+<label>Maliyet cezası λ (birimsiz)<input id="h_lam" type="number" value="0.05" step="any"></label>
+<label>Lot adımı (lot)<input id="h_step" type="number" value="1" step="any"></label>
+</div>
+<div class="row"><button class="btn" id="h_run">Optimize et</button><button class="btn g" id="h_apply">Hedge'i portföye ekle</button></div></div>
+<div class="card"><h2>Önerilen hedge</h2><div class="tw"><table id="h_res"></table></div></div>
+<div class="card"><h2>Önce / sonra</h2><div class="tw"><table id="h_cmp"></table></div><p class="note" id="h_note"></p></div>
+</section>
+
+<!-- YÖNTEM -->
+<section id="t-doc" class="tab">
+<div class="card"><h2>Yöntem</h2>
+<p><b>Fiyatlama.</b> Black-Scholes-Merton: C = S·e<sup>−qT</sup>N(d₁) − K·e<sup>−rT</sup>N(d₂), P = K·e<sup>−rT</sup>N(−d₂) − S·e<sup>−qT</sup>N(−d₁); d₁ = [ln(S/K) + (r − q + σ²/2)T] / (σ√T), d₂ = d₁ − σ√T. Black-76 için S → F ve q = r.</p>
+<p><b>Greeks.</b> Δ (miktar birimi), Γ (Δ'nın 1 fiyat birimi değişimi), Vega (1 vol puanı başına para), Theta (gün başına para, 365 gün), Rho (1 faiz puanı başına para). Zımni oynaklık: Newton-Raphson, yakınsamazsa ikiye bölme.</p>
+<p><b>VaR.</b> (1) Delta-normal: |Δ·S|·σ<sub>S</sub>·√(h/365)·z<sub>α</sub>. (2) Monte Carlo tam yeniden fiyatlama: dayanak log-normal, vol şoku spot ile ρ korelasyonlu normal; vade ufuk kadar kısalır. ES = kuyruktaki ortalama kayıp. Rastgele tohum sabit (tekrarlanabilir).</p>
+<p><b>Hedge optimizasyonu.</b> Riskler para cinsine çevrilir: Δ·m, ½Γm², ν·s<sub>v</sub> (m = S·σ<sub>S</sub>/√365 günlük 1 std hareket, s<sub>v</sub> = günlük vol şoku std). Amaç: min Σ w<sub>k</sub>(g<sub>k</sub> + Σ H<sub>ki</sub>x<sub>i</sub>)² + λ Σ (c<sub>i</sub>x<sub>i</sub>)²; çözüm (HᵀWH + λC²)x = −HᵀWg. Sonuç lot adımına yuvarlanır.</p>
+<p><b>Sınırlar.</b> Sabit oynaklık varsayımı (smile/skew yok; her bacağa ayrı σ girilerek kısmen giderilir), Avrupa tipi kullanım, sürekli bileşik faiz, likidite ve teminat (margin) modellenmez.</p>
+</div></section>
+</main>
+
+<script id="core">
+// ===== Çekirdek matematik =====
+function ncdf(x){ // erfc Chebyshev yaklaşımı (Numerical Recipes), hata < 1.2e-7
+  const z=Math.abs(x)/Math.SQRT2,t=1/(1+0.5*z);
+  const ec=t*Math.exp(-z*z-1.26551223+t*(1.00002368+t*(0.37409196+t*(0.09678418+t*(-0.18628806+t*(0.27886807+t*(-1.13520398+t*(1.48851587+t*(-0.82215223+t*0.17087277)))))))));
+  return x>=0?1-ec/2:ec/2;
+}
+function npdf(x){return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI)}
+// bs: tip 'C'|'P', S, K, T(yıl), r, q (ondalık), s (ondalık), b76 bool
+function bs(t,S,K,T,r,q,s,b76){
+  if(b76) q=r;
+  if(T<=1e-10||s<=1e-8){
+    const iv=t==='C'?Math.max(S-K,0):Math.max(K-S,0);
+    const d=t==='C'?(S>K?1:0):(S<K?-1:0);
+    return {price:iv,delta:d,gamma:0,vega:0,theta:0,rho:0};
+  }
+  const sq=Math.sqrt(T),d1=(Math.log(S/K)+(r-q+s*s/2)*T)/(s*sq),d2=d1-s*sq;
+  const eq=Math.exp(-q*T),er=Math.exp(-r*T),nd1=npdf(d1);
+  let price,delta,theta,rho;
+  if(t==='C'){price=S*eq*ncdf(d1)-K*er*ncdf(d2);delta=eq*ncdf(d1);
+    theta=-S*eq*nd1*s/(2*sq)-r*K*er*ncdf(d2)+q*S*eq*ncdf(d1);rho=K*T*er*ncdf(d2);}
+  else{price=K*er*ncdf(-d2)-S*eq*ncdf(-d1);delta=-eq*ncdf(-d1);
+    theta=-S*eq*nd1*s/(2*sq)+r*K*er*ncdf(-d2)-q*S*eq*ncdf(-d1);rho=-K*T*er*ncdf(-d2);}
+  if(b76) rho=-T*price;
+  return {price,delta,gamma:eq*nd1/(S*s*sq),vega:S*eq*nd1*sq/100,theta:theta/365,rho:rho/100};
+}
+function impliedVol(t,px,S,K,T,r,q,b76){
+  const lo0=bs(t,S,K,T,r,q,1e-4,b76).price,hi0=bs(t,S,K,T,r,q,5,b76).price;
+  if(px<lo0-1e-9||px>hi0+1e-9) return NaN;
+  let s=0.5;
+  for(let i=0;i<50;i++){const o=bs(t,S,K,T,r,q,s,b76),v=o.vega*100,diff=o.price-px;
+    if(Math.abs(diff)<1e-8) return s; if(v<1e-10) break; const ns=s-diff/v; if(ns<=1e-4||ns>5) break; s=ns;}
+  let a=1e-4,b=5;
+  for(let i=0;i<200;i++){const m=(a+b)/2; if(bs(t,S,K,T,r,q,m,b76).price>px) b=m; else a=m; if(b-a<1e-9) break;}
+  return (a+b)/2;
+}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function solveLin(A,b){ // Gauss, kısmi pivot
+  const n=b.length,M=A.map((r,i)=>[...r,b[i]]);
+  for(let c=0;c<n;c++){let p=c;for(let r=c+1;r<n;r++) if(Math.abs(M[r][c])>Math.abs(M[p][c])) p=r;
+    [M[c],M[p]]=[M[p],M[c]]; if(Math.abs(M[c][c])<1e-300) return null;
+    for(let r=0;r<n;r++){if(r===c) continue;const f=M[r][c]/M[c][c];for(let k=c;k<=n;k++) M[r][k]-=f*M[c][k];}}
+  return M.map((r,i)=>r[n]/r[i]);
+}
+function zInv(p){ // Acklam ters normal
+  const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.357751867269,-30.66479806614716,2.506628277459239],
+  b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572],
+  c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],
+  d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416],pl=0.02425;
+  let q,r;
+  if(p<pl){q=Math.sqrt(-2*Math.log(p));return(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+  if(p>1-pl){q=Math.sqrt(-2*Math.log(1-p));return-(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+  q=p-0.5;r=q*q;return(((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+}
+</script>
+
+<script>
+const $=id=>document.getElementById(id);
+const G={};
+function readG(){
+  G.b76=$('g_model').value==='b76';G.S=+$('g_S').value;G.r=+$('g_r').value/100;G.q=+$('g_q').value/100;
+  G.cur=$('g_cur').value||'TL';G.qu=$('g_qu').value||'MWh';G.pu=G.cur+'/'+G.qu;G.mult=+$('g_mult').value||1;
+  G.sigS=+$('g_sigS').value/100;G.vsd=+$('g_vsd').value;G.rho=Math.max(-1,Math.min(1,+$('g_rho').value));
+  G.h=Math.max(0,+$('g_h').value);G.conf=Math.min(99.99,Math.max(50,+$('g_conf').value))/100;G.N=Math.min(50000,Math.max(500,+$('g_N').value|0));
+  document.querySelectorAll('.curl').forEach(e=>e.textContent=G.cur);
+}
+const f=(x,d=2)=>isFinite(x)?x.toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
+const cls=x=>x>0?'pos':x<0?'neg':'';
+const kpi=(v,u,l,c='')=>`<div class="kpi"><b class="${c}">${v} <small style="font-size:11px;font-weight:400">${u}</small></b><span>${l}</span></div>`;
+
+// ===== Pozisyonlar =====
+let pos=[],hc=[],lastHedge=null;
+const PRE={
+  strangle:S=>[{t:'C',K:r5(S*1.1),Td:30,v:45,qty:-10,entry:''},{t:'P',K:r5(S*0.9),Td:30,v:48,qty:-10,entry:''}],
+  collar:S=>[{t:'F',K:0,Td:0,v:0,qty:10,entry:''},{t:'P',K:r5(S*0.92),Td:60,v:47,qty:10,entry:''},{t:'C',K:r5(S*1.08),Td:60,v:43,qty:-10,entry:''}],
+  bull:S=>[{t:'C',K:r5(S),Td:45,v:45,qty:10,entry:''},{t:'C',K:r5(S*1.1),Td:45,v:43,qty:-10,entry:''}],
+  hedged:S=>[{t:'C',K:r5(S*1.05),Td:30,v:45,qty:-20,entry:''},{t:'F',K:0,Td:0,v:0,qty:8,entry:''}]
+};
+function r5(x){const st=x>=1000?50:x>=100?5:0.5;return Math.round(x/st)*st}
+function legPx(p,S,dv=0,dT=0){
+  if(p.t==='F') return {price:S,delta:1,gamma:0,vega:0,theta:0,rho:0};
+  return bs(p.t,S,+p.K,Math.max(0,(+p.Td-dT)/365),G.r,G.q,Math.max(0.0001,(+p.v+dv)/100),G.b76);
+}
+function pv(legs,S,dv=0,dT=0){let v=0;for(const p of legs) v+=(+p.qty)*G.mult*legPx(p,S,dv,dT).price;return v}
+function entryV(legs){let v=0;for(const p of legs){const e=p.entry===''||p.entry==null?legPx(p,G.S).price:+p.entry;v+=(+p.qty)*G.mult*e}return v}
+function greeks(legs,S=G.S){const g={delta:0,gamma:0,vega:0,theta:0,rho:0,value:0};
+  for(const p of legs){const o=legPx(p,S),m=(+p.qty)*G.mult;for(const k of ['delta','gamma','vega','theta','rho']) g[k]+=m*o[k];g.value+=m*o.price}return g}
+
+function legRow(arr,i,isH){
+  const p=arr[i],opt=['C','P','F'].map(t=>`<option value="${t}" ${p.t===t?'selected':''}>${t==='C'?'Call':t==='P'?'Put':'Dayanak'}</option>`).join('');
+  const dis=p.t==='F'?'disabled':'';
+  const last=isH?`<td><input type="number" step="any" data-k="cost" value="${p.cost}"></td><td><input type="checkbox" data-k="use" ${p.use?'checked':''}></td>`
+    :`<td><input type="number" step="any" data-k="qty" value="${p.qty}"></td><td><input type="number" step="any" data-k="entry" value="${p.entry}" placeholder="model"></td>`;
+  const px=legPx(p,G.S).price;
+  return `<tr data-i="${i}"><td><select data-k="t">${opt}</select></td><td><input type="number" step="any" data-k="K" value="${p.K}" ${dis}></td><td><input type="number" step="1" data-k="Td" value="${p.Td}" ${dis}></td><td><input type="number" step="any" data-k="v" value="${p.v}" ${dis}></td>${last}<td>${f(px)}</td><td><button class="btn x" data-del="${i}">✕</button></td></tr>`;
+}
+function drawTable(id,arr,isH){
+  const head=isH?'<th>Tip</th><th>K ('+G.pu+')</th><th>Vade (gün)</th><th>σ (%/yıl)</th><th>Maliyet (%)</th><th>Kullan</th><th>Fiyat ('+G.pu+')</th><th></th>'
+    :'<th>Tip</th><th>K ('+G.pu+')</th><th>Vade (gün)</th><th>σ (%/yıl)</th><th>Miktar (lot)</th><th>Giriş primi ('+G.pu+')</th><th>Model ('+G.pu+')</th><th></th>';
+  $(id).innerHTML='<tr>'+head+'</tr>'+arr.map((_,i)=>legRow(arr,i,isH)).join('');
+}
+function bindTable(id,getArr,isH,after){
+  $(id).addEventListener('change',e=>{const tr=e.target.closest('tr');if(!tr||tr.dataset.i==null) return;const arr=getArr(),p=arr[+tr.dataset.i],k=e.target.dataset.k;if(!k) return;
+    p[k]=e.target.type==='checkbox'?e.target.checked:e.target.value;if(k==='t'&&p.t==='F'){p.K=0;p.Td=0;p.v=0}
+    else if(k==='t'&&+p.Td===0){p.K=r5(G.S);p.Td=30;p.v=45}drawTable(id,arr,isH);after()});
+  $(id).addEventListener('click',e=>{const d=e.target.dataset.del;if(d==null) return;getArr().splice(+d,1);drawTable(id,getArr(),isH);after()});
+}
+
+// ===== Fiyatlama sekmesi =====
+function renderPrice(){
+  const t=$('p_t').value,K=+$('p_K').value,T=+$('p_T').value/365,s=+$('p_v').value/100;
+  const o=bs(t,G.S,K,T,G.r,G.q,s,G.b76),c=bs('C',G.S,K,T,G.r,G.q,s,G.b76),p=bs('P',G.S,K,T,G.r,G.q,s,G.b76);
+  $('p_out').innerHTML=kpi(f(o.price),G.pu,'Prim')+kpi(f(o.delta,4),'','Delta (birimsiz)')+kpi(f(o.gamma,6),'1/('+G.pu+')','Gamma')
+   +kpi(f(o.vega,3),G.pu+' / vol puanı','Vega')+kpi(f(o.theta,3),G.pu+' / gün','Theta')+kpi(f(o.rho,3),G.pu+' / faiz puanı','Rho');
+  const fwd=G.b76?G.S:G.S*Math.exp((G.r-G.q)*T),lhs=c.price-p.price,rhs=(fwd-K)*Math.exp(-G.r*T);
+  $('p_par').textContent=`Put-call paritesi: C − P = ${f(lhs,4)} ${G.pu} · (F − K)·e^(−rT) = ${f(rhs,4)} ${G.pu} · fark ${f(Math.abs(lhs-rhs),8)} ${G.pu}`;
+  const iv=impliedVol(t,+$('iv_px').value,G.S,K,T,G.r,G.q,G.b76);
+  $('iv_out').innerHTML=isNaN(iv)?kpi('—','','Prim arbitraj sınırı dışında')
+    :kpi(f(iv*100,3),'%/yıl','Zımni oynaklık')+kpi(f(bs(t,G.S,K,T,G.r,G.q,iv,G.b76).price,4),G.pu,'Kontrol: model primi');
+}
+
+// ===== Portföy sekmesi =====
+const PL_LAY=(xt,yt)=>({margin:{l:60,r:16,t:10,b:44},paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',
+  font:{color:getComputedStyle(document.body).color,size:11},xaxis:{title:xt,gridcolor:'rgba(128,128,128,.2)'},yaxis:{title:yt,gridcolor:'rgba(128,128,128,.2)',zerolinecolor:'rgba(128,128,128,.6)'},legend:{orientation:'h',y:1.12},hovermode:'x unified'});
+const PCFG={displayModeBar:false,responsive:true};
+function renderPort(){
+  const g=greeks(pos),E=entryV(pos);
+  $('port_k').innerHTML=kpi(f(g.value),G.cur,'Piyasa değeri')+kpi(f(g.value-E),G.cur,'Anlık K/Z',cls(g.value-E))
+   +kpi(f(g.delta,2),G.qu,'Delta')+kpi(f(g.delta*G.S),G.cur,'Delta (para)')+kpi(f(g.gamma,4),G.qu+' / ('+G.pu+')','Gamma')
+   +kpi(f(0.5*g.gamma*(G.S*0.01)**2),G.cur,'Gamma K/Z, %1 hareket')+kpi(f(g.vega),G.cur+' / vol puanı','Vega')
+   +kpi(f(g.theta),G.cur+' / gün','Theta',cls(g.theta))+kpi(f(g.rho),G.cur+' / faiz puanı','Rho');
+  if(typeof Plotly==='undefined') return;
+  const xs=[],a=[],b=[],dd=[],gg=[];
+  for(let i=0;i<=120;i++){const S=G.S*(0.6+0.8*i/120);xs.push(S);a.push(pv(pos,S)-E);
+    const maxT=Math.max(0,...pos.filter(p=>p.t!=='F').map(p=>+p.Td));b.push(pv(pos,S,0,maxT)-E);const gs=greeks(pos,S);dd.push(gs.delta);gg.push(gs.gamma)}
+  Plotly.react('pl_payoff',[{x:xs,y:a,name:'Bugün',line:{color:'#4ea1ff'}},{x:xs,y:b,name:'Son vadede',line:{color:'#f0b429',dash:'dot'}},
+    {x:[G.S,G.S],y:[Math.min(...a,...b),Math.max(...a,...b)],name:'Güncel fiyat',mode:'lines',line:{color:'#8b95a3',width:1}}],
+    PL_LAY('Dayanak fiyatı ('+G.pu+')','K/Z ('+G.cur+')'),PCFG);
+  Plotly.react('pl_greeks',[{x:xs,y:dd,name:'Delta ('+G.qu+')',line:{color:'#2fbf71'}},{x:xs,y:gg,name:'Gamma ('+G.qu+'/('+G.pu+'))',yaxis:'y2',line:{color:'#ef5350'}}],
+    Object.assign(PL_LAY('Dayanak fiyatı ('+G.pu+')','Delta ('+G.qu+')'),{yaxis2:{overlaying:'y',side:'right',title:'Gamma',showgrid:false}}),PCFG);
+}
+
+// ===== Risk sekmesi =====
+function mcPnL(legs){
+  const R=rng(20261117),N=G.N,ht=G.h/365,sd=G.sigS*Math.sqrt(ht),vs=G.vsd*Math.sqrt(G.h),V0=pv(legs,G.S),out=new Float64Array(N);
+  const rc=Math.sqrt(1-G.rho*G.rho);
+  for(let i=0;i<N;i++){const u1=Math.max(R(),1e-12),u2=R(),rr=Math.sqrt(-2*Math.log(u1)),z1=rr*Math.cos(2*Math.PI*u2),z2=rr*Math.sin(2*Math.PI*u2);
+    const S=G.S*Math.exp(-0.5*sd*sd+sd*z1),dv=vs*(G.rho*z1+rc*z2);out[i]=pv(legs,S,dv,G.h)-V0}
+  return out;
+}
+function varStats(arr){const s=Array.from(arr).sort((a,b)=>a-b),k=Math.max(1,Math.floor((1-G.conf)*s.length));
+  let es=0;for(let i=0;i<k;i++) es+=s[i];return {VaR:-s[k-1],ES:-es/k,mean:s.reduce((a,b)=>a+b,0)/s.length,sorted:s}}
+function renderRisk(){
+  const g=greeks(pos),z=zInv(G.conf),dn=Math.abs(g.delta*G.S)*G.sigS*Math.sqrt(G.h/365)*z;
+  const st=varStats(mcPnL(pos));
+  $('var_k').innerHTML=kpi(f(dn),G.cur,'Delta-normal VaR')+kpi(f(st.VaR),G.cur,'Monte Carlo VaR')+kpi(f(st.ES),G.cur,'Beklenen kayıp (ES)')+kpi(f(st.mean),G.cur,'Ortalama K/Z (theta dahil)',cls(st.mean));
+  $('var_n').textContent=`Güven %${f(G.conf*100,1)}, ufuk ${G.h} gün, ${G.N.toLocaleString('tr-TR')} yol. Delta-normal ile MC arasındaki fark ${f(st.VaR-dn)} ${G.cur}: gamma/vega (doğrusal olmayan) riskin ölçüsü.`;
+  if(typeof Plotly!=='undefined') Plotly.react('pl_hist',[{x:st.sorted,type:'histogram',nbinsx:60,marker:{color:'#4ea1ff'},name:'K/Z'},
+    {x:[-st.VaR,-st.VaR],y:[0,G.N/12],mode:'lines',line:{color:'#ef5350',dash:'dash'},name:'VaR'}],
+    Object.assign(PL_LAY('K/Z ('+G.cur+')','Yol sayısı (adet)'),{hovermode:'closest',bargap:0.02}),PCFG);
+  const sp=[-20,-10,-5,-2,0,2,5,10,20],vv=[10,5,0,-5,-10],V0=pv(pos,G.S),grid=vv.map(dv=>sp.map(s=>pv(pos,G.S*(1+s/100),dv,G.h)-V0));
+  const mx=Math.max(1e-9,...grid.flat().map(Math.abs));
+  $('heat').innerHTML='<tr><th>Vol \\ Spot</th>'+sp.map(s=>`<th>${s>0?'+':''}${s}%</th>`).join('')+'</tr>'+grid.map((row,i)=>`<tr><th>${vv[i]>0?'+':''}${vv[i]} puan</th>`+row.map(v=>{const a=Math.min(1,Math.abs(v)/mx)*0.55;
+    return `<td style="background:${v>=0?`rgba(47,191,113,${a})`:`rgba(239,83,80,${a})`}">${f(v,0)}</td>`}).join('')+'</tr>').join('');
+  const SC=[['Çöküş: spot −20%, vol +15 puan',-20,15],['Sert düşüş: spot −10%, vol +8 puan',-10,8],['Ralli: spot +15%, vol +5 puan',15,5],['Sakinleşme: spot 0%, vol −8 puan',0,-8],['Vol patlaması: spot 0%, vol +15 puan',0,15],['Spike: spot +30%, vol +20 puan',30,20]];
+  $('stress').innerHTML='<tr><th>Senaryo</th><th>K/Z ('+G.cur+')</th><th>Delta sonrası ('+G.qu+')</th></tr>'+SC.map(([n,s,v])=>{const S=G.S*(1+s/100),pl=pv(pos,S,v,G.h)-V0;
+    let d=0;for(const p of pos) d+=(+p.qty)*G.mult*legPx(p,S,v,G.h).delta;return `<tr><td>${n}</td><td class="${cls(pl)}">${f(pl)}</td><td>${f(d)}</td></tr>`}).join('');
+}
+
+// ===== Hedge optimizasyonu =====
+function riskVec(o,m,mScale,vScale){return [o.delta*m*mScale,0.5*o.gamma*m*mScale*mScale,o.vega*m*vScale]}
+function optimize(){
+  const mS=G.S*G.sigS/Math.sqrt(365),vS=G.vsd,g=greeks(pos),gp=[g.delta*mS,0.5*g.gamma*mS*mS,g.vega*vS];
+  const w=[$('h_d').checked?+$('h_wd').value:0,$('h_g').checked?+$('h_wg').value:0,$('h_v').checked?+$('h_wv').value:0];
+  const lam=+$('h_lam').value,step=+$('h_step').value||1,use=hc.filter(c=>c.use);
+  if(!use.length){$('h_res').innerHTML='<tr><td>En az bir aday seçin.</td></tr>';return}
+  const H=use.map(c=>riskVec(legPx(c,G.S),G.mult,mS,vS)),cost=use.map(c=>legPx(c,G.S).price*G.mult*(+c.cost)/100),n=use.length;
+  const A=[...Array(n)].map((_,i)=>[...Array(n)].map((_,j)=>{let s=0;for(let k=0;k<3;k++) s+=H[i][k]*w[k]*H[j][k];return s+(i===j?lam*cost[i]*cost[i]+1e-9*(1+Math.abs(s)):0)}));
+  const b=[...Array(n)].map((_,i)=>{let s=0;for(let k=0;k<3;k++) s-=H[i][k]*w[k]*gp[k];return s});
+  let x=solveLin(A,b);if(!x){$('h_res').innerHTML='<tr><td>Çözüm bulunamadı (tekil sistem).</td></tr>';return}
+  x=x.map(v=>Math.round(v/step)*step);
+  const legs=use.map((c,i)=>({t:c.t,K:c.K,Td:c.Td,v:c.v,qty:x[i],entry:''})).filter(l=>Math.abs(l.qty)>1e-12);
+  lastHedge=legs;
+  let tc=0,prem=0;
+  $('h_res').innerHTML='<tr><th>Enstrüman</th><th>Miktar (lot)</th><th>Fiyat ('+G.pu+')</th><th>Prim akışı ('+G.cur+')</th><th>İşlem maliyeti ('+G.cur+')</th></tr>'+use.map((c,i)=>{
+    const px=legPx(c,G.S).price,pf=(c.t==='F'&&G.b76)?0:-x[i]*px*G.mult,t=Math.abs(x[i])*cost[i];tc+=t;prem+=pf;
+    return `<tr><td>${c.t==='F'?'Dayanak':(c.t==='C'?'Call ':'Put ')+f(+c.K,0)+' · '+c.Td+' gün'}</td><td class="${cls(x[i])}">${f(x[i],2)}</td><td>${f(px)}</td><td class="${cls(pf)}">${f(pf)}</td><td>${f(t)}</td></tr>`}).join('')
+    +`<tr><th>Toplam</th><th></th><th></th><th>${f(prem)}</th><th>${f(tc)}</th></tr>`;
+  const after=pos.concat(legs),g2=greeks(after),s1=varStats(mcPnL(pos)),s2=varStats(mcPnL(after));
+  const rows=[['Delta',g.delta,g2.delta,G.qu],['Gamma',g.gamma,g2.gamma,G.qu+'/('+G.pu+')'],['Vega',g.vega,g2.vega,G.cur+'/vol puanı'],['Theta',g.theta,g2.theta,G.cur+'/gün'],
+    ['MC VaR',s1.VaR,s2.VaR,G.cur],['Beklenen kayıp (ES)',s1.ES,s2.ES,G.cur]];
+  $('h_cmp').innerHTML='<tr><th>Ölçü</th><th>Önce</th><th>Sonra</th><th>Birim</th></tr>'+rows.map(r=>`<tr><td>${r[0]}</td><td>${f(r[1],r[0]==='Gamma'?5:2)}</td><td>${f(r[2],r[0]==='Gamma'?5:2)}</td><td class="mut">${r[3]}</td></tr>`).join('');
+  const red=s1.VaR>0?(1-s2.VaR/s1.VaR)*100:0;
+  $('h_note').textContent=`VaR azalışı %${f(red,1)} · işlem maliyeti ${f(tc)} ${G.cur} · 1 ${G.cur} maliyet başına VaR azalışı ${f(tc>0?(s1.VaR-s2.VaR)/tc:NaN)} ${G.cur}. λ yükseldikçe pahalı enstrümanlardan kaçınır, artık risk artar.`;
+}
+
+// ===== Akış =====
+function all(){readG();drawTable('pos_tb',pos,false);drawTable('hc_tb',hc,true);renderPrice();renderPort();renderRisk();if(lastHedge!==null) optimize()}
+function soft(){readG();renderPort();renderRisk();if(lastHedge!==null) optimize()}
+document.querySelectorAll('#t-mkt input,#t-mkt select').forEach(e=>e.addEventListener('change',all));
+document.querySelectorAll('#t-price input,#t-price select').forEach(e=>e.addEventListener('input',renderPrice));
+$('nav').addEventListener('click',e=>{const t=e.target.dataset.t;if(!t) return;document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b===e.target));
+  document.querySelectorAll('.tab').forEach(s=>s.classList.toggle('on',s.id===t));if(typeof Plotly!=='undefined') setTimeout(()=>document.querySelectorAll('#'+t+' .plot').forEach(p=>Plotly.Plots.resize(p)),30)});
+document.querySelectorAll('[data-pre]').forEach(b=>b.addEventListener('click',()=>{readG();pos=PRE[b.dataset.pre](G.S);lastHedge=null;all()}));
+$('pos_add').onclick=()=>{pos.push({t:'C',K:r5(G.S),Td:30,v:45,qty:1,entry:''});all()};
+$('hc_add').onclick=()=>{hc.push({t:'P',K:r5(G.S*0.95),Td:30,v:46,cost:2,use:true});all()};
+bindTable('pos_tb',()=>pos,false,soft);bindTable('hc_tb',()=>hc,true,()=>{if(lastHedge!==null) optimize()});
+['h_d','h_g','h_v','h_wd','h_wg','h_wv','h_lam','h_step'].forEach(id=>$(id).addEventListener('change',()=>{if(lastHedge!==null) optimize()}));
+$('h_run').onclick=()=>{readG();optimize()};
+$('h_apply').onclick=()=>{if(!lastHedge||!lastHedge.length) return;pos=pos.concat(lastHedge);lastHedge=null;$('h_res').innerHTML='';$('h_cmp').innerHTML='';$('h_note').textContent='Hedge portföye eklendi.';all()};
+readG();
+pos=PRE.strangle(G.S);
+hc=[{t:'F',K:0,Td:0,v:0,cost:0.05,use:true},{t:'C',K:r5(G.S),Td:30,v:45,cost:2,use:true},{t:'P',K:r5(G.S*0.9),Td:60,v:48,cost:3,use:true}];
+all();
+</script>
+</body>
+</html>
