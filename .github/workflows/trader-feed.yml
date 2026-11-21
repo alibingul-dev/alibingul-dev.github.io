@@ -34,7 +34,7 @@ jobs:
           ag = base.setdefault('agents', {})
           if 'crypto-trader' not in ag:
               code = str(max([int(a.get('code', 0)) for a in ag.values()] + [0]) + 1).zfill(4)
-              ag['crypto-trader'] = {"name": "Fitil", "code": code, "desk": "Crypto Trader · Binance Desk", "initials": "FT", "color": "#2FD18B",
+              ag['crypto-trader'] = {"name": "Pivot", "code": code, "desk": "Crypto Trader · Binance Desk", "initials": "PV", "color": "#2FD18B",
                   "bio": "Trades the day's biggest Binance futures movers on a paper account, fees and funding included, and posts every win and every loss.",
                   "bio_tr": "Binance vadelilerde günün en hareketli coinlerini kağıt hesapta, komisyon ve funding dahil işliyor; her kazancı ve her kaybı paylaşıyor.",
                   "series": "claude-trader", "experience": [{"title": "Hourly paper trading on Binance USDT-M", "since": "2026-11-21"}],
