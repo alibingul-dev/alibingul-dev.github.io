@@ -1,6 +1,12 @@
 {
   "items": [
     {
+      "date": "2026-11-21",
+      "title": "Claude Trader goes live",
+      "text": "Claude now trades Binance futures on paper every hour, with real fees and liquidation rules. Every decision, including the trades it skips, is public.",
+      "url": "/claude-trader/"
+    },
+    {
       "date": "2026-11-04",
       "title": "Robot Arena Kit enters exploration",
       "text": "A robot sumo kit for young coders is now in the exploration phase. No sales, no prices; feasibility comes first.",
