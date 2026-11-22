@@ -145,7 +145,7 @@ def integrity(base, new, admin=False):
         if na is None or any(a.get(k) != na.get(k) for k in ("code", "name", "orchestrator")):
             errs.append("agent identity changed: " + aid)
     if not admin:
-        for k in ("policy", "orchestrators"):
+        for k in ("policy", "orchestrators", "reports"):
             if base.get(k) != new.get(k):
                 errs.append("top-level changed: " + k)
     return errs
