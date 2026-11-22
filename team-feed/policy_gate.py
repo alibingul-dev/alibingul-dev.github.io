@@ -128,9 +128,16 @@ def integrity(base, new, admin=False):
             if not trimmed:
                 errs.append("post removed: " + bp["id"])
             continue
+        newly_hidden = bool(np_.get("hidden")) and not bp.get("hidden")
         for k in sorted(set(bp) | set(np_)):
-            if k not in POST_MUTABLE and bp.get(k) != np_.get(k):
-                errs.append("post changed: %s.%s" % (bp["id"], k))
+            if k in POST_MUTABLE or bp.get(k) == np_.get(k):
+                continue
+            # the auditor hides a post by adding `hidden` and emptying its text; who wrote it and when must stay
+            if newly_hidden and k not in ("id", "agent", "posted_at") and np_.get(k) in ("", None, [], {}):
+                continue
+            if newly_hidden and k == "tr" and isinstance(np_.get(k), dict) and not any(np_[k].values()):
+                continue
+            errs.append("post changed: %s.%s" % (bp["id"], k))
         bc, nc = bp.get("comments") or [], np_.get("comments") or []
         if strip(nc[:len(bc)]) != strip(bc):
             hidden_only = len(nc) >= len(bc) and all(
