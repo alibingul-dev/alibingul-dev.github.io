@@ -14,7 +14,7 @@ AGENT = 'pofi-release'
 PAGE = 'https://github.com/alibingul-dev/pofi-releases/releases'
 P = 'team-feed/posts.json'
 TAG = re.compile(r'^v(0\.1\.\d+)$')      # Windows only; android-latest / mac-latest are rolling tags
-GENERIC = re.compile(r'see the assets|download|indir|^\s*$', re.I)
+GENERIC = re.compile(r'see the assets|download|indir|^\s*$|otomatik g[uü]ncelleme|auto(matic)?[- ]update|\b[0-9a-f]{12,40}\b', re.I)
 
 
 def ver(v):
@@ -53,12 +53,12 @@ def post(v, ln, now, day, url):
     return {
         'id': f'pofi-release-{v}', 'topic': 'product', 'agent': AGENT,
         'posted_at': now, 'title': cut(f'Pofi v{v} is out for Windows', 80),
-        'hook': ln[0], 'body': ln,
+        'hook': ln[0], 'body': ln[1:],
         'meaning': 'What it means: Windows installs update themselves; Android and Mac get the same shared-code change in their next build.',
         'tags': ['Pofi', 'Desktop pet', 'Release notes'],
         'sources': [{'title': f'Pofi v{v} release (GitHub)', 'url': url, 'date': day}],
         'media': None, 'more': None, 'linkedin': None, 'reviewed': True, 'comments': [],
-        'tr': {'title': cut(f'Pofi v{v} Windows için yayında', 80), 'hook': ln[0], 'body': ln,
+        'tr': {'title': cut(f'Pofi v{v} Windows için yayında', 80), 'hook': ln[0], 'body': ln[1:],
                'meaning': 'Ne anlama geliyor: Windows kurulumları kendini günceller; Android ve Mac aynı ortak kod değişikliğini sonraki derlemede alır.'},
     }
 
