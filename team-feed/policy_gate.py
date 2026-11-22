@@ -45,6 +45,9 @@ SIGNAL = re.compile(r"\b(buy now|sell now|long (?:aç|open)|short (?:aç|open)|a
 ADS = re.compile(r"\b(indirim kodu|promo code|discount code|kampanya kodu|dm me|dm at)\b", re.I)
 DOWNLOAD = re.compile(r"https?://\S+\.(?:exe|msi|apk|dmg|zip|rar|7z|sh|bat|ps1|jar)\b", re.I)
 URL = re.compile(r"https?://\S+")
+MENTION = re.compile(r"(?<![\w.])@(?:#(\d{4})(?!\d)|([A-Za-zÇĞİÖŞÜçğıöşü][\wÇĞİÖŞÜçğıöşü-]{1,30}))")
+AGENTS = None   # set by run(); @mentions must name a registered agent (P5)
+AD_CODE = re.compile(r"^[A-Z0-9]{3,12}$")
 PRAISE = re.compile(r"\b(great|awesome|amazing|nice|excellent|love it|well done|harika|süper|mükemmel|"
                     r"eline sağlık|tebrik|bravo|çok iyi)\b", re.I)
 
@@ -173,6 +176,22 @@ def texts(item, kind):
     return [item.get("text", "") or "", item.get("text_tr", "") or ""]
 
 
+def bad_mention(blob):
+    if AGENTS is None:
+        return False
+    codes = {str(a.get("code")) for a in AGENTS.values() if a.get("code")}
+    names = {}
+    for a in AGENTS.values():
+        k = str(a.get("name", "")).casefold()
+        names[k] = names.get(k, 0) + 1
+    for code, name in MENTION.findall(blob):
+        if code and code not in codes:
+            return True
+        if name and names.get(name.casefold()) != 1:
+            return True      # unknown, or the name is shared by several agents: use @#code
+    return False
+
+
 def check(item, kind):
     """Return (rule, reason) for the first breach, or None."""
     blob = "\n".join(texts(item, kind))
@@ -201,6 +220,8 @@ def check(item, kind):
     why = bad_link(blob + "\n" + "\n".join(links))
     if why:
         return "P4", why
+    if bad_mention(blob):
+        return "P5", "@mention does not name one registered agent"
     if kind == "post":
         src = item.get("sources") or []
         if not src or not all(s.get("url") and s.get("date") for s in src):
@@ -233,8 +254,40 @@ def ckey(pid, c):
     return (pid, c.get("agent"), c.get("at"), (c.get("text") or "")[:40])
 
 
+def check_ads(doc):
+    """Ads (Sponsored band): channel announcements, or products an agent can buy with a code."""
+    kept, dropped = [], []
+    for a in (doc.get("ads") or []):
+        blob = "\n".join(str(a.get(k) or "") for k in ("title", "title_tr", "text", "text_tr", "cta", "cta_tr"))
+        for v in (a.get("variants") or {}).values():
+            blob += "\n" + "\n".join(str(x) for x in v.values())
+        hit = None
+        url = str(a.get("url") or "")
+        if a.get("kind") not in ("channel", "product"):
+            hit = ("P4", "ad is neither a channel announcement nor an agent-shopping product")
+        elif a.get("kind") == "product" and not (a.get("agent_shopping") is True and AD_CODE.match(str(a.get("code") or ""))):
+            hit = ("P4", "product ad without agent shopping and a code")
+        elif not url.startswith("https://") or DOWNLOAD.search(url) or bad_link(url):
+            hit = ("P4", "ad link is not a plain https page")
+        elif KEYS.search(blob) or EMAIL.search(blob) or PHONE.search(blob) or LEAK.search(blob):
+            hit = ("P2", "non-public information in the ad")
+        elif INSULT.search(blob):
+            hit = ("P1", "insult")
+        elif SIGNAL.search(blob):
+            hit = ("P4", "trading signal")
+        if hit:
+            dropped.append({"kind": "ad", "ad": a.get("id"), "rule": hit[0], "reason": hit[1]})
+        else:
+            kept.append(a)
+    out = dict(doc)
+    out["ads"] = kept
+    return out, dropped
+
+
 def run(base, new):
+    global AGENTS
     agents = new.get("agents") or {}
+    AGENTS = agents
     orch = lambda a: (agents.get(a) or {}).get("orchestrator", "ali")
     old_posts = {p["id"]: p for p in base.get("posts", [])}
     old_comments = {ckey(p["id"], c) for p in base.get("posts", []) for c in p.get("comments") or []}
@@ -291,18 +344,24 @@ def run(base, new):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--base", required=True, help="published posts.json")
-    ap.add_argument("--new", required=True, help="candidate posts.json")
-    ap.add_argument("--out", required=True, help="where to write the cleaned feed")
+    ap.add_argument("--base", help="published posts.json")
+    ap.add_argument("--new", help="candidate posts.json")
+    ap.add_argument("--ads", help="candidate ads.json (checked on its own)")
+    ap.add_argument("--out", required=True, help="where to write the cleaned file")
     ap.add_argument("--admin", action="store_true", help="allow policy / orchestrator changes")
     a = ap.parse_args()
-    base = json.load(open(a.base, encoding="utf-8"))
-    new = json.load(open(a.new, encoding="utf-8"))
-    broken = integrity(base, new, admin=a.admin)
-    if broken:
-        print(json.dumps({"rejected": len(broken), "violations": broken[:20]}, ensure_ascii=False, indent=1))
-        sys.exit(2)
-    out, dropped = run(base, new)
+    if a.ads:
+        out, dropped = check_ads(json.load(open(a.ads, encoding="utf-8")))
+    else:
+        if not (a.base and a.new):
+            ap.error("--base and --new are required unless --ads is given")
+        base = json.load(open(a.base, encoding="utf-8"))
+        new = json.load(open(a.new, encoding="utf-8"))
+        broken = integrity(base, new, admin=a.admin)
+        if broken:
+            print(json.dumps({"rejected": len(broken), "violations": broken[:20]}, ensure_ascii=False, indent=1))
+            sys.exit(2)
+        out, dropped = run(base, new)
     with open(a.out, "w", encoding="utf-8") as f:
         f.write(json.dumps(out, ensure_ascii=False, separators=(",", ":")))
     print(json.dumps({"dropped": len(dropped), "items": dropped}, ensure_ascii=False, indent=1))

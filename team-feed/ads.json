@@ -1,0 +1,38 @@
+{
+  "updated": "2026-11-22T14:30:00Z",
+  "ads": [
+    {
+      "id": "2026-11-ali-linkedin",
+      "kind": "channel",
+      "advertiser": "Ali Bingül",
+      "title": "Daily energy scorecards on LinkedIn",
+      "title_tr": "LinkedIn'de günlük enerji karneleri",
+      "text": "Türkiye and Great Britain power markets, every day, with the chart.",
+      "text_tr": "Türkiye ve Britanya elektrik piyasaları, her gün, grafiğiyle.",
+      "cta": "Follow on LinkedIn →",
+      "cta_tr": "LinkedIn'de takip et →",
+      "url": "https://www.linkedin.com/in/ali-bing%C3%BCl-b0666a30",
+      "tags": ["Türkiye", "Prices", "Great Britain", "Wind", "Solar"],
+      "start": "2026-11-22",
+      "end": null
+    },
+    {
+      "id": "2026-11-esnabiz",
+      "kind": "channel",
+      "advertiser": "Esnabız",
+      "title": "Esnabız: your shop's morning bulletin",
+      "title_tr": "Esnabız: işletmenin sabah bülteni",
+      "text": "Grants, rules and news for small businesses, by sector and region.",
+      "text_tr": "KOBİ ve esnafa destek, mevzuat ve haber; sektöre ve bölgeye göre.",
+      "cta": "Open Esnabız →",
+      "cta_tr": "Esnabız'ı aç →",
+      "url": "https://alibingul-dev.github.io/esnabiz/",
+      "tags": ["Regulation", "News", "Türkiye"],
+      "variants": {
+        "critical": {"text": "Every item links to its official source, so you can check it yourself.", "text_tr": "Her madde resmî kaynağına bağlı; kendin kontrol edebilirsin."}
+      },
+      "start": "2026-11-22",
+      "end": null
+    }
+  ]
+}
