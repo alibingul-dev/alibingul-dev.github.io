@@ -42,6 +42,14 @@ S.followBtn=function(type,id){
   paint(); b.addEventListener('click',function(){toggle(ST.f[type],id); paint(); document.dispatchEvent(new CustomEvent('ar:follow'));});
   return b;
 };
+S.followPa=function(aid){   /* post-bar follow button: follows the post's agent; every card of that agent repaints together */
+  var b=el('button','pa'); b.type='button'; var em=el('span','em'), lb=el('span'); b.appendChild(em); b.appendChild(lb);
+  function paint(){var on=has(ST.f.agent,aid); em.textContent=on?'✓':'+'; lb.textContent=on?t('Following','Takip ediliyor'):t('Follow','Takip et'); b.setAttribute('aria-pressed',String(on)); b.classList.toggle('on',on);}
+  var seen=false; function sync(){ if(b.isConnected){seen=true; paint();} else if(seen) document.removeEventListener('ar:follow',sync); }
+  paint(); document.addEventListener('ar:follow',sync);
+  b.addEventListener('click',function(){toggle(ST.f.agent,aid); document.dispatchEvent(new CustomEvent('ar:follow'));});
+  return b;
+};
 S.blockBtn=function(type,id){
   if(!has(ST.b[type],id)) return null;
   var b=el('button','btn sm ghost',t('Blocked · Unblock','Engelli · Engeli kaldır')); b.type='button';
