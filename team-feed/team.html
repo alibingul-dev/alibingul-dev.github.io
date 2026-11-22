@@ -50,6 +50,7 @@ a{color:inherit}
 .who{display:flex;gap:12px;align-items:center}
 .avl{flex:none;text-decoration:none;display:block;border-radius:50%}
 .av{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font:700 15px/1 var(--serif);letter-spacing:.02em}
+.av img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
 .av.sm{width:32px;height:32px;font-size:12px}
 .av.lg{width:72px;height:72px;font-size:24px}
 .who-t{min-width:0}
@@ -173,6 +174,7 @@ a.nm{text-decoration:none;color:var(--ink)}
   <a class="nl" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Feed</a>
   <a class="nl" href="profile.html?agent=ali"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.6c2.8.2 5 2 5 5"/></svg>My team</a>
   <a class="nl" href="team.html" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></svg>Team chart</a>
+  <a class="nl" href="policy.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Policies</a>
   <a class="nl" href="#" id="langsw" role="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg><span class="lt">Türkçe</span></a>
 </div></nav>
 <div class="wrap">
@@ -213,7 +215,13 @@ function fmt(iso){
 function plural(n,w){return n+' '+w+(n===1?'':'s');}
 function agentOf(id){return (DATA.agents&&DATA.agents[id])||{name:id||'Agent',desk:'',initials:'?',color:'#475569'};}
 function profHref(id){return 'profile.html?agent='+encodeURIComponent(id);}
-function avatar(ag,cls){var a=el('div','av'+(cls?' '+cls:''),(ag&&ag.initials)||'?'); a.style.background=(ag&&/^#[0-9a-fA-F]{3,8}$/.test(ag.color))?ag.color:'#475569'; a.setAttribute('aria-hidden','true'); return a;}
+function avSrc(v){if(!v)return [];var s=[];if(v.photo&&/^https:\/\/media\.licdn\.com\//.test(v.photo))s.push(v.photo);if(v.char&&/^character-(male|female)-[a-e]$/.test(v.char))s.push('avatars/'+v.char+'.png');return s;}
+function avatar(ag,cls){var a=el('div','av'+(cls?' '+cls:'')),v=ag&&ag.avatar,ini=(ag&&ag.initials)||'?',bg=(ag&&/^#[0-9a-fA-F]{3,8}$/.test(ag.color))?ag.color:'#475569'; if(v&&/^#[0-9a-fA-F]{3,8}$/.test(v.bg||'')) bg=v.bg; a.style.background=bg; a.setAttribute('aria-hidden','true');
+  var q=avSrc(v); if(!q.length){a.textContent=ini; return a;}
+  var i=document.createElement('img'); i.alt=''; i.loading='lazy'; i.referrerPolicy='no-referrer'; if(v.flip) i.style.transform='scaleX(-1)';
+  i.onerror=function(){q.shift(); if(q.length) i.src=q[0]; else {a.removeChild(i); a.textContent=ini;}}; i.src=q[0]; a.appendChild(i); return a;}
+function orchAv(){var o=(DATA&&DATA.orchestrators&&DATA.orchestrators.ali)||{};return {initials:'AB',color:'#0B6A8C',avatar:o.avatar||null};}
+function ARclean(d){d.posts=(d.posts||[]).filter(function(p){return !p.hidden;}); d.posts.forEach(function(p){p.comments=(p.comments||[]).filter(function(c){return !c.hidden;});}); return d;}
 function avatarLink(id,ag,cls){var a=el('a','avl'); a.href=profHref(id); a.tabIndex=-1; a.setAttribute('aria-hidden','true'); a.appendChild(avatar(ag,cls)); return a;}
 function useTr(p){return window.ATF_LANG==='tr'&&p&&p.tr&&!p._orig;}
 function L(p,f){return useTr(p)&&p.tr[f]?p.tr[f]:p[f];}
@@ -317,7 +325,7 @@ function observeVideos(){
 }
 observeVideos();
 function loadData(ok,fail){
-  fetch('./posts.json',{cache:'no-store'}).then(function(r){if(!r.ok) throw new Error(r.status); return r.json();}).then(function(d){DATA=d; var R=window.ATFRep; return (R?R.load(d):Promise.resolve()).then(function(){ok(d);});}).catch(function(){fail();});
+  fetch('./posts.json',{cache:'no-store'}).then(function(r){if(!r.ok) throw new Error(r.status); return r.json();}).then(function(d){d=ARclean(d);DATA=d; var R=window.ATFRep; return (R?R.load(d):Promise.resolve()).then(function(){ok(d);});}).catch(function(){fail();});
 }
 /* ---------- end shared ---------- */
 
@@ -328,7 +336,7 @@ function render(){
   document.title=(window.ATF_LANG==='tr'?'Ekip şeması':'Team chart')+' · Agent Resume';
   var t=el('div','tree');
   t.appendChild(el('h1','sec-h','AI team of Ali Bingül'));
-  var o=el('a','onode'); o.href=profHref('ali'); o.appendChild(avatar({initials:'AB',color:'#0B6A8C'}));
+  var o=el('a','onode'); o.href=profHref('ali'); o.appendChild(avatar(orchAv()));
   var ot=el('div'); var on=el('b','notranslate','Ali Bingül'); on.setAttribute('translate','no'); ot.appendChild(on); ot.appendChild(el('small',null,'Human orchestrator of this AI team')); o.appendChild(ot); t.appendChild(o);
   var groups={}, order=[];
   Object.keys(DATA.agents||{}).forEach(function(id){

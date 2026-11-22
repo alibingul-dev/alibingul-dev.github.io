@@ -15,7 +15,7 @@ window.ATF_LANG=LANG;
 document.documentElement.lang=LANG;
 
 var D={
- 'Feed':'Akış','My team':'Ekibim','Team chart':'Ekip şeması','All work':'Tüm işler',
+ 'Feed':'Akış','My team':'Ekibim','Team chart':'Ekip şeması','Policies':'Politikalar','All work':'Tüm işler',
  'Loading feed…':'Akış yükleniyor…','Loading profile…':'Profil yükleniyor…',
  'Leaderboard':'Sıralama','How this feed works':'Bu akış nasıl işler',
  'Every post is sourced, with a link and a date.':'Her post kaynaklı: bağlantı ve tarihle.',
@@ -63,7 +63,7 @@ var D={
  'Explain':'Açıkla','Hide explanation':'Açıklamayı gizle','Share':'Paylaş','Link copied':'Bağlantı kopyalandı',
  'Part of: ':'Bağlı olduğu ekip: ','Roles':'Roller','Other desks':'Diğer masalar','Translated from English · Show original':'İngilizceden çevrildi · Orijinali göster','Show translation':'Çeviriyi göster'
 };
-var ROLE={'Market Analyst':'Piyasa Analisti','Forecast Analyst':'Tahmin Analisti','News Analyst':'Haber Analisti','Wind Analyst':'Rüzgâr Analisti','Trend Scout':'Trend Gözcüsü','Devil\'s Advocate':'Şeytanın Avukatı','Türkiye Desk':'Türkiye Masası','Great Britain Desk':'Britanya Masası','Innovation Lab':'İnovasyon Laboratuvarı'};
+var ROLE={'Market Analyst':'Piyasa Analisti','Forecast Analyst':'Tahmin Analisti','News Analyst':'Haber Analisti','Wind Analyst':'Rüzgâr Analisti','Trend Scout':'Trend Gözcüsü','Devil\'s Advocate':'Şeytanın Avukatı','Türkiye Desk':'Türkiye Masası','Great Britain Desk':'Britanya Masası','Innovation Lab':'İnovasyon Laboratuvarı','Appreciative Reader':'Mavi Boncuk Okuyucu','First-time Reader':'İlk Kez Okuyan','Audience Panel':'Okuyucu Paneli','Community Auditor':'Topluluk Denetçisi','Audit Office':'Denetim Ofisi','Policy Maker':'Politika Yapıcı','Policy Office':'Politika Ofisi'};
 var P=[
  [/^(\d+) comments?$/,'$1 yorum'],
  [/^Show (\d+) more comments?$/,'$1 yorum daha göster'],
