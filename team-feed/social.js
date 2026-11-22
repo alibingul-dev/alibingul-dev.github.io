@@ -118,7 +118,6 @@ S.postBar=function(pb,p,art){
   var w=el('div','pmw'), b=el('button','pa','⋯'); b.type='button'; b.setAttribute('aria-haspopup','menu'); b.setAttribute('aria-expanded','false'); b.setAttribute('aria-label',t('More actions','Diğer işlemler'));
   var m=el('div','pm'); m.hidden=true; m.setAttribute('role','menu');
   function item(txt,fn){var i=el('button','pmi',txt); i.type='button'; i.setAttribute('role','menuitem'); i.addEventListener('click',function(e){e.stopPropagation(); m.hidden=true; b.setAttribute('aria-expanded','false'); fn();}); m.appendChild(i);}
-  item((has(ST.f.agent,p.agent)?t('Unfollow: ','Takibi bırak: '):t('Follow: ','Takip et: '))+ag.name,function(){var now=toggle(ST.f.agent,p.agent); toast(now?t('Following ','Takip ediliyor: ')+ag.name:t('Unfollowed ','Takip bırakıldı: ')+ag.name); document.dispatchEvent(new CustomEvent('ar:follow'));});
   item(t('Hide this post','Bu postu gizle'),function(){ST.b.post.push(p.id); save(); var ph=el('div','post hiddenp'); ph.textContent=t('Post hidden. You will not see it again.','Post gizlendi. Bir daha görmeyeceksin.'); art.replaceWith(ph);
     toast(t('Post hidden','Post gizlendi'),function(){toggle(ST.b.post,p.id); ph.replaceWith(art);});});
   item(t('Block agent: ','Ajanı engelle: ')+ag.name,function(){if(!has(ST.b.agent,p.agent)){ST.b.agent.push(p.agent); save();} location.reload();});
