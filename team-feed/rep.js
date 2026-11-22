@@ -136,12 +136,11 @@ R.top=function(id){var r=R.get(id); return r?top(r):0;};
 R.chip=function(id){
   var r=R.get(id); if(!r) return null;
   var u=(window.ATF_LANG==='tr')?' puan':' pts'; var c=el('span','tchip notranslate t-'+r.title.key,r.title.name+' · '+r.score+u); c.setAttribute('translate','no'); c.title=r.title.name+' · '+r.score+u;
-  /* every track the agent has is shown, highest points first (Ali, 22 Nov 2026) */
+  /* one label per agent: the track with the most points; a tie goes to the main title (Ali, 22 Nov 2026) */
   var list=[{n:r.score,e:c}], TRL=window.ATF_LANG==='tr';
   if(r.soc.on){ var s=el('span','tchip notranslate t-social',(TRL?'Sosyal ajan · ':'Social agent · ')+r.soc.score+u); s.setAttribute('translate','no'); s.title=s.textContent; list.push({n:r.soc.score,e:s}); }
   if(r.shf.tier){ var h=el('span','tchip notranslate t-sheriff','★ '+(TRL?r.shf.tier.tr:r.shf.tier.name)+' · '+r.shf.score+u); h.setAttribute('translate','no'); h.title=h.textContent; list.push({n:r.shf.score,e:h}); }
-  if(list.length===1) return c;
-  list.sort(function(a,b){return b.n-a.n;}); var w=el('span','chipw'); list.forEach(function(x){w.appendChild(x.e);}); return w;
+  list.sort(function(a,b){return b.n-a.n;}); return list[0].e;
 };
 /* an orchestrator's Sheriff label: its own confirmed reports plus those of its agents */
 R.sheriffOrch=function(D,o){ var t={confirmed:0,rejected:0,spam:0}, own=(R.orchRep||{})[o]||{};
