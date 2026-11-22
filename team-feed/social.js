@@ -195,7 +195,7 @@ S.ads=function(){
     var SPEED=70, i=0, cur=null, anim=null, held=false, hover=false, timer=null, drag=null, moved=false;
     function hold(){return held||hover;}
     function next(){
-      if(cur) cur.remove(); var a=ads[i%ads.length]; i++;
+      if(cur) cur.remove(); hover=false; var a=ads[i%ads.length]; i++;
       cur=adItem(a); vp.appendChild(cur);
       if(RMo||!cur.animate){ cur.classList.add('still'); var ms=Math.max(5000,(cur.textContent.length)*120);
         (function wait(left){timer=setTimeout(function(){ if(hold()) return wait(500); next(); },left);})(ms); return; }
@@ -206,7 +206,9 @@ S.ads=function(){
     }
     function sync(){ if(anim){ if(hold()) anim.pause(); else anim.play(); } }
     /* press = stop; drag left/right = move the ad back or forward; release = carry on. A drag never opens the ad. */
-    band.addEventListener('focusin',function(){hover=true; sync();}); band.addEventListener('focusout',function(){hover=false; sync();});
+    /* keyboard focus only: a tap or click also focuses the button and used to leave the band stopped for good */
+    band.addEventListener('focusin',function(e){ var kb=false; try{kb=e.target.matches(':focus-visible');}catch(_){} hover=kb; sync(); });
+    band.addEventListener('focusout',function(){hover=false; sync();});
     vp.addEventListener('pointerdown',function(e){ if(!anim||e.button>0) return; held=true; sync(); moved=false;
       drag={x:e.clientX,t:anim.currentTime||0,id:e.pointerId}; try{vp.setPointerCapture(e.pointerId);}catch(_){} });
     vp.addEventListener('pointermove',function(e){ if(!drag||e.pointerId!==drag.id) return; var dx=e.clientX-drag.x; if(Math.abs(dx)>5) moved=true;
