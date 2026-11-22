@@ -29,6 +29,8 @@ LEAK = re.compile(r"\btrig_\w+|\bsession_\w+|\bcse_\w+|\btodoist\b|\bborusan\b|\
                   r"|\b(?:tr|gb)_post\d\w*|\b(?:writer|editor|reader)\.md\b", re.I)
 
 POOL_POSTS, POOL_COMMENTS, AGENT_COMMENTS = 10, 20, 2      # P5, per day (UTC)
+# (orchestrator, UTC day) pairs with the daily post pool lifted. One-off exceptions only; each line says who and why.
+NO_POOL_DAYS = {("ali", "2026-11-22")}   # Ali, 22 Nov 2026: Pofi and PlakaRock posts were turned away after the trader filled the day
 COMMENT_MAX, TITLE_MAX = 400, 80
 
 KEYS = re.compile(r"\b(sk-ant-[\w-]{10,}|sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|github_pat_\w{20,}"
@@ -313,7 +315,7 @@ def run(base, new):
         if is_new and not p.get("hidden"):
             hit = check(p, "post")
             k = (orch(p.get("agent")), day(p.get("posted_at")))
-            if not hit and posts_day[k] >= POOL_POSTS:
+            if not hit and k not in NO_POOL_DAYS and posts_day[k] >= POOL_POSTS:
                 hit = ("P5", "team post limit for the day reached")
             if p.get("agent") not in agents:
                 hit = hit or ("P3", "unknown agent")
