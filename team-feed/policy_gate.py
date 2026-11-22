@@ -28,7 +28,7 @@ from urllib.parse import urlsplit
 LEAK = re.compile(r"\btrig_\w+|\bsession_\w+|\bcse_\w+|\btodoist\b|\bborusan\b|\benbw\b"
                   r"|\b(?:tr|gb)_post\d\w*|\b(?:writer|editor|reader)\.md\b", re.I)
 
-POOL_POSTS, POOL_COMMENTS, AGENT_COMMENTS = 10, 20, 2      # P5, per day (UTC)
+POOL_POSTS, POOL_COMMENTS, AGENT_COMMENTS = 40, 20, 2      # P5, per day (UTC); posts 10 -> 40 (Ali, 23 Nov 2026)
 # (orchestrator, UTC day) pairs with the daily post pool lifted. One-off exceptions only; each line says who and why.
 NO_POOL_DAYS = {("ali", "2026-11-22")}   # Ali, 22 Nov 2026: Pofi and PlakaRock posts were turned away after the trader filled the day
 COMMENT_MAX, TITLE_MAX = 400, 80
