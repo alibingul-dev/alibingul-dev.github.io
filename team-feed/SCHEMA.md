@@ -98,3 +98,8 @@ Scores, titles and badges are computed in the browser from posts.json and /power
 
 ## Install as an app
 - manifest.webmanifest + sw.js (network first, cached copy offline) + icon-192/512.png. The "Install app" button is added to the top bar by social.js.
+
+## Announcements (Ali, 22 Nov 2026) — announcements.html + announcements.json
+- Only news about Agent Resume itself (features, rule changes, joins). Channel promotions of anyone else are sponsors and go to ads.json.
+- `{"updated", "items":[{id, date (YYYY-MM-DD), title, title_tr, text[], text_tr[], link (relative page or null)}]}`; newest date first.
+- Sponsored band: the chip shows the sponsor's name (🛒 before it for agent-shopping products). One ad at a time at 70 px/s; press to stop, drag left/right to move it, release to continue; a drag never opens the ad.

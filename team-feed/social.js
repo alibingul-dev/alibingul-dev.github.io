@@ -157,9 +157,8 @@ function openBox(build){
 }
 function adOpen(a){
   openBox(function(box){
-  box.appendChild(el('span','adk '+a.kind,a.kind==='product'?t('🛒 Shop with your agent','🛒 Ajanınla alışveriş'):t('📣 Announcement','📣 Duyuru')));
+  box.appendChild(el('span','adk '+a.kind,(a.kind==='product'?'🛒 ':'')+(a.advertiser||t('Sponsor','Sponsor'))));
   box.appendChild(el('h3',null,pick(a,'title')));
-  if(a.advertiser) box.appendChild(el('small','adv',t('From ','Veren: ')+a.advertiser));
   box.appendChild(el('p',null,pick(a,'text')));
   if(a.kind==='product'){
     var base='AR-'+a.code, code=base;
@@ -178,7 +177,7 @@ function adOpen(a){
 }
 function adItem(a){
   var b=el('button','adi'); b.type='button';
-  b.appendChild(el('span','adk '+a.kind,a.kind==='product'?t('🛒 Agent shopping','🛒 Ajanla alışveriş'):t('📣 Announcement','📣 Duyuru')));
+  b.appendChild(el('span','adk '+a.kind,(a.kind==='product'?'🛒 ':'')+(a.advertiser||t('Sponsor','Sponsor'))));
   b.appendChild(el('b',null,pick(a,'title'))); var tx=pick(a,'text'); if(tx) b.appendChild(el('span','adt',tx));
   b.addEventListener('click',function(){adOpen(a);}); return b;
 }
@@ -193,9 +192,8 @@ S.ads=function(){
     var band=el('aside','adband'); band.setAttribute('aria-label',t('Sponsored','Sponsorlu'));
     band.appendChild(el('span','adlabel',t('Sponsored','Sponsorlu')));
     var vp=el('div','advp'); band.appendChild(vp);
-    var pause=el('button','adpause','❚❚'); pause.type='button'; pause.setAttribute('aria-label',t('Pause ads','Reklamı durdur')); pause.setAttribute('aria-pressed','false'); band.appendChild(pause);
     var RMo=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var SPEED=70, i=0, cur=null, anim=null, held=false, hover=false, timer=null;
+    var SPEED=70, i=0, cur=null, anim=null, held=false, hover=false, timer=null, drag=null, moved=false;
     function hold(){return held||hover;}
     function next(){
       if(cur) cur.remove(); var a=ads[i%ads.length]; i++;
@@ -208,9 +206,15 @@ S.ads=function(){
       anim.onfinish=next;
     }
     function sync(){ if(anim){ if(hold()) anim.pause(); else anim.play(); } }
-    band.addEventListener('mouseenter',function(){hover=true; sync();}); band.addEventListener('mouseleave',function(){hover=false; sync();});
+    /* press = stop; drag left/right = move the ad back or forward; release = carry on. A drag never opens the ad. */
     band.addEventListener('focusin',function(){hover=true; sync();}); band.addEventListener('focusout',function(){hover=false; sync();});
-    pause.addEventListener('click',function(){held=!held; pause.textContent=held?'▶':'❚❚'; pause.setAttribute('aria-pressed',String(held)); sync();});
+    vp.addEventListener('pointerdown',function(e){ if(!anim||e.button>0) return; held=true; sync(); moved=false;
+      drag={x:e.clientX,t:anim.currentTime||0,id:e.pointerId}; try{vp.setPointerCapture(e.pointerId);}catch(_){} });
+    vp.addEventListener('pointermove',function(e){ if(!drag||e.pointerId!==drag.id) return; var dx=e.clientX-drag.x; if(Math.abs(dx)>5) moved=true;
+      if(moved){ var D=anim.effect.getTiming().duration; anim.currentTime=Math.max(0,Math.min(D-1,drag.t-dx/SPEED*1000)); } });
+    function up(e){ if(!drag||e.pointerId!==drag.id) return; drag=null; held=false; sync(); }
+    vp.addEventListener('pointerup',up); vp.addEventListener('pointercancel',up);
+    vp.addEventListener('click',function(e){ if(moved){ e.stopPropagation(); e.preventDefault(); moved=false; } },true);
     document.addEventListener('visibilitychange',function(){ if(anim){ if(document.hidden) anim.pause(); else sync(); } });
     nav.parentNode.insertBefore(band,nav.nextSibling);
     next();
@@ -234,6 +238,15 @@ function installHelp(){
     box.appendChild(el('p','fine',t('It opens in its own window and keeps the last feed you loaded for offline reading. No store, no account.','Kendi penceresinde açılır ve son yüklediğin akışı çevrimdışı okumak için saklar. Mağaza yok, hesap yok.')));
   });
 }
+function addNews(){
+  if(document.getElementById('newsnav')) return;
+  var nav=document.querySelector('.nav .in'), bar=document.querySelector('header .bar'), host=nav||bar; if(!host) return;
+  var a=el('a',nav?'nl':''); a.href='announcements.html'; a.id='newsnav';
+  if(/announcements\.html$/.test(location.pathname)){ a.setAttribute('aria-current','page'); }
+  if(nav){var NS='http://www.w3.org/2000/svg', s=document.createElementNS(NS,'svg'); s.setAttribute('viewBox','0 0 24 24'); s.setAttribute('aria-hidden','true'); var p=document.createElementNS(NS,'path'); p.setAttribute('d','M3 10v4h3l6 4V6L6 10H3zM16 9c1.2.8 1.2 5.2 0 6M19 6.5c2.7 2.3 2.7 8.7 0 11'); s.appendChild(p); a.appendChild(s);}
+  a.appendChild(el('span',null,t('Announcements','Duyurular')));
+  var lang=document.getElementById('langsw')||document.getElementById('lang'); if(lang&&lang.parentNode===host) host.insertBefore(a,lang); else host.appendChild(a);
+}
 function addInstall(){
   if(standalone()||document.getElementById('installbtn')) return;
   var nav=document.querySelector('.nav .in'), bar=document.querySelector('header .bar'), host=nav||bar; if(!host) return;
@@ -255,7 +268,7 @@ var css=
 '.adi{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 6px;font:500 13px/1.2 var(--sans);color:var(--ink);cursor:pointer;min-height:34px}'+
 '.adi:hover{border-color:var(--accent)}.adi b{font-weight:700}.adi .adt{color:var(--muted)}'+
 '.adk{flex:none;font:600 11px/1 var(--sans);padding:5px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}.adk.product{background:var(--ok-soft);color:var(--ok)}'+
-'.adpause{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:none;color:var(--muted);cursor:pointer;font-size:11px}'+
+'.advp{touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}.advp:active{cursor:grabbing}'+
 '.admodal{position:fixed;inset:0;z-index:200;background:rgba(4,8,16,.6);display:grid;place-items:center;padding:16px}'+
 '.adbox{position:relative;background:var(--card,#fff);color:var(--ink,#14202B);border:1px solid var(--line,#DDE3EA);border-radius:16px;padding:24px;max-width:440px;width:100%;display:grid;gap:12px;max-height:90vh;overflow:auto}'+
 '.adbox h3{font:700 20px/1.25 var(--serif,Georgia,serif);padding-right:28px}.adbox .adk{justify-self:start}.adbox .adv{color:var(--muted,#5B6B79);font-size:13px;margin-top:-8px}'+
@@ -274,7 +287,7 @@ var css=
 '.ftabs{display:flex;gap:6px;border-bottom:1px solid var(--line)}.ftab{background:none;border:0;border-bottom:3px solid transparent;padding:12px 16px;font:600 15px/1 var(--sans);color:var(--muted);cursor:pointer;min-height:44px}.ftab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}';
 var stl=document.createElement('style'); stl.textContent=css; document.head.appendChild(stl);
 
-function boot(){addInstall(); S.ads();}
+function boot(){addNews(); addInstall(); S.ads();}
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
 window.ARSocial=S;
 })();
