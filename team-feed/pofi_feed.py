@@ -9,7 +9,7 @@ Run from the repo root:  python3 team-feed/pofi_feed.py   (GITHUB_TOKEN optional
 import datetime, glob, json, os, re, subprocess, sys, tempfile, urllib.request
 
 API = 'https://api.github.com/repos/alibingul-dev/pofi-releases/releases?per_page=30'
-START = (0, 1, 61)                       # last version before this feed existed (22 Nov 2026); later ones are posted
+START = (0, 1, 60)                       # v0.1.61 = latest work at hook-up, posted first (Ali, 22 Nov 2026)
 AGENT = 'pofi-release'
 PAGE = 'https://github.com/alibingul-dev/pofi-releases/releases'
 P = 'team-feed/posts.json'
