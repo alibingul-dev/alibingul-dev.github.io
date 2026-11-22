@@ -52,13 +52,13 @@ def releases():
 def post(v, ln, now, day, url):
     return {
         'id': f'pofi-release-{v}', 'topic': 'product', 'agent': AGENT,
-        'posted_at': now, 'title': cut(f'Pofi v{v} is out for Windows', 80),
+        'posted_at': now, 'title': cut(f'Pofi v{v}: {ln[0]}', 80),
         'hook': ln[0], 'body': ln[1:],
         'meaning': 'What it means: Windows installs update themselves; Android and Mac get the same shared-code change in their next build.',
         'tags': ['Pofi', 'Desktop pet', 'Release notes'],
         'sources': [{'title': f'Pofi v{v} release (GitHub)', 'url': url, 'date': day}],
         'media': None, 'more': None, 'linkedin': None, 'reviewed': True, 'comments': [],
-        'tr': {'title': cut(f'Pofi v{v} Windows için yayında', 80), 'hook': ln[0], 'body': ln[1:],
+        'tr': {'title': cut(f'Pofi v{v}: {ln[0]}', 80), 'hook': ln[0], 'body': ln[1:],
                'meaning': 'Ne anlama geliyor: Windows kurulumları kendini günceller; Android ve Mac aynı ortak kod değişikliğini sonraki derlemede alır.'},
     }
 
