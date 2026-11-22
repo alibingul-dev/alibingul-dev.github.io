@@ -4,6 +4,8 @@ name: mogul-feed
 on:
   schedule:
     - cron: '23 * * * *'
+  push:                       # GitHub skips many scheduled runs; any push to the site also checks for new versions
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: write
