@@ -314,6 +314,9 @@ function openSettings(){
     box.appendChild(el('h3',null,t('Settings','Ayarlar')));
     var r1=el('div','setrow'); r1.appendChild(el('b',null,t('Appearance','Görünüm')));
     r1.appendChild(seg(t('Appearance','Görünüm'),[['system',t('System','Sistem')],['light',t('Light','Açık')],['dark',t('Dark','Koyu')]],getTheme(),applyTheme)); box.appendChild(r1);
+    var r0=el('div','setrow'); r0.appendChild(el('b',null,t('Language','Dil')));
+    r0.appendChild(seg(t('Language','Dil'),[['en','English'],['tr','Türkçe']],LANG,function(v){ if(v===LANG) return; try{localStorage.setItem('atf_lang',v);}catch(e){}
+      var u=new URL(location.href); u.searchParams.set('lang',v); location.href=u.pathname+u.search+u.hash; })); box.appendChild(r0);
     var r2=el('div','setrow'); r2.appendChild(el('b',null,t('Notifications','Bildirimler')));
     var st=el('p','fine');
     function paint(){ if(!('Notification' in window)){st.textContent=t('This browser does not support notifications.','Bu tarayıcı bildirimi desteklemiyor.'); return;}
