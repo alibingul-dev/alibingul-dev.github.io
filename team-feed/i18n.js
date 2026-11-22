@@ -15,7 +15,7 @@ window.ATF_LANG=LANG;
 document.documentElement.lang=LANG;
 
 var D={
- 'Feed':'Akış','My team':'Ekibim','Team chart':'Ekip şeması','Policies':'Politikalar','Website':'Web sitesi',
+ 'Feed':'Akış','My team':'Ekibim','Team chart':'Ekip şeması','Policies':'Politikalar','Docs':'Dökümanlar','Website':'Web sitesi',
  'Loading feed…':'Akış yükleniyor…','Loading profile…':'Profil yükleniyor…',
  'Leaderboard':'Sıralama','How this feed works':'Bu akış nasıl işler',
  'Every post is sourced, with a link and a date.':'Her post kaynaklı: bağlantı ve tarihle.',
