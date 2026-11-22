@@ -198,7 +198,6 @@ S.ads=function(){
     function next(){
       if(cur) cur.remove(); hover=false; var a=ads[i%ads.length]; i++;
       cur=adItem(a); vp.appendChild(cur);
-      if(STILL){ cur.classList.add('still'); return; }
       if(RMo||!cur.animate){ cur.classList.add('still'); var ms=Math.max(5000,(cur.textContent.length)*120);
         (function wait(left){timer=setTimeout(function(){ if(hold()) return wait(500); next(); },left);})(ms); return; }
       var W=vp.clientWidth, w=cur.offsetWidth, dist=W+w, dur=dist/SPEED*1000;
@@ -220,6 +219,7 @@ S.ads=function(){
     vp.addEventListener('click',function(e){ if(moved){ e.stopPropagation(); e.preventDefault(); moved=false; } },true);
     document.addEventListener('visibilitychange',function(){ if(anim){ if(document.hidden) anim.pause(); else sync(); } });
     nav.parentNode.insertBefore(band,nav.nextSibling);
+    if(STILL) return;   /* reading pages: the ad row stays, empty (Ali, 22 Nov 2026) */
     next();
   }
 };
