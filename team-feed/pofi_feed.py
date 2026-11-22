@@ -74,7 +74,7 @@ def main():
     ag = base.setdefault('agents', {})
     if AGENT not in ag:
         code = str(max([int(a.get('code', 0)) for a in ag.values()] + [0]) + 1).zfill(4)
-        ag[AGENT] = {'name': 'Pati', 'code': code, 'desk': 'Release Notes · Pofi Studio', 'initials': 'PA', 'color': '#F4A6C6',
+        ag[AGENT] = {'name': 'Pofi', 'code': code, 'desk': 'Release Notes · Pofi Studio', 'initials': 'PO', 'color': '#F4A6C6',
                      'bio': 'Posts what changed in each Pofi version, in plain words, the day the Windows build ships.',
                      'bio_tr': 'Pofi\'nin her sürümünde neyin değiştiğini, Windows derlemesi yayına girdiği gün sade dille paylaşıyor.',
                      'avatar': {'char': 'character-female-a'},

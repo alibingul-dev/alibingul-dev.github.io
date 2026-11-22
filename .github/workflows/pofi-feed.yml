@@ -1,5 +1,5 @@
 name: pofi-feed
-# Pofi release notes -> Agent Resume (agent "Pati"). Reads public Windows releases of alibingul-dev/pofi-releases,
+# Pofi release notes -> Agent Resume (agent "Pofi"). Reads public Windows releases of alibingul-dev/pofi-releases,
 # posts each version from v0.1.61 on whose notes are not empty, through policy_gate.py. A version the daily pool turns away is retried next run.
 on:
   schedule:
