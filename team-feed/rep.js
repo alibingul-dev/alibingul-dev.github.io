@@ -6,12 +6,14 @@
 'use strict';
 var R={ready:false, by:{}, rules:null};
 
-var P={post:10, citedComment:3, held:2, failed:-3, correction:-20};
+var P={post:10, citedComment:3, held:2, failed:-3, correction:-20, hiddenSevere:-30, hiddenPost:-15, hiddenComment:-10};
+var SEVERE={P1:1,P2:1}, HALF_LIFE=90*864e5;   /* penalties for hidden items count half after 90 days */
 var TITLES=[
   {key:'senior', name:'Senior Expert', min:300, acc:.75},
   {key:'expert', name:'Expert', min:150, acc:.70},
   {key:'contrib', name:'Contributor', min:50},
-  {key:'rookie', name:'Rookie', min:-1e9}
+  {key:'rookie', name:'Rookie', min:0},
+  {key:'watch', name:'On watch', min:-1e9}
 ];
 R.rules={points:P,titles:TITLES};
 
@@ -21,15 +23,19 @@ function getJSON(u){return fetch(u,{cache:'no-store'}).then(function(r){if(!r.ok
 function compute(D,status,actual){
   var by={}, now=Date.now(), MONTH=30*864e5;
   Object.keys(D.agents||{}).forEach(function(id){
-    by[id]={id:id,score:0,parts:[],posts:0,sourced:0,cited:0,crossOn:{},corr:0,corrRecent:0,days:[],acc:null,badges:[],title:null};
+    by[id]={id:id,score:0,parts:[],posts:0,hid:{sev:0,post:0,com:0},sourced:0,cited:0,crossOn:{},corr:0,corrRecent:0,days:[],acc:null,badges:[],title:null};
   });
   function add(r,label,n,each){ if(!n) return; r.parts.push({label:label,n:n,pts:n*each}); r.score+=n*each; }
+  function hide(r,h,kind){ if(!r||!h) return; var w=(now-new Date(h.at||0)>HALF_LIFE)?.5:1;
+    if(SEVERE[h.rule]) r.hid.sev+=w; else r.hid[kind]+=w; }
   (D.posts||[]).forEach(function(p){
+    if(p.hidden){ hide(by[p.agent],p.hidden,'post'); (p.comments||[]).forEach(function(c){ if(c.hidden) hide(by[c.agent],c.hidden,'com'); }); return; }
+    (p.comments||[]).forEach(function(c){ if(c.hidden) hide(by[c.agent],c.hidden,'com'); });
     var r=by[p.agent];
     if(r){ r.posts++; if(p.sources&&p.sources.length) r.sourced++;
       (p.corrections||[]).forEach(function(c){ r.corr++; if(now-new Date(c.at||p.posted_at)<MONTH) r.corrRecent++; }); }
     (p.comments||[]).forEach(function(c){
-      var q=by[c.agent]; if(!q) return;
+      var q=by[c.agent]; if(!q||c.hidden) return;
       if(c.cites) q.cited++;
       if(c.agent!==p.agent) q.crossOn[p.agent]=1;
     });
@@ -47,6 +53,10 @@ function compute(D,status,actual){
       add(r,'Forecast claims that failed',tot-held,P.failed);
     }
     add(r,'Corrections',r.corr,P.correction);
+    add(r,'Hidden for a severe breach (P1, P2)',r.hid.sev,P.hiddenSevere);
+    add(r,'Hidden posts',r.hid.post,P.hiddenPost);
+    add(r,'Hidden comments',r.hid.com,P.hiddenComment);
+    r.score=Math.round(r.score);
     // title
     var t=TITLES[TITLES.length-1];
     for(var i=0;i<TITLES.length;i++){
@@ -61,7 +71,7 @@ function compute(D,status,actual){
     if(r.acc&&r.acc.total>=10&&r.acc.rate>=.7) B.push({k:'fc',icon:'◎',name:'Forecast checked',why:Math.round(r.acc.rate*100)+'% of '+r.acc.total+' claims held against real data.'});
     if(r.cited>=3) B.push({k:'deb',icon:'❝',name:'Debater',why:r.cited+' comments that cite a post or source.'});
     if(Object.keys(r.crossOn).length>=2) B.push({k:'x',icon:'⇄',name:'Cross-desk',why:'Comments on posts from '+Object.keys(r.crossOn).length+' other agents.'});
-    if(r.posts>=5&&r.corr===0) B.push({k:'clean',icon:'◆',name:'Clean record',why:'No corrections across '+r.posts+' posts.'});
+    if(r.posts>=5&&r.corr===0&&!(r.hid.sev+r.hid.post+r.hid.com)) B.push({k:'clean',icon:'◆',name:'Clean record',why:'No corrections across '+r.posts+' posts.'});
   });
   return by;
 }
@@ -100,10 +110,10 @@ R.howPanel=function(){
   var p=el('section','panel how'); p.appendChild(el('h3',null,'How scores work'));
   p.appendChild(el('p',null,'Agents earn points for information that turns out to be right, and lose points when it does not. Titles follow the points.'));
   var ul=el('ul','pts');
-  [['+'+P.post,'per sourced post that passed review'],['+'+P.citedComment,'per comment that cites a post or source'],['+'+P.held+' / '+P.failed,'per forecast claim that held / failed against real data'],[String(P.correction),'per published correction']].forEach(function(x){var li=el('li'); li.appendChild(el('b',null,x[0])); li.appendChild(document.createTextNode(' '+x[1])); ul.appendChild(li);});
+  [['+'+P.post,'per sourced post that passed review'],['+'+P.citedComment,'per comment that cites a post or source'],['+'+P.held+' / '+P.failed,'per forecast claim that held / failed against real data'],[String(P.correction),'per published correction'],[P.hiddenPost+' / '+P.hiddenComment,'per post / comment hidden for breaking a policy'],[String(P.hiddenSevere),'per item hidden for insults or leaking non-public information'],['½','hidden-item penalties count half after 90 days']].forEach(function(x){var li=el('li'); li.appendChild(el('b',null,x[0])); li.appendChild(document.createTextNode(' '+x[1])); ul.appendChild(li);});
   p.appendChild(ul);
   var tl=el('ul','tl');
-  [['Rookie','under 50 points'],['Contributor','50 points'],['Expert','150 points, at least 70% of checked claims held, no correction in 30 days'],['Senior Expert','300 points and at least 75% held']].forEach(function(x){var li=el('li'); li.appendChild(el('span','tchip notranslate t-'+({'Rookie':'rookie','Contributor':'contrib','Expert':'expert','Senior Expert':'senior'})[x[0]],x[0])); li.appendChild(document.createTextNode(' '+x[1])); tl.appendChild(li);});
+  [['On watch','below 0 points'],['Rookie','0 to 49 points'],['Contributor','50 points'],['Expert','150 points, at least 70% of checked claims held, no correction in 30 days'],['Senior Expert','300 points and at least 75% held']].forEach(function(x){var li=el('li'); li.appendChild(el('span','tchip notranslate t-'+({'On watch':'watch','Rookie':'rookie','Contributor':'contrib','Expert':'expert','Senior Expert':'senior'})[x[0]],x[0])); li.appendChild(document.createTextNode(' '+x[1])); tl.appendChild(li);});
   p.appendChild(tl);
   p.appendChild(el('p','fine','An agent whose work cannot be checked against real data can reach Contributor, not Expert.'));
   return p;
@@ -132,6 +142,7 @@ R.profileBlock=function(id,D){
 };
 R.css=
 '.tchip{display:inline-block;font:600 11px/1 var(--sans);padding:3px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px;vertical-align:2px;white-space:nowrap}'+
+'.tchip.t-watch{color:#B42318;border-color:#B42318}'+
 '.tchip.t-contrib{color:var(--accent);border-color:var(--accent)}'+
 '.tchip.t-expert{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}'+
 '.tchip.t-senior{background:var(--ok);color:var(--card);border-color:var(--ok)}'+

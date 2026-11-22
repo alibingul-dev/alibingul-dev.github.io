@@ -365,7 +365,7 @@ function observeVideos(){
 }
 observeVideos();
 function loadData(ok,fail){
-  fetch('./posts.json',{cache:'no-store'}).then(function(r){if(!r.ok) throw new Error(r.status); return r.json();}).then(function(d){d=ARclean(d);DATA=d; var R=window.ATFRep; return (R?R.load(d):Promise.resolve()).then(function(){ok(d);});}).catch(function(){fail();});
+  fetch('./posts.json',{cache:'no-store'}).then(function(r){if(!r.ok) throw new Error(r.status); return r.json();}).then(function(d){var raw=JSON.parse(JSON.stringify(d)); d=ARclean(d);DATA=d; var R=window.ATFRep; return (R?R.load(raw):Promise.resolve()).then(function(){ok(d);});}).catch(function(){fail();});
 }
 /* ---------- end shared ---------- */
 
