@@ -86,7 +86,7 @@ R.get=function(id){return R.by[id]||null;};
 
 R.chip=function(id){
   var r=R.get(id); if(!r) return null;
-  var c=el('span','tchip notranslate t-'+r.title.key,r.title.name); c.setAttribute('translate','no'); c.title=r.title.name+' · '+r.score+' points'; return c;
+  var u=(window.ATF_LANG==='tr')?' puan':' pts'; var c=el('span','tchip notranslate t-'+r.title.key,r.title.name+' · '+r.score+u); c.setAttribute('translate','no'); c.title=r.title.name+' · '+r.score+u; return c;
 };
 R.badges=function(id,max){
   var r=R.get(id); if(!r||!r.badges.length) return null;
