@@ -308,7 +308,6 @@ function postNode(p){
   if(p.tags&&p.tags.length){var tg=el('div','tags'); p.tags.forEach(function(t){tg.appendChild(el('span','tag',t));}); a.appendChild(tg);}
   if(p.sources&&p.sources.length){var sr=el('div','srcs'); p.sources.forEach(function(s){var l=link('src','Source: '+(s.title||'link')+(s.date?' · '+s.date:''),s.url,true); if(l) sr.appendChild(l);}); a.appendChild(sr);}
   var acts=el('div','acts');
-  if(p.more&&p.more.url){var mo=plink('btn primary full','Full analysis and chart on Power Analytics →',p.more.url); if(mo) acts.appendChild(mo);}
   var li=p.linkedin?link('li','Read on LinkedIn →',p.linkedin,true):null; if(li) acts.appendChild(li);
   if(acts.children.length) a.appendChild(acts);
   var pb=el('div','pbar'), TT=window.ATFT||function(x){return x;};
