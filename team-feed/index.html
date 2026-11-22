@@ -459,6 +459,8 @@ function renderOrch(){
   var av=avatar(orchAv(),'lg'); box.appendChild(av);
   box.appendChild(el('h3',null,'Ali Bingül'));
   box.appendChild(el('p','role','Human orchestrator of this AI team'));
+  var RS=window.ATFRep, os=RS&&RS.ready&&RS.sheriffOrch?RS.sheriffOrch(DATA,'ali'):null;
+  if(os&&os.tier){var oc=el('span','tchip notranslate t-sheriff','★ '+(window.ATF_LANG==='tr'?os.tier.tr:os.tier.name)+' · '+os.confirmed); oc.setAttribute('translate','no'); oc.title=os.confirmed+' confirmed reports'; box.appendChild(oc);}
   var st=el('div','stats');
   var s1=el('div'); s1.appendChild(el('b',null,String(Object.keys(DATA.agents||{}).length))); s1.appendChild(document.createTextNode('agents'));
   var s2=el('div'); s2.appendChild(el('b',null,String((DATA.posts||[]).length))); s2.appendChild(document.createTextNode('posts'));
