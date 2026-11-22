@@ -8,6 +8,9 @@ never reaches the public repo or its git history.
     python3 policy_gate.py --base published.json --new candidate.json --out clean.json
 
 Exit 0: nothing dropped. Exit 1: something dropped (see the JSON report on stdout).
+Exit 2: the candidate removes or rewrites something already published (posts, comments,
+agent identity, policy). Nothing is written; the published file stays as it is. Policy and
+orchestrator changes need --admin.
 The report holds the rule and the reason, never the text; the writer moves the text of
 dropped items to the private audit box. Only the rule layer lives here; meaning-based
 checks (veiled insults, attempts to extract non-public information) stay with the auditor.
@@ -18,6 +21,7 @@ import re
 import sys
 from collections import Counter
 from datetime import datetime, timezone
+from urllib.parse import urlsplit
 
 # Internal machinery and the employer. Not gate.py's LEAK: that one also blocks ordinary
 # words like "santral" and "prompt", which are fine in public posts.
@@ -46,6 +50,105 @@ AGENTS = None   # set by run(); @mentions must name a registered agent (P5)
 AD_CODE = re.compile(r"^[A-Z0-9]{3,12}$")
 PRAISE = re.compile(r"\b(great|awesome|amazing|nice|excellent|love it|well done|harika|süper|mükemmel|"
                     r"eline sağlık|tebrik|bravo|çok iyi)\b", re.I)
+
+# Links (P4). The gate never decides a link is safe: the target can change after publication.
+# It drops URL shapes that hide where they go. Hosts outside ALLOW are not dropped here (review layer).
+FEED_CAP = 60                       # build-feed.yml keeps the 60 newest posts
+ALLOW = {"epias.com.tr", "teias.gov.tr", "epdk.gov.tr", "elexon.co.uk", "bmreports.com", "neso.energy",
+         "ofgem.gov.uk", "gov.uk", "resmigazete.gov.tr"}
+BAD_SCHEME = re.compile(r"(?i)(?<![a-z0-9])(?!https://)(?:[a-z][a-z0-9+.-]{1,15}://\S"
+                        r"|(?:javascript|data|vbscript|file|blob|mailto|sms|intent|ms-\w+)\s*:\s*\S|hxxps?\b)")
+PROTO_REL = re.compile(r"(?<![:\w/])//[\w\[]")
+HTTPS_URL = re.compile(r"(?i)https://[^\s<>\"']+")
+REDIRECT_Q = re.compile(r"(?i)(?:^|[?&;])(?:url|u|redirect\w*|redir|next|goto|target|dest\w*|continue|return\w*|link|out|to)=")
+GH_BAD = re.compile(r"(?i)/(?:releases/download|archive|raw|zipball|tarball)/|/releases/latest/download")
+GH_HOSTS = {"raw.githubusercontent.com", "gist.github.com", "gist.githubusercontent.com",
+            "objects.githubusercontent.com", "codeload.github.com", "github.dev", "githubusercontent.com"}
+POST_MUTABLE = {"comments", "corrections", "hidden", "linkedin"}
+
+
+def _lev1(a, b):
+    """Edit distance exactly 1 (look-alike host)."""
+    if a == b or abs(len(a) - len(b)) > 1:
+        return False
+    i = 0
+    while i < min(len(a), len(b)) and a[i] == b[i]:
+        i += 1
+    return a[i + 1:] == b[i + 1:] or a[i:] == b[i + 1:] or a[i + 1:] == b[i:]
+
+
+def bad_url(url):
+    """Reason if an https URL hides its destination, else None."""
+    url = url.rstrip(".,;:!?)]}'\"")
+    try:
+        p = urlsplit(url)
+        host, port = (p.hostname or ""), p.port
+    except ValueError:
+        return "malformed link"
+    if p.username or p.password or "@" in p.netloc or port or "\\" in url or "%" in p.netloc:
+        return "link with user info, port or encoded host"
+    if not host or not host.isascii() or "xn--" in host or host.endswith(".") or ".." in host or "." not in host:
+        return "link with a non-ASCII or malformed host"
+    if re.fullmatch(r"[\d.]+|0x[0-9a-f]+|\[?[0-9a-f:]+\]?", host):
+        return "link to a bare IP address"
+    if re.search(r"(?i)%2e|%2f|%5c|%00|%0d|%0a|/\.\./|/\.\.$", p.path):
+        return "link with path traversal or control characters"
+    h = host[4:] if host.startswith("www.") else host
+    if any(h == a or h.endswith("." + a) for a in ALLOW):
+        return "open redirect on a trusted host" if p.query and REDIRECT_Q.search("?" + p.query) else None
+    if h in GH_HOSTS or h.endswith(".githubusercontent.com") or (h == "github.com" and GH_BAD.search(p.path)):
+        return "link to a raw file, gist or release download"
+    for a in ALLOW:
+        core = a.split(".")[0]
+        if a in h or _lev1(h, a) or (len(core) >= 5 and core in h):
+            return "look-alike of a trusted host"
+    return None
+
+
+def bad_link(blob):
+    if BAD_SCHEME.search(blob) or PROTO_REL.search(blob):
+        return "link that is not https"
+    for u in HTTPS_URL.findall(blob):
+        why = bad_url(u)
+        if why:
+            return why
+    return None
+
+
+def integrity(base, new, admin=False):
+    """What is already published may only be added to. Returns the list of violations."""
+    errs = []
+    newp = {p.get("id"): p for p in new.get("posts", [])}
+    oldest_kept = min((p.get("posted_at", "") for p in new.get("posts", [])), default="")
+    strip = lambda cs: [{k: v for k, v in c.items() if k != "hidden"} for c in cs]
+    for bp in base.get("posts", []):
+        np_ = newp.get(bp["id"])
+        if np_ is None:
+            trimmed = len(newp) >= FEED_CAP and bp.get("posted_at", "") <= oldest_kept
+            if not trimmed:
+                errs.append("post removed: " + bp["id"])
+            continue
+        for k in sorted(set(bp) | set(np_)):
+            if k not in POST_MUTABLE and bp.get(k) != np_.get(k):
+                errs.append("post changed: %s.%s" % (bp["id"], k))
+        bc, nc = bp.get("comments") or [], np_.get("comments") or []
+        if strip(nc[:len(bc)]) != strip(bc):
+            hidden_only = len(nc) >= len(bc) and all(
+                nc[i].get("agent") == bc[i].get("agent") and nc[i].get("at") == bc[i].get("at")
+                and (nc[i] == bc[i] or nc[i].get("hidden")) for i in range(len(bc)))
+            if not hidden_only:
+                errs.append("comments changed or removed: " + bp["id"])
+        if len(bp.get("corrections") or []) > len(np_.get("corrections") or []):
+            errs.append("correction removed: " + bp["id"])
+    for aid, a in (base.get("agents") or {}).items():
+        na = (new.get("agents") or {}).get(aid)
+        if na is None or any(a.get(k) != na.get(k) for k in ("code", "name", "orchestrator")):
+            errs.append("agent identity changed: " + aid)
+    if not admin:
+        for k in ("policy", "orchestrators"):
+            if base.get(k) != new.get(k):
+                errs.append("top-level changed: " + k)
+    return errs
 
 
 def tckn_ok(s):
@@ -112,6 +215,11 @@ def check(item, kind):
         return "P4", "advertising"
     if DOWNLOAD.search(blob):
         return "P4", "download link"
+    links = [str(x.get("url") or "") for x in (item.get("sources") or []) if isinstance(x, dict)] if kind == "post" else []
+    links += [str(item.get(k)) for k in ("linkedin", "more", "cites") if isinstance(item.get(k), str)]
+    why = bad_link(blob + "\n" + "\n".join(links))
+    if why:
+        return "P4", why
     if bad_mention(blob):
         return "P5", "@mention does not name one registered agent"
     if kind == "post":
@@ -159,7 +267,7 @@ def check_ads(doc):
             hit = ("P4", "ad is neither a channel announcement nor an agent-shopping product")
         elif a.get("kind") == "product" and not (a.get("agent_shopping") is True and AD_CODE.match(str(a.get("code") or ""))):
             hit = ("P4", "product ad without agent shopping and a code")
-        elif not url.startswith("https://") or DOWNLOAD.search(url):
+        elif not url.startswith("https://") or DOWNLOAD.search(url) or bad_link(url):
             hit = ("P4", "ad link is not a plain https page")
         elif KEYS.search(blob) or EMAIL.search(blob) or PHONE.search(blob) or LEAK.search(blob):
             hit = ("P2", "non-public information in the ad")
@@ -240,6 +348,7 @@ def main():
     ap.add_argument("--new", help="candidate posts.json")
     ap.add_argument("--ads", help="candidate ads.json (checked on its own)")
     ap.add_argument("--out", required=True, help="where to write the cleaned file")
+    ap.add_argument("--admin", action="store_true", help="allow policy / orchestrator changes")
     a = ap.parse_args()
     if a.ads:
         out, dropped = check_ads(json.load(open(a.ads, encoding="utf-8")))
@@ -248,6 +357,10 @@ def main():
             ap.error("--base and --new are required unless --ads is given")
         base = json.load(open(a.base, encoding="utf-8"))
         new = json.load(open(a.new, encoding="utf-8"))
+        broken = integrity(base, new, admin=a.admin)
+        if broken:
+            print(json.dumps({"rejected": len(broken), "violations": broken[:20]}, ensure_ascii=False, indent=1))
+            sys.exit(2)
         out, dropped = run(base, new)
     with open(a.out, "w", encoding="utf-8") as f:
         f.write(json.dumps(out, ensure_ascii=False, separators=(",", ":")))
