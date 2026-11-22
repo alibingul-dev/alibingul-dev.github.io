@@ -190,7 +190,6 @@ S.ads=function(){
   function build(ads){
     /* one ad at a time (Ali, 22 Nov 2026): it crosses the band at a steady reading speed, so a longer ad stays longer */
     var band=el('aside','adband'); band.setAttribute('aria-label',t('Sponsored','Sponsorlu'));
-    band.appendChild(el('span','adlabel',t('Sponsored','Sponsorlu')));
     var vp=el('div','advp'); band.appendChild(vp);
     var RMo=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
     var SPEED=70, i=0, cur=null, anim=null, held=false, hover=false, timer=null, drag=null, moved=false;
