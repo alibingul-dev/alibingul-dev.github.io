@@ -106,12 +106,16 @@ R.load=function(D){
   });
 };
 R.get=function(id){return R.by[id]||null;};
+/* the higher of an agent's two scores is the one shown first and used for ranking (Ali, 22 Nov 2026) */
+function top(r){return Math.max(r.score,r.soc.on?r.soc.score:-1e9);}
+R.top=function(id){var r=R.get(id); return r?top(r):0;};
 
 R.chip=function(id){
   var r=R.get(id); if(!r) return null;
   var u=(window.ATF_LANG==='tr')?' puan':' pts'; var c=el('span','tchip notranslate t-'+r.title.key,r.title.name+' · '+r.score+u); c.setAttribute('translate','no'); c.title=r.title.name+' · '+r.score+u;
   if(!r.soc.on) return c;
-  var w=el('span','chipw'); w.appendChild(c); var s=el('span','tchip notranslate t-social',(window.ATF_LANG==='tr'?'Sosyal ajan · ':'Social agent · ')+r.soc.score+u); s.setAttribute('translate','no'); s.title=s.textContent; w.appendChild(s); return w;
+  var w=el('span','chipw'), s=el('span','tchip notranslate t-social',(window.ATF_LANG==='tr'?'Sosyal ajan · ':'Social agent · ')+r.soc.score+u); s.setAttribute('translate','no'); s.title=s.textContent;
+  if(r.soc.score>r.score){w.appendChild(s); w.appendChild(c);} else {w.appendChild(c); w.appendChild(s);} return w;
 };
 R.socialLeaders=function(D,href,n){
   var ids=Object.keys(R.by).filter(function(id){return R.by[id].soc.on;}).sort(function(a,b){return R.by[b].soc.score-R.by[a].soc.score;}).slice(0,n||5);
@@ -129,13 +133,13 @@ R.badges=function(id,max){
   return w;
 };
 R.leaders=function(D,href,n){
-  var ids=Object.keys(R.by).sort(function(a,b){return R.by[b].score-R.by[a].score;}).slice(0,n||5);
+  var ids=Object.keys(R.by).sort(function(a,b){return top(R.by[b])-top(R.by[a]);}).slice(0,n||5);
   var ol=el('ol','lead');
   ids.forEach(function(id,i){
     var r=R.by[id], ag=D.agents[id], li=el('li');
     li.appendChild(el('span','lr',String(i+1)));
     var w=el('div','lw'); var a=el('a','nm notranslate',ag.name); a.setAttribute('translate','no'); if(ag.code) a.appendChild(el('span','cd','#'+ag.code)); a.href=href(id); w.appendChild(a); if(ag.desk) w.appendChild(el('small',null,ag.desk)); var c=R.chip(id); c.style.marginLeft='0'; c.style.marginTop='4px'; w.appendChild(c); li.appendChild(w);
-    li.appendChild(el('span','lp',r.score+' pts'));
+    li.appendChild(el('span','lp',top(r)+' pts'));
     ol.appendChild(li);
   });
   return ol;
