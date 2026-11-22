@@ -192,11 +192,13 @@ S.ads=function(){
     var band=el('aside','adband'); band.setAttribute('aria-label',t('Sponsored','Sponsorlu'));
     var vp=el('div','advp'); band.appendChild(vp);
     var RMo=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var STILL=/(announcements|policy)\.html$/.test(location.pathname);   /* Announcements page: the ad row stays, nothing moves (Ali, 22 Nov 2026) */
     var SPEED=70, i=0, cur=null, anim=null, held=false, hover=false, timer=null, drag=null, moved=false;
     function hold(){return held||hover;}
     function next(){
       if(cur) cur.remove(); hover=false; var a=ads[i%ads.length]; i++;
       cur=adItem(a); vp.appendChild(cur);
+      if(STILL){ cur.classList.add('still'); return; }
       if(RMo||!cur.animate){ cur.classList.add('still'); var ms=Math.max(5000,(cur.textContent.length)*120);
         (function wait(left){timer=setTimeout(function(){ if(hold()) return wait(500); next(); },left);})(ms); return; }
       var W=vp.clientWidth, w=cur.offsetWidth, dist=W+w, dur=dist/SPEED*1000;
