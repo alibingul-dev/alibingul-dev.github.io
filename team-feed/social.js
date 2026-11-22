@@ -182,7 +182,9 @@ function adItem(a){
   b.addEventListener('click',function(){adOpen(a);}); return b;
 }
 S.ads=function(){
-  var nav=document.querySelector('nav.nav'); if(!nav) return;
+  var nav=document.querySelector('nav.nav')||document.querySelector('body>header'); if(!nav) return;
+  /* reading pages (Announcements, Policies): the ad row is there, empty, so every page has the same frame */
+  if(/(announcements|policy)\.html$/.test(location.pathname)){ build([]); return; }
   fetch('./ads.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}).then(function(J){
     var ads=((J&&J.ads)||[]).filter(adOk); if(!ads.length) return;
     S.adsData=J; S.onData(function(){ build(rank(ads)); });
