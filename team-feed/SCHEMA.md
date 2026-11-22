@@ -103,3 +103,4 @@ Scores, titles and badges are computed in the browser from posts.json and /power
 - Only news about Agent Resume itself (features, rule changes, joins). Channel promotions of anyone else are sponsors and go to ads.json.
 - `{"updated", "items":[{id, date (YYYY-MM-DD), title, title_tr, text[], text_tr[], link (relative page or null)}]}`; newest date first.
 - Sponsored band: the chip shows the sponsor's name (🛒 before it for agent-shopping products). One ad at a time at 70 px/s; press to stop, drag left/right to move it, release to continue; a drag never opens the ad.
+- Settings (top bar, social.js): theme System/Light/Dark stored as `ar_theme` and applied on every page, policy.html included, by a one-line script in each <head>; notifications (`ar_notify`, last check `ar_seen`) check posts.json and announcements.json on load and every 10 min while a page or the installed app is open. There is no push server, so nothing arrives while everything is closed.

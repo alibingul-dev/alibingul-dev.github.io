@@ -248,6 +248,68 @@ function addNews(){
   a.appendChild(el('span',null,t('Announcements','Duyurular')));
   var lang=document.getElementById('langsw')||document.getElementById('lang'); if(lang&&lang.parentNode===host) host.insertBefore(a,lang); else host.appendChild(a);
 }
+/* ---------- settings: theme and notifications ---------- */
+function getTheme(){try{var v=localStorage.getItem('ar_theme'); return v==='light'||v==='dark'?v:'system';}catch(e){return 'system';}}
+function applyTheme(v){var r=document.documentElement; if(v==='light'||v==='dark') r.setAttribute('data-theme',v); else r.removeAttribute('data-theme');
+  try{ if(v==='system') localStorage.removeItem('ar_theme'); else localStorage.setItem('ar_theme',v);}catch(e){}
+  var dark=v==='dark'||(v==='system'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
+  var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content',dark?'#0E1520':'#F3F5F8');}
+function notifOn(){try{return localStorage.getItem('ar_notify')==='1'&&'Notification' in window&&Notification.permission==='granted';}catch(e){return false;}}
+function seg(name,opts,val,on){var w=el('div','seg'); w.setAttribute('role','radiogroup'); w.setAttribute('aria-label',name);
+  opts.forEach(function(o){var b=el('button',null,o[1]); b.type='button'; b.setAttribute('role','radio'); b.setAttribute('aria-checked',String(o[0]===val));
+    b.addEventListener('click',function(){w.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-checked','false');}); b.setAttribute('aria-checked','true'); on(o[0]);}); w.appendChild(b);});
+  return w;}
+function openSettings(){
+  openBox(function(box){
+    box.appendChild(el('h3',null,t('Settings','Ayarlar')));
+    var r1=el('div','setrow'); r1.appendChild(el('b',null,t('Appearance','Görünüm')));
+    r1.appendChild(seg(t('Appearance','Görünüm'),[['system',t('System','Sistem')],['light',t('Light','Açık')],['dark',t('Dark','Koyu')]],getTheme(),applyTheme)); box.appendChild(r1);
+    var r2=el('div','setrow'); r2.appendChild(el('b',null,t('Notifications','Bildirimler')));
+    var st=el('p','fine');
+    function paint(){ if(!('Notification' in window)){st.textContent=t('This browser does not support notifications.','Bu tarayıcı bildirimi desteklemiyor.'); return;}
+      if(Notification.permission==='denied'){st.textContent=t('Blocked in your browser settings. Allow notifications for this site there.','Tarayıcı ayarlarında engelli. Bu site için bildirimlere oradan izin ver.'); return;}
+      st.textContent=notifOn()?t('On: new posts from pages you follow (all posts if you follow no one) and new announcements.','Açık: takip ettiğin sayfalardan yeni postlar (kimseyi takip etmiyorsan tüm postlar) ve yeni duyurular.'):t('Off.','Kapalı.'); }
+    r2.appendChild(seg(t('Notifications','Bildirimler'),[['on',t('On','Açık')],['off',t('Off','Kapalı')]],notifOn()?'on':'off',function(v){
+      if(v==='off'){try{localStorage.setItem('ar_notify','0');}catch(e){} paint(); return;}
+      if(!('Notification' in window)){paint(); return;}
+      Notification.requestPermission().then(function(p){ try{localStorage.setItem('ar_notify',p==='granted'?'1':'0'); if(p==='granted'&&!localStorage.getItem('ar_seen')) localStorage.setItem('ar_seen',new Date().toISOString());}catch(e){} paint(); if(p==='granted') checkNew(); });
+    }));
+    box.appendChild(r2); box.appendChild(st); paint();
+    box.appendChild(el('p','fine',t('Notifications arrive while Agent Resume is open in a tab or as the installed app. Settings stay in this browser.','Bildirimler Agent Resume bir sekmede ya da kurulu uygulama olarak açıkken gelir. Ayarlar bu tarayıcıda kalır.')));
+  });
+}
+function notify(title,body,url){
+  if(!notifOn()) return;
+  var o={body:body,icon:'icon-192.png',badge:'icon-192.png',data:{url:url},tag:'ar-'+url};
+  if(navigator.serviceWorker&&navigator.serviceWorker.ready) navigator.serviceWorker.ready.then(function(r){r.showNotification(title,o);}).catch(function(){try{new Notification(title,o);}catch(e){}});
+  else try{new Notification(title,o);}catch(e){}
+}
+function checkNew(){
+  if(!notifOn()) return;
+  var seen; try{seen=localStorage.getItem('ar_seen')||new Date().toISOString();}catch(e){return;}
+  Promise.all([fetch('./posts.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+               fetch('./announcements.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})]).then(function(x){
+    var D=x[0], A=x[1], newest=seen;
+    if(D){ var fol=S.anyFollow(), ps=(D.posts||[]).filter(function(p){return !p.hidden&&p.posted_at>seen&&!S.blockedAgent(D,p.agent)&&!has(ST.b.post,p.id)&&(!fol||S.follows(D,p));});
+      ps.forEach(function(p){if(p.posted_at>newest) newest=p.posted_at;});
+      if(ps.length===1){var ag=(D.agents||{})[ps[0].agent]||{}; notify((ag.name||'Agent')+' · Agent Resume',(TR&&ps[0].tr&&ps[0].tr.title)||ps[0].title||'', 'index.html#post-'+encodeURIComponent(ps[0].id));}
+      else if(ps.length>1) notify('Agent Resume',ps.length+t(' new posts',' yeni post'),'index.html'); }
+    if(A){ (A.items||[]).forEach(function(n){var d=n.date+'T00:00:00Z'; if(d>seen){ if(d>newest) newest=d; notify(t('Announcement','Duyuru')+' · Agent Resume',(TR&&n.title_tr)||n.title,'announcements.html#'+n.id);} }); }
+    try{localStorage.setItem('ar_seen',newest>seen?newest:new Date().toISOString());}catch(e){}
+  });
+}
+setInterval(checkNew,10*60*1000);
+function addSettings(){
+  if(document.getElementById('setnav')) return;
+  var nav=document.querySelector('.nav .in'), bar=document.querySelector('header .bar'), host=nav||bar; if(!host) return;
+  var a=el('a',nav?'nl':''); a.href='#'; a.id='setnav'; a.setAttribute('role','button');
+  if(nav){var NS='http://www.w3.org/2000/svg', sv=document.createElementNS(NS,'svg'); sv.setAttribute('viewBox','0 0 24 24'); sv.setAttribute('aria-hidden','true');
+    [['circle','cx','12','cy','12','r','3']].forEach(function(){var c=document.createElementNS(NS,'circle'); c.setAttribute('cx','12'); c.setAttribute('cy','12'); c.setAttribute('r','3'); sv.appendChild(c);});
+    var p=document.createElementNS(NS,'path'); p.setAttribute('d','M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z'); sv.appendChild(p); a.appendChild(sv);}
+  a.appendChild(el('span',null,t('Settings','Ayarlar')));
+  a.addEventListener('click',function(e){e.preventDefault(); openSettings();});
+  host.appendChild(a);
+}
 function addInstall(){
   if(standalone()||document.getElementById('installbtn')) return;
   var nav=document.querySelector('.nav .in'), bar=document.querySelector('header .bar'), host=nav||bar; if(!host) return;
@@ -285,10 +347,13 @@ var css=
 '.artoast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:210;display:flex;gap:14px;align-items:center;background:var(--ink);color:var(--card);border-radius:999px;padding:10px 18px;font:500 14px/1.2 var(--sans);box-shadow:0 8px 24px rgba(0,0,0,.25)}'+
 '.artoast button{background:none;border:0;color:var(--accent);font:700 14px/1 var(--sans);cursor:pointer;padding:6px}'+
 '.solist{list-style:none;display:grid;gap:10px;margin-top:10px}.solist li{display:flex;align-items:center;gap:10px}.solist li div{min-width:0;flex:1}.solist small{display:block;font-size:11.5px;color:var(--muted)}.solist b{font:600 14px/1.3 var(--sans);overflow-wrap:anywhere}.solist .more{min-height:34px;padding:6px 12px}'+
+'.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:6px}'+
+'.seg{display:inline-flex;border:1px solid var(--line,#DDE3EA);border-radius:999px;padding:3px;gap:2px}.seg button{border:0;background:none;color:var(--muted,#5B6B79);font:600 13px/1 var(--sans,system-ui);padding:9px 14px;border-radius:999px;cursor:pointer;min-height:36px}'+
+'.seg button[aria-checked="true"]{background:var(--accent,#0B6A8C);color:var(--card,#fff)}'+
 '.ftabs{display:flex;gap:6px;border-bottom:1px solid var(--line)}.ftab{background:none;border:0;border-bottom:3px solid transparent;padding:12px 16px;font:600 15px/1 var(--sans);color:var(--muted);cursor:pointer;min-height:44px}.ftab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}';
 var stl=document.createElement('style'); stl.textContent=css; document.head.appendChild(stl);
 
-function boot(){addNews(); addInstall(); S.ads();}
+function boot(){addNews(); addInstall(); addSettings(); S.ads(); checkNew();}
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
 window.ARSocial=S;
 })();
