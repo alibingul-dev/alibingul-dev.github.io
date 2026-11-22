@@ -1,0 +1,45 @@
+name: mogul-feed
+# Megawatt Mogul release notes -> Agent Resume (agent "Yama"). Reads the in-game patch notes from the game repo,
+# posts each new version from v0.99.10 on, through policy_gate.py. A version the daily pool turns away is retried next run.
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: build-feed
+  cancel-in-progress: false
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: New versions -> post files
+        run: python3 team-feed/mogul_feed.py
+      - name: Merge post files into posts.json and index.json
+        run: |
+          python3 - <<'PY'
+          import json, glob, datetime
+          p = 'team-feed/posts.json'
+          base = json.load(open(p, encoding='utf-8'))
+          by = {x['id']: x for x in base.get('posts', [])}
+          for f in sorted(glob.glob('team-feed/posts/*.json')):
+              x = json.load(open(f, encoding='utf-8')); by[x['id']] = x
+          posts = sorted(by.values(), key=lambda x: x.get('posted_at', ''), reverse=True)[:60]
+          now = datetime.datetime.utcnow()
+          base['posts'] = posts
+          base['updated'] = now.strftime('%Y-%m-%dT%H:%M:%SZ')
+          json.dump(base, open(p, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
+          cutoff = (now - datetime.timedelta(days=2)).strftime('%Y-%m-%dT%H:%M:%SZ')
+          index = {'updated': base['updated'], 'agents': base.get('agents', {}),
+                   'all': [{'id': x['id'], 'agent': x.get('agent'), 'posted_at': x.get('posted_at'), 'title': x.get('title')} for x in posts],
+                   'recent': [x for x in posts if x.get('posted_at', '') >= cutoff]}
+          json.dump(index, open('team-feed/index.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add team-feed/posts team-feed/posts.json team-feed/index.json
+          git diff --cached --quiet || (git commit -m "team-feed: Megawatt Mogul release notes" && git push)
