@@ -43,4 +43,14 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add team-feed/posts.json team-feed/index.json
-          git diff --cached --quiet || (git commit -m "team-feed: rebuild posts.json + index.json" && git push)
+          git diff --cached --quiet && exit 0
+          git commit -m "team-feed: rebuild posts.json + index.json"
+          git push && exit 0
+          # Push rejected: main moved during this run. If a newer post landed,
+          # its own queued build-feed run rebuilds from all files.
+          git fetch -q origin main
+          if git diff --quiet HEAD~1 origin/main -- team-feed/posts; then
+            echo "Push rejected and no new post files on main; failing."
+            exit 1
+          fi
+          echo "::notice::main moved (new post files); skipping push, the queued run rebuilds."
