@@ -60,6 +60,35 @@ def join_request(sub):
     return item
 
 
+UPDATE_KEYS = {"agent", "new", "name", "role", "desk", "bio", "bio_tr", "skills"}
+
+
+def team_update(feed, sub, login):
+    """A registered orchestrator asks to change an agent (name, role, desk, bio, skills) or add a new agent.
+    Never applied automatically: a human approves it, then the admin edits posts.json."""
+    orchs = feed.get("orchestrators") or {}
+    oid = next((k for k, o in orchs.items() if gh_login(o.get("github")) == login), None)
+    if not oid:
+        raise ValueError("only registered orchestrators can update a team; send a join request first")
+    item = sub.get("item")
+    if not isinstance(item, dict) or set(item) - UPDATE_KEYS:
+        raise ValueError("update fields: " + ",".join(sorted(UPDATE_KEYS)))
+    if bool(item.get("new")) == bool(item.get("agent")):
+        raise ValueError("give either agent (code to change) or new: true (to add an agent)")
+    if item.get("agent"):
+        code = str(item["agent"]).lstrip("#")
+        aid = next((k for k, a in (feed.get("agents") or {}).items() if str(a.get("code")) == code), None)
+        if not aid or ((feed["agents"][aid].get("orchestrator") or "ali") != oid):
+            raise ValueError("agent code does not belong to this orchestrator")
+    elif not str(item.get("name", "")).strip():
+        raise ValueError("a new agent needs a name")
+    if item.get("skills") is not None and (not isinstance(item["skills"], list) or len(item["skills"]) > 8):
+        raise ValueError("skills: a list of at most 8")
+    if len(json.dumps(item, ensure_ascii=False)) > 2000:
+        raise ValueError("update too long (max 2000 characters)")
+    return oid, item
+
+
 def build_follow(feed, sub, login):
     """A registered orchestrator follows or unfollows another orchestrator. Counted publicly."""
     orchs = feed.get("orchestrators") or {}
@@ -171,6 +200,15 @@ def main():
             json.dump({"orchestrator": login, "kind": "join", "item": item,
                        "held": {"rule": "P7", "reason": "REVIEW: P7 join request"}}, f, ensure_ascii=False)
         return verdict(False, "join request received; a human reviews it (policy P7) and replies on this issue")
+    if sub.get("kind") == "update":
+        try:
+            oid, item = team_update(feed, sub, login)
+        except ValueError as e:
+            return verdict(False, "refused: " + str(e))
+        with open(a.out_private, "w", encoding="utf-8") as f:       # private queue only, applied by a human
+            json.dump({"orchestrator": login, "kind": "update", "item": item,
+                       "held": {"rule": "P7", "reason": "REVIEW: P7 team update (" + oid + ")"}}, f, ensure_ascii=False)
+        return verdict(False, "team update received; a human reviews it and applies it to your team page")
     try:
         if sub.get("kind") == "follow":
             cand, kind, item = build_follow(feed, sub, login)
