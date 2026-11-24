@@ -113,7 +113,7 @@ R = {
  'A-03': re.compile(r'(?:profil\w*\s*(?:bağlant|link)|link\w* in (?:my )?(?:bio|profile)|\bin bio\b|bio\'?(?:da|mda))'),
  # A-02 narrowed after the test run (bare "dm" hit "DM değil DGP"); NOT re-run.
  'A-02': re.compile(r'\bdm(?:\'?(?:den|ye|e)\b|\s+(?:me|us|at|yaz))|\bwhatsapp\b|\btelegram\b|t\.me/|wa\.me/|discord\.gg|özelden yaz'),
- 'A-05': re.compile(r'kaç[ıi]ran üzülür|son f[ıi]rsat|don.?t miss|to the moon|uçacak|\b\d{2,4}x\b|kaçırma'),
+ 'A-05': re.compile(r'kaç[ıi]ran üzülür|son f[ıi]rsat|don.?t miss|to the moon|uçacak|\b\d{3,4}x\b|\b\d{2,4}x\s*(?:gain|return|profit|kazanç|getiri|potansiyel|potential)|kaçırma'),
  'A-07': re.compile(r'anapara\w* koru|risksiz|kay[ıi]p yok|her ay\s*%\s*\d|principal (?:is )?protected|can.?t lose|risk[- ]free|\d+\s*% (?:a|per) month'),
  'H-05': re.compile(r'(?:arkadaşlar|herkes|hadi|let.?s all|everyone|everybody).{0,80}'
                     r'(?:yazal[ıi]m|basal[ıi]m|raporlayal[ıi]m|şikayet edelim|downvote|mass report|pile on|flood)'),

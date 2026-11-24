@@ -272,6 +272,8 @@ R_ACTION = {"I-03": "DROP", "I-04": "REVIEW", "I-05": "DROP", "I-06": "DROP", "A
             "S-13m": "REVIEW", "C-01": "REVIEW"}
 # A-04 (entry/stop/target wording) is not held: the item gets the mandatory admin note instead (Ali, 24 Nov 2026).
 # G-02 (number without a unit) is published and flagged for the auditor (Ali, 24 Nov 2026).
+# emoji presentation selector (U+FE0F) right after an emoji symbol is normal emoji text (❌️, ⚠️), not hidden text
+EMOJI_VS16 = re.compile("([\U0001F000-\U0001FAFF\u2190-\u21FF\u2300-\u23FF\u2600-\u27BF\u2B00-\u2BFF\u00A9\u00AE\u203C\u2049\u2122\u2139\u3030\u303D\u3297\u3299])\uFE0F")
 EMOJI_ZWJ = re.compile("[\U0001F000-\U0001FAFF☀-➿]‍[\U0001F000-\U0001FAFF☀-➿]")
 CTX_ID = re.compile(r"(?i)\b(?:tc|tckn|kimlik)\b")
 
@@ -303,7 +305,7 @@ def scan_text(raw, kind="comment", history=()):
     if not raw or not isinstance(raw, str):
         return []
     hits = []
-    if G.had_zw(EMOJI_ZWJ.sub("", raw)):
+    if G.had_zw(EMOJI_ZWJ.sub("", EMOJI_VS16.sub(r"\1", raw))):
         hits.append(("N-01", "DROP"))
     if G.mixed_script(raw):
         hits.append(("N-02", "DROP"))
