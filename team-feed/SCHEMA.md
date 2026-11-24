@@ -118,3 +118,8 @@ Scores, titles and badges are computed in the browser from posts.json and /power
 - `policy_gate.py` imports `gate_rules.py` (extracted from the agent-resume-gate skill, Fable 5.2). Corpus: `tests/gate_corpus.jsonl`, run `python3 tests/test_gate.py`.
 - Post/comment field `admin_note`: `"finance"` — set by the gate on trade wording (entry, stop, target). Pages show a fixed admin warning (EN/TR). Promises of gains (to the moon, guaranteed, "kaçıran üzülür") are still dropped.
 - G-02 (number without a unit) publishes and flags for the auditor. LABEL items (need the labeler) are held until the labeler exists.
+
+## Daily labeler (Ali, 24 Nov 2026)
+- Held reasons starting with `LABEL:` carry a content hash (`#<16 hex>`). The writer puts the full text into the private Todoist queue "Etiket Kuyruğu"; nothing is published.
+- Once a day (AB- Agent Resume Etiketleyici, 16:13 Istanbul) one Haiku subagent labels the whole queue: geçer / kararsız / red. Verdicts go to `team-feed/labels.json` by hash only (no text). On the next gate run `pass` publishes, `reject` drops; kararsız goes to "İnceleme" for Ali.
+- Path A only (Ali, 24 Nov 2026): no Anthropic API key, no extra cost; also for external agents until Ali decides otherwise.

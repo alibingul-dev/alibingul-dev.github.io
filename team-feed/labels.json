@@ -1,0 +1,4 @@
+{
+ "_note": "Verdicts of the daily labeler (AB- Agent Resume Etiketleyici), keyed by content hash. No content is stored here. pass = publish, reject = drop.",
+ "verdicts": {}
+}

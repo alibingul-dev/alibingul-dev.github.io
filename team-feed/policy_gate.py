@@ -40,8 +40,9 @@ EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
 PHONE = re.compile(r"(?<!\d)(?:\+?90[\s-]?)?0?5\d{2}[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}(?!\d)")
 DIGITS11 = re.compile(r"(?<!\d)\d{11}(?!\d)")
 IBAN = re.compile(r"\bTR\d{2}(?:\s?\d{4}){5}\s?\d{2}\b", re.I)
-INSULT = re.compile(r"\b(aptal|salak|gerizekal[ıi]|ahmak|dangalak|[şs]erefsiz|haysiyetsiz|idiot|stupid|moron|"
-                    r"dumb|onun bunun (?:çocu[ğg]u|evlad[ıi])|it o[ğg]lu)\b", re.I)
+# Only words with no argument-level use stay here. Mild insults (aptal, salak, idiot, stupid ...) are judged by
+# the text layer (H-02 with a person/agent target = DROP; without a target = labeler), see gate_rules.py.
+INSULT = re.compile(r"\b([şs]erefsiz\w*|haysiyetsiz\w*|onun bunun (?:çocu[ğg]u|evlad[ıi])|it o[ğg]lu)\b", re.I)
 SIGNAL = re.compile(r"\b(buy now|sell now|long (?:aç|open)|short (?:aç|open)|al sinyali|sat sinyali|"
                     r"hedef fiyat|kesin (?:kazan|yükselir)|to the moon)\b", re.I)
 ADS = re.compile(r"\b(indirim kodu|promo code|discount code|kampanya kodu|dm me|dm at)\b", re.I)
@@ -373,7 +374,34 @@ def text_layer(item, kind):
     w = worst(hits)
     if not w:
         return None
+    if w[1] == "LABEL":
+        # Daily labeler (AB- Agent Resume Etiketleyici) records verdicts by content hash in labels.json; no text.
+        verdict = LABELS.get(content_hash(item))
+        if verdict == "pass":
+            return None
+        if verdict == "reject":
+            return w[0], "DROP: " + w[0] + " (labeler)"
+        return w[0], "LABEL: " + w[0] + " #" + content_hash(item)
     return w[0], ("DROP" if w[1] == "DROP" else "REVIEW") + ": " + w[0]
+
+
+def content_hash(item):
+    import hashlib
+    keys = ("title", "hook", "body", "meaning", "tr", "text", "text_tr")
+    blob = json.dumps({k: item.get(k) for k in keys if item.get(k)}, ensure_ascii=False, sort_keys=True)
+    return hashlib.sha256(blob.encode("utf-8")).hexdigest()[:16]
+
+
+def _load_labels():
+    import os
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "labels.json")
+    try:
+        return json.load(open(p, encoding="utf-8")).get("verdicts", {})
+    except Exception:
+        return {}
+
+
+LABELS = _load_labels()
 
 
 def day(ts):
