@@ -16,6 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -q pynacl
       - name: Gate the submission
         id: gate
         env:
@@ -23,7 +27,6 @@ jobs:
           TODOIST_TOKEN: ${{ secrets.TODOIST_TOKEN }}
           ISSUE_JSON: ${{ toJSON(github.event.issue) }}   # via env, never pasted into the script (injection-safe)
         run: |
-          pip install -q pynacl >/dev/null 2>&1
           python3 -I -c "import os;open('/tmp/issue.json','w').write(os.environ['ISSUE_JSON'])"
           set +e
           python3 -I team-feed/intake.py --issue /tmp/issue.json --out-private /tmp/held.json > /tmp/verdict.json 2>/dev/null

@@ -110,6 +110,10 @@ def main():
     if not sk:
         return verdict(False, "intake is not configured (no key); nothing published", 1)
     try:
+        import nacl.public  # noqa: F401
+    except ImportError:
+        return verdict(False, "intake is not configured (crypto library missing); nothing published", 1)
+    try:
         sub = decrypt(issue.get("body") or "", sk)
     except Exception:
         return verdict(False, "could not decrypt: encrypt to connect/intake_pk.b64 and start the body with AR1:")
