@@ -249,7 +249,124 @@ def check(item, kind):
             return "P4", "more than one link"
         if PRAISE.search(t) and not re.search(r"\d", t) and len(t) < 120:
             return "P5", "praise without the fact it rests on"
+    return text_layer(item, kind)
+
+
+# ---- Text layer from the agent-resume-gate skill (Fable 5.2, 22 Nov 2026): gate_rules.py -------------
+# Runs after the checks above. DROP -> "Kapı Retleri"; REVIEW and LABEL (no labeler yet, fail-closed) are
+# held as well and go to "İnceleme". FLAG items are published. Rule IDs are the skill's (S-01, H-07, I-03 ...).
+import gate_rules as G   # noqa: E402  (missing module = ImportError = no commit: fail-closed)
+
+AUTHOR_GH = None   # orchestrator GitHub username, set by run() (L-05: own repos pass)
+RANK = {"DROP": 4, "REVIEW": 3, "LABEL": 2, "FLAG": 1}
+R_ACTION = {"I-03": "DROP", "I-04": "REVIEW", "I-05": "DROP", "I-06": "DROP", "A-03": "DROP", "A-02": "DROP",
+            "A-05": "DROP", "A-07": "DROP", "H-05": "DROP", "T-02": "DROP", "K-09": "DROP", "S-13": "DROP",
+            "S-13m": "REVIEW", "C-01": "REVIEW"}
+EMOJI_ZWJ = re.compile("[\U0001F000-\U0001FAFF☀-➿]‍[\U0001F000-\U0001FAFF☀-➿]")
+CTX_ID = re.compile(r"(?i)\b(?:tc|tckn|kimlik)\b")
+
+
+def raw_scan(raw):
+    hits = []
+    for rid, rx in G.RAW.items():
+        if rid == "K-04c":
+            for m in rx.finditer(raw):
+                if G.tckn_ok(m.group(0)):
+                    hits.append(("K-04", "DROP" if CTX_ID.search(raw[max(0, m.start() - 40):m.end() + 40]) else "REVIEW"))
+        elif rid == "K-05c":
+            if any(G.iban_ok(m.group(0)) for m in rx.finditer(raw)):
+                hits.append(("K-05", "DROP"))
+        elif rid == "K-06c":
+            if any(G.luhn_ok(m.group(0)) for m in rx.finditer(raw)):
+                hits.append(("K-06", "DROP"))
+        elif rx.search(raw):
+            hits.append((rid, "DROP"))
+    for cand in re.findall(r"(?<![\w/.:-])[A-Za-z0-9+_=-]{32,}(?![\w/.-])", raw):          # S-06
+        if G.shannon(cand) >= 4.0 and not re.fullmatch(r"[0-9a-f]{40}", cand):
+            hits.append(("S-06", "REVIEW"))
+            break
+    return hits
+
+
+def scan_text(raw, kind="comment", history=()):
+    """Every text rule of the skill on one field. Returns [(rule, action)]."""
+    if not raw or not isinstance(raw, str):
+        return []
+    hits = []
+    if G.had_zw(EMOJI_ZWJ.sub("", raw)):
+        hits.append(("N-01", "DROP"))
+    if G.mixed_script(raw):
+        hits.append(("N-02", "DROP"))
+    hits += raw_scan(raw)
+    hits += [("S-11", a) for _, a in G.decode_and_rescan(raw, raw_scan)]
+    if G.ascii_smuggle(raw):
+        hits.append(("S-12", "REVIEW"))
+    norm = G.normalize(raw, True) + "\n" + G.normalize(raw, False)
+    found = {rid for rid, rx in G.R.items() if rx.search(norm)}
+    for rid in found:
+        act = "DROP" if rid == "I-04" and "I-03" in found else R_ACTION.get(rid, "REVIEW")
+        hits.append(("S-13" if rid == "S-13m" else rid, act))
+    b = G.insult_b(raw)
+    if b != "PASS":
+        hits.append(("H-02", "DROP") if b == "DROP" else ("H-03", "LABEL"))
+    v = G.veiled(raw)
+    if v:
+        hits.append(("H-07", v))
+    for rid, fn in (("A-01", lambda: G.a01(norm)), ("K-07", lambda: G.k07(norm)), ("H-06", lambda: G.h06(raw, norm)),
+                    ("I-08", lambda: G.i08(raw)), ("G-02", lambda: g02(raw)), ("K-10", lambda: G.k10(list(history), raw))):
+        a = fn()
+        if a:
+            hits.append((rid, a))
+    if kind == "comment" and G.y03(raw):
+        hits.append(("Y-03", "DROP"))
+    hits += G.link_scan(raw, AUTHOR_GH)
+    if not re.search(r"https?://", raw):
+        hits += [(rid, "REVIEW") for rid in G.links(raw, AUTHOR_GH)]
+    return hits
+
+
+# G-02 per the skill's own spec ("number + unit within 3 tokens"); the skill's g02() looks only 14 characters
+# ahead and held 50 of 60 live posts (day numbers before month names, ranges like 16.560–17.156 MW, "20+").
+MONTHS = (r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*|ocak|şubat|mart|nisan|mayıs|haziran|temmuz|ağustos"
+          r"|eylül|ekim|kasım|aralık")
+UNIT3 = re.compile(r"(?i)^(?:[\s,–—+-]*(?:\d[\d.,]*|[^\s\d]+)){0,3}?[\s(]*(?:" + G.UNIT + r"|" + MONTHS +
+                   r"|cents?|sent\w*|plugins?|eklenti\w*|pence|p\b|bps|x\b)")
+
+
+def g02(raw):
+    t = G.G02_STRIP.sub(" ", raw)
+    for m in G.G02_NUM.finditer(t):
+        n, after = m.group(0), t[m.end():m.end() + 40]
+        if re.fullmatch(r"(?:19|20)\d{2}", n) or re.match(r"\s*[/:%]", after) or re.match(r"['’]", after):
+            continue
+        if UNIT3.match(after):
+            continue
+        return "REVIEW"
     return None
+
+
+def worst(hits):
+    hits = [h for h in hits if h[1] != "FLAG"]
+    return max(hits, key=lambda h: RANK.get(h[1], 0)) if hits else None
+
+
+def text_layer(item, kind):
+    fields = texts(item, kind)
+    if kind == "post":
+        fields += [str(s.get("title") or "") for s in (item.get("sources") or []) if isinstance(s, dict)]
+        fields += [str((item.get("media") or {}).get("alt") or "")]
+    else:
+        t, tt = item.get("text") or "", item.get("text_tr") or ""
+        nums = lambda s: set(re.findall(r"\d+", s.replace(".", "").replace(",", "")))
+        if t and tt and nums(t) != nums(tt):
+            return "Y-05", "REVIEW: numbers differ between the two languages"
+    hits = []
+    for f in fields:
+        hits += scan_text(f, kind)
+    w = worst(hits)
+    if not w:
+        return None
+    return w[0], ("DROP" if w[1] == "DROP" else "REVIEW") + ": " + w[0]
 
 
 def day(ts):
@@ -294,9 +411,11 @@ def check_ads(doc):
 
 
 def run(base, new):
-    global AGENTS
+    global AGENTS, AUTHOR_GH
     agents = new.get("agents") or {}
     AGENTS = agents
+    gh = str(((new.get("orchestrators") or {}).get("ali") or {}).get("github") or "")
+    AUTHOR_GH = gh.rstrip("/").rsplit("/", 1)[-1] or None
     orch = lambda a: (agents.get(a) or {}).get("orchestrator", "ali")
     old_posts = {p["id"]: p for p in base.get("posts", [])}
     old_comments = {ckey(p["id"], c) for p in base.get("posts", []) for c in p.get("comments") or []}
