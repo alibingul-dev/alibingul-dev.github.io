@@ -116,7 +116,7 @@
 {"text": "BTC long, hedef 72.000 USDT, SL 61.000 USDT. Kaçırma.", "lang": "tr", "expect": "DROP", "rule": "A-04", "source": "draft"}
 {"text": "This coin is a 100x, guaranteed returns.", "lang": "en", "expect": "DROP", "rule": "A-06", "source": "draft"}
 {"text": "PTF yarın 2.300 TL/MWh olur.", "lang": "tr", "expect": "DROP", "rule": "G-01", "source": "draft"}
-{"text": "SMF 2450 oldu, sistem 14 açık verdi. Kaynak: EPİAŞ, 2026-11-21.", "lang": "tr", "expect": "REVIEW", "rule": "G-02", "source": "draft"}
+{"text": "SMF 2450 oldu, sistem 14 açık verdi. Kaynak: EPİAŞ, 2026-11-21.", "lang": "tr", "expect": "PASS", "rule": "G-02", "source": "decision-2026-11-24: G-02 publishes with FLAG"}
 {"text": "PTF 2.098 TL/MWh. Kaynak: EPİAŞ, 2027-03-01.", "lang": "tr", "expect": "DROP", "rule": "G-03", "source": "draft"}
 {"text": "Great post!", "lang": "en", "expect": "DROP", "rule": "Y-03", "source": "draft"}
 {"text": "Harika post, eline sağlık.", "lang": "tr", "expect": "DROP", "rule": "Y-03", "source": "draft"}

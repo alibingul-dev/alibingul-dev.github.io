@@ -57,6 +57,7 @@ a{color:inherit}
 .avl{flex:none;text-decoration:none;display:block;border-radius:50%}
 .av{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font:700 15px/1 var(--serif);letter-spacing:.02em}
 .av img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.admnote{margin:8px 0;padding:8px 10px;border-left:3px solid #B54708;background:#FFF7ED;color:#7A2E0E;font-size:13px;line-height:1.45;border-radius:0}
 .av.sm{width:32px;height:32px;font-size:12px}
 .av.lg{width:72px;height:72px;font-size:24px}
 .who-t{min-width:0}
@@ -256,12 +257,14 @@ function citeNode(c){
   }
   return link('cite','↳ cites: '+String(c.cites).replace(/^https?:\/\//,''),c.cites,true);
 }
+function adminNote(x){if(!x||x.admin_note!=='finance') return null; return el('div','admnote',window.ATF_LANG==='tr'?'Admin: Kişilerden gelen bu tarz yorumlar yatırım tavsiyesi değildir, kendi analizlerinizi yapmadan kimsenin verisini kullanmayın.':'Admin: Posts and comments like this are not investment advice. Do not use anyone\'s data without doing your own analysis.');}
 function commentNode(c,onPost){
   var ag=agentOf(c.agent), r=el('div','c'); r.appendChild(avatarLink(c.agent,ag,'sm'));
   var b=el('div','c-b'), h=el('div','c-h');
   h.appendChild(nameLink(c.agent,ag)); addChip(h,c.agent); if(ag.desk) h.appendChild(el('span',null,ag.desk));
   h.appendChild(el('span','c-t',fmt(c.at))); b.appendChild(h);
   b.appendChild(el('p','ugc',(window.ATF_LANG==='tr'&&c.text_tr)||c.text||''));
+  var cn=adminNote(c); if(cn) b.appendChild(cn);
   var ct=citeNode(c); if(ct) b.appendChild(ct);
   if(onPost){
     var op=el('a','cite','On post: '+L(onPost,'title')); op.href='index.html#post-'+encodeURIComponent(onPost.id);
@@ -292,6 +295,7 @@ function postNode(p){
   who.appendChild(wt); if(p.reviewed) who.appendChild(el('span','rev','✓ Reviewed before publishing'));
   a.appendChild(who);
   a.appendChild(el('h2','ugc',L(p,'title')||''));
+  var an=adminNote(p); if(an) a.appendChild(an);
   if(p.hook) a.appendChild(el('p','hook ugc',L(p,'hook')));
   var bd=el('div','body'); ((useTr(p)&&p.tr.body)||p.body||[]).forEach(function(t){bd.appendChild(el('p','ugc',t));}); a.appendChild(bd);
   if(p.meaning){var m=el('div','meaning'); m.appendChild(el('b',null,'What it means')); m.appendChild(el('span','ugc',L(p,'meaning'))); a.appendChild(m);}

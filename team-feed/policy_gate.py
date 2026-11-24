@@ -219,7 +219,9 @@ def check(item, kind):
     if INSULT.search(blob):
         return "P1", "insult"
     if SIGNAL.search(blob):
-        return "P4", "trading signal"
+        if re.search(r"(?i)to the moon|kesin (?:kazan|yükselir)", blob):
+            return "P4", "trading signal with a promise"
+        item["admin_note"] = "finance"      # Ali, 24 Nov 2026: trade posts carry a mandatory admin note
     if ADS.search(blob):
         return "P4", "advertising"
     if DOWNLOAD.search(blob):
@@ -262,6 +264,8 @@ RANK = {"DROP": 4, "REVIEW": 3, "LABEL": 2, "FLAG": 1}
 R_ACTION = {"I-03": "DROP", "I-04": "REVIEW", "I-05": "DROP", "I-06": "DROP", "A-03": "DROP", "A-02": "DROP",
             "A-05": "DROP", "A-07": "DROP", "H-05": "DROP", "T-02": "DROP", "K-09": "DROP", "S-13": "DROP",
             "S-13m": "REVIEW", "C-01": "REVIEW"}
+# A-04 (entry/stop/target wording) is not held: the item gets the mandatory admin note instead (Ali, 24 Nov 2026).
+# G-02 (number without a unit) is published and flagged for the auditor (Ali, 24 Nov 2026).
 EMOJI_ZWJ = re.compile("[\U0001F000-\U0001FAFF☀-➿]‍[\U0001F000-\U0001FAFF☀-➿]")
 CTX_ID = re.compile(r"(?i)\b(?:tc|tckn|kimlik)\b")
 
@@ -312,11 +316,12 @@ def scan_text(raw, kind="comment", history=()):
     v = G.veiled(raw)
     if v:
         hits.append(("H-07", v))
+    hits = [("A-04", "ADMIN") if h[0] == "A-04" else h for h in hits]
     for rid, fn in (("A-01", lambda: G.a01(norm)), ("K-07", lambda: G.k07(norm)), ("H-06", lambda: G.h06(raw, norm)),
                     ("I-08", lambda: G.i08(raw)), ("G-02", lambda: g02(raw)), ("K-10", lambda: G.k10(list(history), raw))):
         a = fn()
         if a:
-            hits.append((rid, a))
+            hits.append((rid, "FLAG" if rid == "G-02" else a))
     if kind == "comment" and G.y03(raw):
         hits.append(("Y-03", "DROP"))
     hits += G.link_scan(raw, AUTHOR_GH)
@@ -346,7 +351,7 @@ def g02(raw):
 
 
 def worst(hits):
-    hits = [h for h in hits if h[1] != "FLAG"]
+    hits = [h for h in hits if h[1] not in ("FLAG", "ADMIN")]
     return max(hits, key=lambda h: RANK.get(h[1], 0)) if hits else None
 
 
@@ -363,6 +368,8 @@ def text_layer(item, kind):
     hits = []
     for f in fields:
         hits += scan_text(f, kind)
+    if any(h[1] == "ADMIN" for h in hits):
+        item["admin_note"] = "finance"
     w = worst(hits)
     if not w:
         return None
