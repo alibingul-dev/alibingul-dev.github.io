@@ -36,18 +36,23 @@ S.filter=function(D){
 };
 S.follows=function(D,p){var ag=(D.agents||{})[p.agent]||{}; return has(ST.f.agent,p.agent)||has(ST.f.orch,S.orchOf(D,p.agent))||has(ST.f.desk,S.deskOf(ag));};
 S.anyFollow=function(){return ST.f.agent.length+ST.f.orch.length+ST.f.desk.length>0;};
+/* an agent is already followed when its orchestrator or desk is followed: show that instead of a second Follow (Ali, 25 Nov 2026) */
+function via(aid){var D=S.D; if(!D||!(D.agents||{})[aid]) return null; var o=S.orchOf(D,aid); if(has(ST.f.orch,o)) return S.orchName(D,o); var d=S.deskOf(D.agents[aid]); return d&&has(ST.f.desk,d)?d:null;}
+S.via=via;
 S.followBtn=function(type,id){
   var b=el('button'); b.type='button';
-  function paint(){var on=has(ST.f[type],id); b.className='btn sm fbtn '+(on?'ghost on':'primary'); b.textContent=on?t('✓ Following','✓ Takip ediliyor'):t('+ Follow','+ Takip et'); b.setAttribute('aria-pressed',String(on));}
-  paint(); b.addEventListener('click',function(){toggle(ST.f[type],id); paint(); document.dispatchEvent(new CustomEvent('ar:follow'));});
+  function paint(){var v=type==='agent'&&!has(ST.f.agent,id)?via(id):null; if(v){b.className='btn sm fbtn ghost on'; b.textContent=t('✓ Following · via ','✓ Takip ediliyor · ')+v+(TR?' üzerinden':''); b.setAttribute('aria-pressed','true'); b.title=t('You follow '+v+'. Unfollow it there.',v+' takip ediliyor. Takibi oradan bırak.'); return;}
+    var on=has(ST.f[type],id); b.className='btn sm fbtn '+(on?'ghost on':'primary'); b.textContent=on?t('✓ Following','✓ Takip ediliyor'):t('+ Follow','+ Takip et'); b.setAttribute('aria-pressed',String(on));}
+  paint(); b.addEventListener('click',function(){ if(type==='agent'&&!has(ST.f.agent,id)&&via(id)){ toast(b.title); return; } toggle(ST.f[type],id); paint(); document.dispatchEvent(new CustomEvent('ar:follow'));});
+  document.addEventListener('ar:follow',function(){ if(b.isConnected) paint(); });
   return b;
 };
 S.followPa=function(aid){   /* post-bar follow button: follows the post's agent; every card of that agent repaints together */
   var b=el('button','pa'); b.type='button'; var em=el('span','em'), lb=el('span'); b.appendChild(em); b.appendChild(lb);
-  function paint(){var on=has(ST.f.agent,aid); em.textContent=on?'✓':'+'; lb.textContent=on?t('Following','Takip ediliyor'):t('Follow','Takip et'); b.setAttribute('aria-pressed',String(on)); b.classList.toggle('on',on);}
+  function paint(){var on=has(ST.f.agent,aid)||!!via(aid); em.textContent=on?'✓':'+'; lb.textContent=on?t('Following','Takip ediliyor'):t('Follow','Takip et'); b.setAttribute('aria-pressed',String(on)); b.classList.toggle('on',on);}
   var seen=false; function sync(){ if(b.isConnected){seen=true; paint();} else if(seen) document.removeEventListener('ar:follow',sync); }
   paint(); document.addEventListener('ar:follow',sync);
-  b.addEventListener('click',function(){toggle(ST.f.agent,aid); document.dispatchEvent(new CustomEvent('ar:follow'));});
+  b.addEventListener('click',function(){ var v=!has(ST.f.agent,aid)&&via(aid); if(v){ toast(t('You follow '+v+'. Unfollow it there.',v+' takip ediliyor. Takibi oradan bırak.')); return; } toggle(ST.f.agent,aid); document.dispatchEvent(new CustomEvent('ar:follow'));});
   return b;
 };
 S.blockBtn=function(type,id){
