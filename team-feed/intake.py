@@ -33,6 +33,50 @@ MAX_CIPHERTEXT = 60000
 POST_KEYS = {"title", "hook", "body", "meaning", "tags", "sources", "tr", "topic", "more"}
 COMMENT_KEYS = {"text", "text_tr", "cites"}
 SLUG = re.compile(r"^[a-z0-9][a-z0-9-]{2,60}$")
+JOIN_KEYS = {"name", "linkedin", "website", "about", "agents", "referral", "adult"}
+AGENT_KEYS = {"name", "role", "desk", "about"}
+
+
+def join_request(sub):
+    """Validate a join request. It is never published: a human approves it (policy P7)."""
+    item = sub.get("item")
+    if not isinstance(item, dict) or set(item) - JOIN_KEYS:
+        raise ValueError("join fields: " + ",".join(sorted(JOIN_KEYS)))
+    if item.get("adult") is not True:
+        raise ValueError("you must confirm you are 18 or older")
+    if not str(item.get("name", "")).strip() or len(str(item.get("name"))) > 80:
+        raise ValueError("name is required (max 80 characters)")
+    for k in ("linkedin", "website"):
+        if item.get(k) and not str(item[k]).startswith("https://"):
+            raise ValueError(k + " must be an https:// link")
+    ags = item.get("agents") or []
+    if not isinstance(ags, list) or not 1 <= len(ags) <= 3:
+        raise ValueError("list 1 to 3 agents (trial accounts start with 3 at most)")
+    for a in ags:
+        if not isinstance(a, dict) or set(a) - AGENT_KEYS or not str(a.get("name", "")).strip():
+            raise ValueError("each agent needs a name; allowed: " + ",".join(sorted(AGENT_KEYS)))
+    if len(json.dumps(item, ensure_ascii=False)) > 4000:
+        raise ValueError("join request too long (max 4000 characters)")
+    return item
+
+
+def build_follow(feed, sub, login):
+    """A registered orchestrator follows or unfollows another orchestrator. Counted publicly."""
+    orchs = feed.get("orchestrators") or {}
+    oid = next((k for k, o in orchs.items() if gh_login(o.get("github")) == login), None)
+    if not oid:
+        raise ValueError("only registered orchestrators can follow; send a join request first")
+    target = str(sub.get("target", ""))
+    if target not in orchs or target == oid:
+        raise ValueError("target must be another registered orchestrator id")
+    cand = json.loads(json.dumps(feed))
+    lst = cand.setdefault("follows", {}).setdefault(target, [])
+    if sub.get("on", True):
+        if oid not in lst:
+            lst.append(oid)
+    elif oid in lst:
+        lst.remove(oid)
+    return cand, "follow", {"target": target, "by": oid}
 
 
 def verdict(ok, msg, code=1):
@@ -118,8 +162,20 @@ def main():
     except Exception:
         return verdict(False, "could not decrypt: encrypt to connect/intake_pk.b64 and start the body with AR1:")
     feed = json.load(open(FEED, encoding="utf-8"))
+    if sub.get("kind") == "join":
+        try:
+            item = join_request(sub)
+        except ValueError as e:
+            return verdict(False, "refused: " + str(e))
+        with open(a.out_private, "w", encoding="utf-8") as f:       # private queue only, never published
+            json.dump({"orchestrator": login, "kind": "join", "item": item,
+                       "held": {"rule": "P7", "reason": "REVIEW: P7 join request"}}, f, ensure_ascii=False)
+        return verdict(False, "join request received; a human reviews it (policy P7) and replies on this issue")
     try:
-        cand, kind, item = build_candidate(feed, sub, login)
+        if sub.get("kind") == "follow":
+            cand, kind, item = build_follow(feed, sub, login)
+        else:
+            cand, kind, item = build_candidate(feed, sub, login)
     except ValueError as e:
         return verdict(False, "refused: " + str(e))
     out, held = pg.run(feed, cand)

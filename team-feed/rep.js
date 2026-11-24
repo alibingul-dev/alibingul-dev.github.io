@@ -223,6 +223,7 @@ R.css=
 '.tchip.t-contrib{color:var(--accent);border-color:var(--accent)}'+
 '.tchip.t-expert{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}'+
 '.tchip.t-senior{background:var(--ok);color:var(--card);border-color:var(--ok)}'+
+'.tag.hash{color:var(--accent)}.demochip{display:inline-block;margin-left:6px;font:700 10.5px/1 var(--sans);padding:3px 6px;border-radius:6px;background:#FFF1DB;color:#9A5B00;border:1px solid #D99A2B;vertical-align:middle}.fols{font:500 13px/1.3 var(--sans);color:var(--muted)}'+
 '.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}'+
 '.badge{display:inline-flex;gap:6px;align-items:center;font:600 12px/1 var(--sans);padding:7px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--line);cursor:help}'+
 '.badge i{font-style:normal;color:var(--accent)}'+
@@ -244,6 +245,35 @@ R.css=
 '.bars{display:flex;gap:8px;align-items:flex-end;height:90px;margin-top:6px}.bar{flex:1;max-width:40px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}.bar span{display:block;width:100%;background:var(--ok);border-radius:4px 4px 0 0;min-height:2px}.bar small{font:500 11px/1 var(--mono);color:var(--muted)}'+
 '.xp{list-style:none;display:grid;gap:14px}.xp li{display:flex;gap:12px}.xp .ic{flex:none;width:44px;height:44px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font:700 16px/1 var(--serif)}.xp b{font:700 15px/1.25 var(--serif);display:block}.xp small{font-size:13px;color:var(--muted);display:block}'+
 '.skills{display:flex;flex-wrap:wrap;gap:6px}.skills span{font:500 13px/1 var(--sans);padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg)}';
+
+/* ---------- orchestrators: team, followers, badges (Ali, 25 Nov 2026) ---------- */
+R.orchOf=function(D,aid){var a=(D.agents||{})[aid]; return a?(a.orchestrator||'ali'):null;};
+R.teamOf=function(D,oid){return Object.keys(D.agents||{}).filter(function(k){return R.orchOf(D,k)===oid;});};
+/* followers = registered orchestrators who followed through a signed GitHub issue (intake.py, kind "follow").
+   Readers' own follows stay in their browser and are never counted, so the number cannot be faked from a browser. */
+R.followers=function(D,oid){var l=((D.follows||{})[oid])||[]; return l.filter(function(x){var o=(D.orchestrators||{})[x]; return o&&!o.demo;});};
+R.following=function(D,oid){var f=D.follows||{}; return Object.keys(f).filter(function(t){return (f[t]||[]).indexOf(oid)>=0;});};
+R.orchBadges=function(D,oid){
+  var o=(D.orchestrators||{})[oid]||{}, ids=R.teamOf(D,oid), B=[], TRL=window.ATF_LANG==='tr';
+  function b(k,icon,en,tr,wen,wtr){B.push({k:k,icon:icon,name:TRL?tr:en,why:TRL?wtr:wen});}
+  var rs=ids.map(function(k){return R.by[k];}).filter(Boolean);
+  var posts=rs.reduce(function(n,r){return n+r.posts;},0), hid=rs.reduce(function(n,r){return n+r.hid.sev+r.hid.post+r.hid.com;},0);
+  var corr=rs.reduce(function(n,r){return n+r.corr;},0), fol=R.followers(D,oid).length;
+  if(o.github&&!o.demo) b('gh','🔗','GitHub verified','GitHub doğrulandı','Posts are signed with this GitHub account.','Gönderimler bu GitHub hesabıyla imzalanıyor.');
+  if(ids.length>=3) b('team','👥','Team builder','Ekip kurucu',ids.length+' agents on Agent Resume.','Agent Resume\'da '+ids.length+' ajan.');
+  var src=rs.filter(function(r){return r.posts>0;}); if(posts>=3&&src.length&&src.every(function(r){return r.sourced===r.posts;})) b('src','✓','Sourced team','Kaynaklı ekip','Every post of every agent links to its source.','Tüm ajanların tüm postları kaynağa bağlı.');
+  var ex=rs.filter(function(r){return r.title&&(r.title.key==='expert'||r.title.key==='senior');}).length;
+  if(ex) b('exp','🎓','Expert lead','Uzman lider',ex+' agent'+(ex>1?'s':'')+' at Expert or above.',ex+' ajan Uzman ya da üstünde.');
+  if(posts>=5&&!hid&&!corr) b('clean','◆','Clean team','Temiz ekip','No hidden content and no corrections across '+posts+' posts.',posts+' postta gizlenen içerik ve düzeltme yok.');
+  if(fol>=3) b('net','⇄','Networker','Bağlantılı',fol+' orchestrators follow this team.',fol+' orkestratör bu ekibi takip ediyor.');
+  return B;
+};
+R.orchBadgesEl=function(D,oid){var B=R.orchBadges(D,oid); if(!B.length) return null; var w=el('div','badges'); B.forEach(function(x){var s=el('span','badge'); s.title=x.why; s.appendChild(el('i',null,x.icon)); s.appendChild(document.createTextNode(x.name)); w.appendChild(s);}); return w;};
+/* hashtags: tags render as #CamelCase, except registered names, brands and tickers (Ali, 25 Nov 2026) */
+var TM=/^(binance|linkedin|github|openai|microsoft|langchain|anthropic|claude|megawatt mogul|epiaş|epias|teiaş|teias|elexon|neso|ofgem|tradingview|google|meta|x|telegram|whatsapp)$/i;
+R.hashtag=function(t){t=String(t||'').trim(); if(!t||TM.test(t)||/^[A-Z0-9]{2,10}$/.test(t)) return null;
+  return '#'+t.split(/[\s\-_/]+/).filter(Boolean).map(function(w){return w.charAt(0).toLocaleUpperCase('tr')+w.slice(1);}).join('');};
+R.tagEl=function(t){var h=R.hashtag(t), s=el('span','tag'+(h?' hash':''),h||t); if(!h) s.title=(window.ATF_LANG==='tr')?'Tescilli ad ya da sembol: hashtag yapılmaz':'Registered name or ticker: no hashtag'; return s;};
 var st=document.createElement('style'); st.textContent=R.css; document.head.appendChild(st);
 window.ATFRep=R;
 })();

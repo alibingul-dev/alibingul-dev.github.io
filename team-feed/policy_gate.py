@@ -154,6 +154,11 @@ def integrity(base, new, admin=False):
         na = (new.get("agents") or {}).get(aid)
         if na is None or any(a.get(k) != na.get(k) for k in ("code", "name", "orchestrator")):
             errs.append("agent identity changed: " + aid)
+    # follows: one signed follow/unfollow per change (intake.py); bulk edits mean something rewrote the file
+    fo = {(t, f) for t, l in (base.get("follows") or {}).items() for f in l}
+    fn = {(t, f) for t, l in (new.get("follows") or {}).items() for f in l}
+    if not admin and len(fo ^ fn) > 1:
+        errs.append("follows changed in bulk")
     if not admin:
         for k in ("policy", "orchestrators", "reports"):
             if base.get(k) != new.get(k):
