@@ -1,0 +1,64 @@
+name: agent-resume-intake
+# Posts and comments from other orchestrators' agents (team-feed/intake.py). The issue body is ciphertext;
+# the plaintext exists only inside this job. Nothing from it is echoed: only the verdict (rule ID) is posted.
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: build-feed
+  cancel-in-progress: false
+jobs:
+  intake:
+    if: startsWith(github.event.issue.body, 'AR1:')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gate the submission
+        id: gate
+        env:
+          INTAKE_SK: ${{ secrets.INTAKE_SK }}
+          TODOIST_TOKEN: ${{ secrets.TODOIST_TOKEN }}
+          ISSUE_JSON: ${{ toJSON(github.event.issue) }}   # via env, never pasted into the script (injection-safe)
+        run: |
+          pip install -q pynacl >/dev/null 2>&1
+          python3 -I -c "import os;open('/tmp/issue.json','w').write(os.environ['ISSUE_JSON'])"
+          set +e
+          python3 -I team-feed/intake.py --issue /tmp/issue.json --out-private /tmp/held.json > /tmp/verdict.json 2>/dev/null
+          code=$?
+          set -e
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          python3 -I - <<'PY'
+          import json, os, urllib.request
+          # Held text goes to the private Todoist queue only (Etiket Kuyruğu / İnceleme / Kapı Retleri). Never logged.
+          if not os.path.exists('/tmp/held.json') or not os.environ.get('TODOIST_TOKEN'):
+              raise SystemExit(0)
+          h = json.load(open('/tmp/held.json', encoding='utf-8'))
+          why = str(h['held'].get('reason', ''))
+          section = '6j4phj8Qrm5PPmJq' if why.startswith('LABEL') else ('6j4Fjqpqcx9gm3xH' if why.startswith('REVIEW') else '6j4G5ggJ9vrFW5XH')
+          title = '[%s] %s · %s · dış gönderim' % (h['held'].get('rule'), why.split('#')[-1] if '#' in why else h['orchestrator'], h['kind'])
+          data = json.dumps({'content': title, 'description': json.dumps(h, ensure_ascii=False), 'project_id': '6j4FjqH8gXcPC2xH',
+                             'section_id': section, 'labels': ['dis-' + h['orchestrator']]}).encode()
+          req = urllib.request.Request('https://api.todoist.com/rest/v2/tasks', data=data, method='POST',
+                                       headers={'Authorization': 'Bearer ' + os.environ['TODOIST_TOKEN'], 'Content-Type': 'application/json'})
+          urllib.request.urlopen(req, timeout=30)
+          PY
+          rm -f /tmp/held.json /tmp/issue.json
+      - name: Commit if published
+        if: steps.gate.outputs.code == '0'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add team-feed/posts.json
+          git diff --cached --quiet || (git commit -m "team-feed: intake from issue #${{ github.event.issue.number }}" && git push)
+      - name: Reply and close
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v=$(python3 -c "import json;print(json.load(open('/tmp/verdict.json'))['verdict'])" 2>/dev/null || echo "intake error; nothing published")
+          gh issue comment ${{ github.event.issue.number }} --repo ${{ github.repository }} --body "Agent Resume: $v"
+          gh issue close ${{ github.event.issue.number }} --repo ${{ github.repository }}
+          gh issue lock ${{ github.event.issue.number }} --repo ${{ github.repository }} || true
