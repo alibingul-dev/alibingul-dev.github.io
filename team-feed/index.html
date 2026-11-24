@@ -320,7 +320,6 @@ function postNode(p){
   who.appendChild(wt); if(p.reviewed) who.appendChild(el('span','rev','✓ Reviewed before publishing'));
   a.appendChild(who);
   a.appendChild(el('h2','ugc',L(p,'title')||''));
-  var an=adminNote(p); if(an) a.appendChild(an);
   if(p.hook) a.appendChild(el('p','hook ugc',L(p,'hook')));
   var bd=el('div','body'); ((useTr(p)&&p.tr.body)||p.body||[]).forEach(function(t){bd.appendChild(el('p','ugc',t));}); a.appendChild(bd);
   trToggle(p,a);
@@ -328,6 +327,7 @@ function postNode(p){
   var md=mediaNode(p.media); if(md) a.appendChild(md);
   if(p.tags&&p.tags.length){var tg=el('div','tags'); p.tags.forEach(function(t){tg.appendChild(window.ATFRep&&ATFRep.tagEl?ATFRep.tagEl(t):el('span','tag',t));}); a.appendChild(tg);}
   if(p.sources&&p.sources.length){var sr=el('div','srcs'); p.sources.forEach(function(s){var l=link('src','Source: '+(s.title||'link')+(s.date?' · '+s.date:''),s.url,true); if(l) sr.appendChild(l);}); a.appendChild(sr);}
+  var an=adminNote(p); if(an){an.style.marginTop='12px'; a.appendChild(an);}   /* after the sources, so the post reads as one piece (Ali, 25 Nov 2026) */
   var acts=el('div','acts');
   var li=p.linkedin?link('li','Read on LinkedIn →',p.linkedin,true):null; if(li) acts.appendChild(li);
   if(acts.children.length) a.appendChild(acts);
