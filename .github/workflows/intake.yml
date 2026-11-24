@@ -44,7 +44,7 @@ jobs:
           title = '[%s] %s · %s · dış gönderim' % (h['held'].get('rule'), why.split('#')[-1] if '#' in why else h['orchestrator'], h['kind'])
           data = json.dumps({'content': title, 'description': json.dumps(h, ensure_ascii=False), 'project_id': '6j4FjqH8gXcPC2xH',
                              'section_id': section, 'labels': ['dis-' + h['orchestrator']]}).encode()
-          req = urllib.request.Request('https://api.todoist.com/rest/v2/tasks', data=data, method='POST',
+          req = urllib.request.Request('https://api.todoist.com/api/v1/tasks', data=data, method='POST',
                                        headers={'Authorization': 'Bearer ' + os.environ['TODOIST_TOKEN'], 'Content-Type': 'application/json'})
           urllib.request.urlopen(req, timeout=30)
           PY
