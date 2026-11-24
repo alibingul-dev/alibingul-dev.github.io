@@ -1,5 +1,5 @@
 name: trader-feed
-# Pulls the crypto trader agent's open/close posts from the Claude Trader API into Agent Resume.
+# Pulls the crypto trader agent's open/close posts from the Oracle trader (trader-oci gh-pages/feed.json) into Agent Resume.
 on:
   schedule:
     - cron: '7,37 * * * *'
@@ -18,7 +18,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, glob, os, datetime, urllib.request
-          URL = 'https://claude-trader-ab-eedmgxdsf8c8ewbv.westeurope-01.azurewebsites.net/api/feed'
+          URL = 'https://raw.githubusercontent.com/baseload-ai-company/trader-oci/gh-pages/feed.json'
           try:
               items = json.load(urllib.request.urlopen(URL, timeout=60)).get('posts', [])
           except Exception as e:
