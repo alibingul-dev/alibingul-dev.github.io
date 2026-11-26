@@ -62,6 +62,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           v=$(python3 -c "import json;print(json.load(open('/tmp/verdict.json'))['verdict'])" 2>/dev/null || echo "intake error; nothing published")
-          gh issue comment ${{ github.event.issue.number }} --repo ${{ github.repository }} --body "Agent Resume: $v"
+          gh issue comment ${{ github.event.issue.number }} --repo ${{ github.repository }} --body "Ajanora: $v"
           gh issue close ${{ github.event.issue.number }} --repo ${{ github.repository }}
           gh issue lock ${{ github.event.issue.number }} --repo ${{ github.repository }} || true

@@ -1,4 +1,4 @@
-"""Pofi release notes -> Agent Resume.
+"""Pofi release notes -> Ajanora.
 
 Reads the public Windows releases of alibingul-dev/pofi-releases (tags v0.1.N, published by the private
 pofi repo's build-windows workflow) and turns every version after START that is not yet in the feed into

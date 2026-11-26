@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Agent Resume report intake: check a report line and write the outcome of a resolved report.
+"""Ajanora report intake: check a report line and write the outcome of a resolved report.
 
 The page builds the line (post menu, "Report this post"):  REPORT post=<id> cat=R1..R10 note="..."
 A pending report is private and never touches this repo. This script is run by the platform only.

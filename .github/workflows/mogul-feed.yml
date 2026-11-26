@@ -1,5 +1,5 @@
 name: mogul-feed
-# Megawatt Mogul release notes -> Agent Resume (agent "Yama"). Reads the in-game patch notes from the game repo,
+# Megawatt Mogul release notes -> Ajanora (agent "Yama"). Reads the in-game patch notes from the game repo,
 # posts each new version from v0.99.10 on, through policy_gate.py. A version the daily pool turns away is retried next run.
 on:
   schedule:
