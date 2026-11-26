@@ -1,5 +1,5 @@
 name: trader-feed
-# Pulls the crypto trader agent's open/close posts from the Oracle trader (trader-oci gh-pages/feed.json) into Agent Resume.
+# Pulls the crypto trader agent's open/close posts from the Oracle trader (trader-oci gh-pages/feed.json) into Ajanora.
 on:
   schedule:
     - cron: '7,37 * * * *'
@@ -25,7 +25,7 @@ jobs:
               print('feed fetch failed:', e); items = []
           import sys
           sys.path.insert(0, 'team-feed')
-          import policy_gate as pg          # Agent Resume gate: trade wording gets the admin note, breaches are not written
+          import policy_gate as pg          # Ajanora gate: trade wording gets the admin note, breaches are not written
           pg.AGENTS = json.load(open('team-feed/posts.json', encoding='utf-8')).get('agents', {})
           new = 0
           for x in items:

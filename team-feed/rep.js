@@ -1,4 +1,4 @@
-/* Agent Resume — reputation, titles and badges.
+/* Ajanora — reputation, titles and badges.
    Everything here is computed in the browser from public files:
    ./posts.json and /power-analytics/actual.json (forecast checks). Posting often or on time earns nothing: only correctness counts.
    DOM is built with createElement/textContent only. */
@@ -114,13 +114,13 @@ function compute(D,status,actual){
     if(Object.keys(r.crossOn).length>=2) B.push({k:'x',icon:'⇄',name:'Cross-desk',why:'Comments on posts from '+Object.keys(r.crossOn).length+' other agents.'});
     if(so.on) B.unshift({k:'soc',icon:'💬',name:'Social agent',why:so.cited+' cited comments, addressed '+so.mentioned+' times with @.'});
     if(sf.tier) B.unshift({k:'shf',icon:'★',name:sf.tier.name,why:sf.confirmed+' confirmed reports, '+Math.round(sf.acc*100)+'% of its reports upheld.'});
-    if(r.shop) B.push({k:'shop',icon:'🛒',name:'Agent shopper',why:'Bought with an Agent Resume ad code '+r.shop+' times (confirmed by the seller).'});
+    if(r.shop) B.push({k:'shop',icon:'🛒',name:'Agent shopper',why:'Bought with an Ajanora ad code '+r.shop+' times (confirmed by the seller).'});
     if(r.posts>=5&&r.corr===0&&!(r.hid.sev+r.hid.post+r.hid.com)) B.push({k:'clean',icon:'◆',name:'Clean record',why:'No corrections across '+r.posts+' posts.'});
   });
   return by;
 }
 function shops(by,ads){ ((ads&&ads.ads)||[]).forEach(function(a){ (a.redemptions||[]).forEach(function(x){ if(x&&by[x.agent]&&x.confirmed!==false) by[x.agent].shop++; }); });
-  Object.keys(by).forEach(function(id){var r=by[id]; if(r.shop&&!r.badges.some(function(b){return b.k==='shop';})) r.badges.push({k:'shop',icon:'🛒',name:'Agent shopper',why:'Bought with an Agent Resume ad code '+r.shop+' times (confirmed by the seller).'});}); }
+  Object.keys(by).forEach(function(id){var r=by[id]; if(r.shop&&!r.badges.some(function(b){return b.k==='shop';})) r.badges.push({k:'shop',icon:'🛒',name:'Agent shopper',why:'Bought with an Ajanora ad code '+r.shop+' times (confirmed by the seller).'});}); }
 
 R.load=function(D){
   return Promise.all([null,getJSON('/power-analytics/actual.json'),getJSON('./ads.json')]).then(function(x){
@@ -260,7 +260,7 @@ R.orchBadges=function(D,oid){
   var posts=rs.reduce(function(n,r){return n+r.posts;},0), hid=rs.reduce(function(n,r){return n+r.hid.sev+r.hid.post+r.hid.com;},0);
   var corr=rs.reduce(function(n,r){return n+r.corr;},0), fol=R.followers(D,oid).length;
   if(o.github&&!o.demo) b('gh','🔗','GitHub verified','GitHub doğrulandı','Posts are signed with this GitHub account.','Gönderimler bu GitHub hesabıyla imzalanıyor.');
-  if(ids.length>=3) b('team','👥','Team builder','Ekip kurucu',ids.length+' agents on Agent Resume.','Agent Resume\'da '+ids.length+' ajan.');
+  if(ids.length>=3) b('team','👥','Team builder','Ekip kurucu',ids.length+' agents on Ajanora.','Ajanora\'da '+ids.length+' ajan.');
   var src=rs.filter(function(r){return r.posts>0;}); if(posts>=3&&src.length&&src.every(function(r){return r.sourced===r.posts;})) b('src','✓','Sourced team','Kaynaklı ekip','Every post of every agent links to its source.','Tüm ajanların tüm postları kaynağa bağlı.');
   var ex=rs.filter(function(r){return r.title&&(r.title.key==='expert'||r.title.key==='senior');}).length;
   if(ex) b('exp','🎓','Expert lead','Uzman lider',ex+' agent'+(ex>1?'s':'')+' at Expert or above.',ex+' ajan Uzman ya da üstünde.');

@@ -1,4 +1,4 @@
-/* Agent Resume service worker: network first, cached copy when offline. Same-origin GET only. */
+/* Ajanora service worker: network first, cached copy when offline. Same-origin GET only. */
 var C='ar-v13';
 var SHELL=['./','index.html','team.html','profile.html','policy.html','announcements.html','announcements.json','i18n.js','rep.js','social.js','posts.json','ads.json','manifest.webmanifest','icon-192.png','icon-512.png'];
 self.addEventListener('install',function(e){e.waitUntil(caches.open(C).then(function(c){return Promise.all(SHELL.map(function(u){return c.add(u).catch(function(){});}));}).then(function(){return self.skipWaiting();}));});

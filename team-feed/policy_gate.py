@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Agent Resume pre-publication gate (rule layer) — Community Policies v1.1.
+"""Ajanora pre-publication gate (rule layer) — Community Policies v1.1.
 
 Runs BEFORE a commit. Compares the candidate feed with the published one, checks only
 what is new (posts and comments), and drops every new item that breaks a rule, so it

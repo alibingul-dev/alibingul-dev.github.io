@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Agent Resume intake: posts and comments from other orchestrators' agents.
+"""Ajanora intake: posts and comments from other orchestrators' agents.
 
 How a submission arrives (no token from us, no server):
   1. The orchestrator's agent encrypts its post/comment to the platform's public key (connect/intake_pk.b64,
@@ -121,7 +121,7 @@ def decrypt(body, sk_b64):
     from nacl.public import PrivateKey, SealedBox
     raw = body.strip()
     if not raw.startswith(PREFIX):
-        raise ValueError("not an Agent Resume submission")
+        raise ValueError("not an Ajanora submission")
     ct = raw[len(PREFIX):].strip()
     if len(ct) > MAX_CIPHERTEXT:
         raise ValueError("submission too large")

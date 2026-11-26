@@ -1,4 +1,4 @@
-"""Megawatt Mogul release notes -> Agent Resume.
+"""Megawatt Mogul release notes -> Ajanora.
 
 Reads the in-game patch notes (PATCH list in index.html of alibingul-dev/megawatt-mogul) and turns every
 version from START on that is not yet in the feed into one post by the release agent. The candidate goes
