@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beril'in Güzellik Stüdyosu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: neşeli, oyuncak kutusu gibi, büyük dokunmatik düğmeler
+   IDEA: bir çocuk kuaför/kostüm odası — sahne + makyaj masası
+   PICTURE: ortada büyük, sevimli oyuncak bebek; her dokunuşta değişir
+   COLOUR and TYPE: şeker pembe zemin, turkuaz destek, güneş sarısı vurgu; Baloo 2
+   LAYOUT: solda sahne, sağda sekmeli seçim paneli; telefonda üstte sahne altta panel */
+:root{color-scheme:light dark;--bg:light-dark(#ffd9e4,#2a1622);--card:light-dark(#fff,#3a2030);--ink:light-dark(#3b1830,#ffe9f1);--soft:light-dark(#ffeef3,#4a2a3c);--pink:#ff4f8b;--teal:#14b3a6;--sun:#ffc93c}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.4 "Baloo 2",system-ui,sans-serif;overflow-x:clip}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px max(4vw,14px) 4px;max-width:1240px;margin:auto}
+h1{margin:0;font-size:clamp(26px,4vw,40px);line-height:1.05;font-weight:800;color:var(--pink)}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;color:inherit;cursor:pointer;border:0;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.big{min-height:46px;padding:6px 16px;border-radius:999px;background:var(--card);font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.12);transition:transform .1s}
+.big:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.12)}
+.big.hot{background:var(--sun);color:#3b1830}
+.big.cam{background:var(--teal);color:#fff}
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px;padding:10px max(4vw,14px) 24px;max-width:1240px;margin:auto}
+.stage{position:relative;background:var(--card);border-radius:28px;padding:10px;box-shadow:0 8px 0 rgba(0,0,0,.08)}
+.stage svg{display:block;width:100%;height:auto;max-height:78vh;border-radius:20px}
+.flash{position:absolute;inset:10px;border-radius:20px;background:#fff;opacity:0;pointer-events:none}
+.flash.on{animation:fl .6s}
+@keyframes fl{0%{opacity:.95}100%{opacity:0}}
+.toast{position:absolute;left:50%;top:18px;transform:translateX(-50%);background:var(--pink);color:#fff;font-weight:800;padding:6px 18px;border-radius:999px;opacity:0;transition:opacity .3s;white-space:nowrap}
+.toast.on{opacity:1}
+#doll{transform-origin:150px 480px}
+.bounce #doll{animation:bo .35s}
+@keyframes bo{40%{transform:scale(1.03,.97)}70%{transform:scale(.98,1.02)}}
+.panel{background:var(--card);border-radius:28px;padding:14px;box-shadow:0 8px 0 rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.tab{flex:none;min-height:46px;padding:4px 16px;border-radius:16px;background:var(--soft);font-weight:700}
+.tab[aria-selected=true]{background:var(--pink);color:#fff}
+.group h2{font-size:17px;margin:4px 0 6px;font-weight:700}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.sw{width:52px;height:52px;border-radius:50%;box-shadow:inset 0 -5px 0 rgba(0,0,0,.15);border:4px solid transparent}
+.sw.none{background:repeating-linear-gradient(45deg,var(--soft) 0 6px,transparent 6px 12px);box-shadow:inset 0 0 0 2px #d9a3b8}
+.opt{min-height:52px;padding:4px 16px;border-radius:16px;background:var(--soft);font-weight:700;border:4px solid transparent}
+.sel{border-color:var(--teal)!important;transform:scale(1.06)}
+.album h2{font-size:17px;margin:0 0 6px}
+.thumbs{display:flex;gap:8px;overflow-x:auto;min-height:92px}
+.thumbs button{flex:none;width:64px;height:88px;border-radius:12px;overflow:hidden;background:var(--soft);padding:0}
+.thumbs svg{width:100%;height:100%}
+.empty{font-size:15px;opacity:.7;align-self:center}
+@media(max-width:760px){main{grid-template-columns:minmax(0,1fr)}.stage svg{max-height:62vh;margin:auto;width:auto;max-width:100%}}
+@media(prefers-reduced-motion:reduce){.bounce #doll,.flash.on{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Beril'in Güzellik Stüdyosu</h1>
+  <div class="tools">
+    <button class="big hot" id="rnd">Sürpriz!</button>
+    <button class="big" id="undo">Geri al</button>
+    <button class="big" id="wipe">Makyajı sil</button>
+    <button class="big cam" id="snap">Fotoğraf çek</button>
+  </div>
+</header>
+<main>
+  <div class="stage" id="stage"><div id="svgbox"></div><div class="flash" id="flash"></div><div class="toast" id="toast">Çok güzel oldu!</div></div>
+  <div class="panel">
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div id="opts"></div>
+    <div class="album"><h2>Albüm</h2><div class="thumbs" id="thumbs"></div></div>
+  </div>
+</main>
+<script>
+{
+const C={
+ skin:['#ffe3cc','#f7cba6','#e3aa7f','#c98a52','#935b30','#5e3a22'],
+ hairC:['#2b1d16','#6b3e26','#f2c14e','#c8552d','#ff7eb6','#5aa9ff','#9b6bff','#f4f4f4'],
+ eyeC:['#6b3e26','#3b8fd9','#3fa35a','#a3742c','#2b1d16'],
+ lip:[null,'#ff6fa3','#e2263b','#ff8a65','#b4457f','#ffb3c9'],
+ shadow:[null,'#ff9ec4','#7fc4ff','#f5c542','#7ed6a0','#b38cff'],
+ blush:[null,'#ff8fae','#ffab7a','#ff6b8b'],
+ cloth:['#ff4f8b','#ffc93c','#14b3a6','#5aa9ff','#9b6bff','#ff8a3d','#ffffff','#2b2b3a','#7ed957'],
+};
+const L={
+ hair:[['uzun','Uzun'],['kisa','Kısa'],['kuyruk','At kuyruğu'],['topuz','Topuz'],['kivircik','Kıvırcık']],
+ dress:[['klos','Kloş elbise'],['prenses','Prenses'],['gece','Uzun elbise'],['tisort','Tişört + etek'],['tulum','Tulum']],
+ pat:[['duz','Düz'],['puan','Puantiye'],['cizgi','Çizgili'],['yildiz','Yıldızlı'],['kalp','Kalpli']],
+ shoe:[['spor','Spor'],['topuk','Topuklu'],['bot','Bot']],
+ sticker:[[null,'Yok'],['kalp','Kalp'],['yildiz','Yıldız'],['cicek','Çiçek']],
+ acc:[['tac','Taç'],['fiyonk','Fiyonk'],['gozluk','Gözlük'],['kupe','Küpe'],['kolye','Kolye']],
+ bg:[['oda','Oda'],['bahce','Bahçe'],['sahne','Sahne'],['plaj','Plaj']],
+};
+const TABS=[
+ ['Yüz',[['Ten rengi','skin','c'],['Göz rengi','eyeC','c']]],
+ ['Saç',[['Saç modeli','hair','o'],['Saç rengi','hairC','c']]],
+ ['Makyaj',[['Ruj','lip','c'],['Göz farı','shadow','c'],['Allık','blush','c'],['Yüz süsü','sticker','o']]],
+ ['Elbise',[['Model','dress','o'],['Renk','dressC','c:cloth'],['Desen','pat','o']]],
+ ['Ayakkabı',[['Model','shoe','o'],['Renk','shoeC','c:cloth']]],
+ ['Aksesuar',[['Tak / çıkar','acc','m']]],
+ ['Arka plan',[['Yer','bg','o']]],
+];
+const DEF={skin:C.skin[1],eyeC:C.eyeC[0],hair:'uzun',hairC:C.hairC[1],lip:null,shadow:null,blush:null,sticker:null,dress:'klos',dressC:C.cloth[0],pat:'puan',shoe:'spor',shoeC:C.cloth[7],acc:[],bg:'oda'};
+let S={...DEF},hist=[],tab=0,album=[];
+try{const s=JSON.parse(localStorage.getItem('beril-s'));if(s)S={...DEF,...s};album=JSON.parse(localStorage.getItem('beril-a'))||[]}catch(e){}
+const save=()=>{try{localStorage.setItem('beril-s',JSON.stringify(S));localStorage.setItem('beril-a',JSON.stringify(album))}catch(e){}};
+const sh=(h,a)=>{const n=parseInt(h.slice(1),16);const f=v=>Math.max(0,Math.min(255,v+a));return'#'+[f(n>>16),f(n>>8&255),f(n&255)].map(v=>v.toString(16).padStart(2,'0')).join('')};
+
+function bg(k){
+ if(k==='bahce')return`<rect width="300" height="520" fill="#9fe0ff"/><circle cx="250" cy="60" r="28" fill="#ffd84a"/><ellipse cx="70" cy="70" rx="40" ry="14" fill="#fff" opacity=".9"/><rect y="400" width="300" height="120" fill="#7ed957"/><ellipse cx="150" cy="402" rx="200" ry="22" fill="#6cc84a"/>${[30,62,240,272].map((x,i)=>`<line x1="${x}" y1="470" x2="${x}" y2="440" stroke="#3f9a35" stroke-width="3"/><circle cx="${x}" cy="436" r="9" fill="${['#ff6fa3','#ffc93c','#ff8a3d','#b38cff'][i]}"/><circle cx="${x}" cy="436" r="3.5" fill="#fff"/>`).join('')}`;
+ if(k==='sahne')return`<rect width="300" height="520" fill="#3a1d4a"/><path d="M0 0H60Q40 260 30 520H0Z" fill="#e2263b"/><path d="M300 0H240Q260 260 270 520H300Z" fill="#e2263b"/><path d="M0 0H300V40Q150 70 0 40Z" fill="#b81d30"/><polygon points="120,0 180,0 260,500 40,500" fill="#fff6c9" opacity=".18"/><ellipse cx="150" cy="490" rx="110" ry="18" fill="#fff6c9" opacity=".35"/><rect y="490" width="300" height="30" fill="#7a4a2a"/>`;
+ if(k==='plaj')return`<rect width="300" height="520" fill="#8fd8ff"/><circle cx="60" cy="70" r="26" fill="#ffd84a"/><rect y="330" width="300" height="90" fill="#2fa9e0"/><path d="M0 345Q25 335 50 345T100 345T150 345T200 345T250 345T300 345" stroke="#fff" stroke-width="3" fill="none" opacity=".7"/><rect y="410" width="300" height="110" fill="#ffe2a3"/><circle cx="250" cy="470" r="14" fill="#ff8a65"/><path d="M243 470h14" stroke="#fff" stroke-width="3"/>`;
+ return`<rect width="300" height="520" fill="#ffe7ef"/><rect x="20" y="60" width="80" height="100" rx="8" fill="#bfe9ff" stroke="#fff" stroke-width="8"/><line x1="60" y1="60" x2="60" y2="160" stroke="#fff" stroke-width="6"/><rect x="210" y="80" width="64" height="50" rx="6" fill="#ffc93c"/><path d="M222 120l12-18 10 12 8-8 12 14z" fill="#14b3a6"/><rect y="430" width="300" height="90" fill="#f5b3c6"/><ellipse cx="150" cy="488" rx="120" ry="20" fill="#ff8fb0" opacity=".6"/>`;
+}
+function pattern(c,p){
+ const d=sh(c,-40),l=c==='#ffffff'?'#ff8fb0':'#ffffff';let in_='';
+ if(p==='puan')in_=`<circle cx="6" cy="6" r="3" fill="${l}" opacity=".8"/><circle cx="16" cy="16" r="3" fill="${l}" opacity=".8"/>`;
+ if(p==='cizgi')in_=`<rect width="20" height="6" fill="${d}" opacity=".5"/>`;
+ if(p==='yildiz')in_=`<path d="M10 3l2 5h5l-4 3 2 5-5-3-5 3 2-5-4-3h5z" fill="${l}" opacity=".85"/>`;
+ if(p==='kalp')in_=`<path d="M10 16C2 10 4 4 10 7c6-3 8 3 0 9z" fill="${l}" opacity=".85"/>`;
+ return`<pattern id="pat" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="${c}"/>${in_}</pattern>`;
+}
+function hairBack(s,c){
+ const d=sh(c,-25);
+ if(s==='uzun')return`<path d="M84 125Q74 250 92 312Q150 326 208 312Q226 250 216 125Z" fill="${d}"/>`;
+ if(s==='kisa')return`<path d="M83 125Q78 190 98 206L202 206Q222 190 217 125Z" fill="${d}"/>`;
+ if(s==='kuyruk')return`<path d="M198 86Q262 100 250 226Q240 262 226 232Q236 150 192 112Z" fill="${d}"/><circle cx="203" cy="96" r="9" fill="#ff4f8b"/>`;
+ if(s==='topuz')return`<circle cx="150" cy="54" r="30" fill="${d}"/><path d="M128 60q22-14 44 0" stroke="#ff4f8b" stroke-width="7" fill="none" stroke-linecap="round"/>`;
+ return[...Array(16)].map((_,i)=>{const a=Math.PI*(0.9+i*1.2/15)+.1,x=150+78*Math.cos(a)*1.0,y=150+88*Math.sin(a)*.95;return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="24" fill="${d}"/>`}).join('')+`<circle cx="80" cy="200" r="22" fill="${d}"/><circle cx="220" cy="200" r="22" fill="${d}"/>`;
+}
+function hairFront(s,c){
+ if(s==='kivircik')return[...Array(9)].map((_,i)=>`<circle cx="${92+i*14.5}" cy="${86-Math.sin(i/8*Math.PI)*20}" r="17" fill="${c}"/>`).join('');
+ return`<path d="M86 134Q82 60 150 58Q218 60 214 134Q206 100 182 94Q160 114 118 100Q96 110 86 134Z" fill="${c}"/><path d="M120 72Q150 62 178 70" stroke="#fff" stroke-width="5" fill="none" opacity=".35" stroke-linecap="round"/>`;
+}
+function dress(k){
+ const f='url(#pat)',d=sh(S.dressC,-35);
+ const bod=`M116 214Q150 205 184 214L188 292L112 292Z`;
+ if(k==='prenses')return`<path d="M114 286Q60 380 64 456Q150 478 236 456Q240 380 186 286Z" fill="${f}"/><path d="M80 440Q150 462 220 440" stroke="${d}" stroke-width="4" fill="none" opacity=".5"/><path d="${bod}" fill="${f}"/><circle cx="116" cy="224" r="17" fill="${f}"/><circle cx="184" cy="224" r="17" fill="${f}"/><rect x="112" y="282" width="76" height="11" rx="5" fill="${d}"/>`;
+ if(k==='gece')return`<path d="M116 214Q150 205 184 214L190 300L202 472L98 472L110 300Z" fill="${f}"/><path d="M172 400L180 472" stroke="${d}" stroke-width="3"/><path d="M118 214Q150 236 182 214" stroke="${d}" stroke-width="4" fill="none"/>`;
+ if(k==='tisort')return`<path d="M114 296L186 296L206 374L94 374Z" fill="${d}"/><path d="M112 214Q150 205 188 214L204 246L188 254L186 300L114 300L112 254L96 246Z" fill="${f}"/>`;
+ if(k==='tulum')return`<path d="M116 214Q150 205 184 214L188 300L186 470L156 470L150 362L144 470L114 470L112 300Z" fill="${f}"/><rect x="128" y="250" width="44" height="28" rx="6" fill="${d}" opacity=".6"/><circle cx="130" cy="226" r="4" fill="${d}"/><circle cx="170" cy="226" r="4" fill="${d}"/>`;
+ return`<path d="M116 214Q150 205 184 214L188 292L224 392Q150 412 76 392L112 292Z" fill="${f}"/><rect x="112" y="285" width="76" height="11" rx="5" fill="${d}"/><circle cx="150" cy="290" r="8" fill="${S.dressC==='#ffc93c'?'#ff4f8b':'#ffc93c'}"/>`;
+}
+function shoes(k,c){
+ const d=sh(c,-40);
+ return[137,163].map(x=>{
+  if(k==='bot')return`<rect x="${x-11}" y="440" width="22" height="42" rx="6" fill="${c}"/><ellipse cx="${x+(x<150?-4:4)}" cy="482" rx="15" ry="7" fill="${c}"/><rect x="${x-11}" y="440" width="22" height="7" rx="3" fill="${d}"/>`;
+  if(k==='topuk')return`<path d="M${x-12} 476Q${x} 466 ${x+12} 478L${x+12} 484L${x-14} 484Z" fill="${c}"/><rect x="${x+(x<150?6:-10)}" y="482" width="4" height="10" fill="${d}"/>`;
+  return`<ellipse cx="${x+(x<150?-3:3)}" cy="480" rx="16" ry="9" fill="${c}"/><rect x="${x-16}" y="482" width="32" height="5" rx="2" fill="#fff"/><path d="M${x-6} 474h8" stroke="#fff" stroke-width="2"/>`;
+ }).join('');
+}
+function sticker(k){
+ if(!k)return'';const x=196,y=152;
+ if(k==='kalp')return`<path d="M${x} ${y+8}c-10-7-8-15 0-11c8-4 10 4 0 11z" fill="#ff4f8b"/>`;
+ if(k==='yildiz')return`<path d="M${x} ${y-8}l3 6h7l-5 4 2 7-7-4-7 4 2-7-5-4h7z" fill="#ffc93c" stroke="#e0a400"/>`;
+ return[0,72,144,216,288].map(a=>`<circle cx="${(x+6*Math.cos(a*Math.PI/180)).toFixed(1)}" cy="${(y+6*Math.sin(a*Math.PI/180)).toFixed(1)}" r="4.5" fill="#b38cff"/>`).join('')+`<circle cx="${x}" cy="${y}" r="3.5" fill="#ffc93c"/>`;
+}
+function acc(a){
+ let o='';
+ if(a.includes('kolye'))o+=`<path d="M132 208Q150 228 168 208" stroke="#f5c542" stroke-width="3" fill="none"/><circle cx="150" cy="222" r="6" fill="#14b3a6" stroke="#f5c542" stroke-width="2"/>`;
+ if(a.includes('kupe'))o+=`<circle cx="88" cy="156" r="6" fill="#f5c542"/><circle cx="212" cy="156" r="6" fill="#f5c542"/>`;
+ if(a.includes('gozluk'))o+=`<g fill="#ffffff22" stroke="#ff4f8b" stroke-width="4"><circle cx="127" cy="139" r="17"/><circle cx="173" cy="139" r="17"/></g><path d="M144 137q6-5 12 0" stroke="#ff4f8b" stroke-width="4" fill="none"/>`;
+ if(a.includes('fiyonk'))o+=`<path d="M196 76l-22-14v28zM196 76l22-14v28z" fill="#ff4f8b" stroke="#c22a63" stroke-width="2"/><circle cx="196" cy="76" r="6" fill="#c22a63"/>`;
+ if(a.includes('tac'))o+=`<path d="M116 66L123 38L137 56L150 30L163 56L177 38L184 66Z" fill="#ffc93c" stroke="#e0a400" stroke-width="2"/><circle cx="150" cy="54" r="4.5" fill="#ff4f8b"/><circle cx="130" cy="58" r="3" fill="#14b3a6"/><circle cx="170" cy="58" r="3" fill="#14b3a6"/>`;
+ return o;
+}
+function doll(s){
+ const k=s.skin,kd=sh(k,-28);
+ const eye=x=>`${s.shadow?`<ellipse cx="${x}" cy="131" rx="16" ry="10" fill="${s.shadow}" opacity=".6"/>`:''}<ellipse cx="${x}" cy="140" rx="11" ry="12.5" fill="#fff"/><circle cx="${x}" cy="142" r="7.5" fill="${s.eyeC}"/><circle cx="${x}" cy="142" r="3.6" fill="#1b1012"/><circle cx="${x+3}" cy="138.5" r="2.4" fill="#fff"/><path d="M${x-12} 134Q${x} 124 ${x+12} 134" stroke="#2b1d16" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M${x+(x<150?-12:12)} 134l${x<150?-4:4} -4" stroke="#2b1d16" stroke-width="2.5" stroke-linecap="round"/>`;
+ return`${hairBack(s.hair,s.hairC)}
+<rect x="130" y="368" width="14" height="108" rx="7" fill="${k}"/><rect x="156" y="368" width="14" height="108" rx="7" fill="${k}"/>
+<path d="M118 222Q96 270 84 326M182 222Q204 270 216 326" stroke="${k}" stroke-width="15" fill="none" stroke-linecap="round"/>
+<path d="M115 215Q150 205 185 215L195 300L182 382L118 382L105 300Z" fill="${k}"/><rect x="139" y="186" width="22" height="30" rx="8" fill="${kd}"/>
+${dress(s.dress)}<circle cx="84" cy="330" r="10" fill="${k}"/><circle cx="216" cy="330" r="10" fill="${k}"/>
+${shoes(s.shoe,s.shoeC)}
+<circle cx="88" cy="142" r="11" fill="${k}"/><circle cx="212" cy="142" r="11" fill="${k}"/>
+<ellipse cx="150" cy="130" rx="62" ry="66" fill="${k}"/>
+${eye(127)}${eye(173)}
+<path d="M118 120q9-6 18-2M164 118q9-4 18 2" stroke="${sh(s.hairC,-20)}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+<path d="M148 152q3 5 6 0" stroke="${kd}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+${s.blush?`<circle cx="111" cy="163" r="12" fill="${s.blush}" opacity=".5"/><circle cx="189" cy="163" r="12" fill="${s.blush}" opacity=".5"/>`:''}
+${s.lip?`<path d="M137 170Q144 165 150 169Q156 165 163 170Q150 184 137 170Z" fill="${s.lip}"/><ellipse cx="154" cy="175" rx="3" ry="1.5" fill="#fff" opacity=".6"/>`:`<path d="M139 170Q150 180 161 170" stroke="#b5485f" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+${sticker(s.sticker)}${hairFront(s.hair,s.hairC)}${acc(s.acc)}`;
+}
+const svg=(s,id)=>`<svg viewBox="0 0 300 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Oyuncak bebek"><defs>${pattern(s.dressC,s.pat).replace('id="pat"',`id="pat${id}"`)}</defs>${bg(s.bg)}<ellipse cx="150" cy="492" rx="70" ry="10" fill="#000" opacity=".12"/><g id="${id?'':'doll'}">${doll(s).replaceAll('url(#pat)',`url(#pat${id})`)}</g></svg>`;
+
+const box=document.getElementById('svgbox'),stage=document.getElementById('stage');
+function draw(pop){box.innerHTML=svg(S,'');if(pop){stage.classList.remove('bounce');void stage.offsetWidth;stage.classList.add('bounce')}}
+function set(k,v){hist.push(JSON.stringify(S));if(hist.length>40)hist.shift();
+ if(k==='acc'){S.acc=S.acc.includes(v)?S.acc.filter(x=>x!==v):[...S.acc,v]}else S[k]=v;save();draw(true);panel()}
+function panel(){
+ document.getElementById('tabs').innerHTML=TABS.map((t,i)=>`<button class="tab" role="tab" aria-selected="${i===tab}" data-t="${i}">${t[0]}</button>`).join('');
+ document.getElementById('opts').innerHTML=TABS[tab][1].map(([h,k,t])=>{
+  let items;
+  if(t[0]==='c'){const list=t.includes(':')?C[t.split(':')[1]]:C[k];items=list.map(c=>`<button class="sw ${c?'':'none'} ${S[k]===c?'sel':''}" style="${c?`background:${c}`:''}" data-k="${k}" data-v="${c??''}" aria-label="${c?'renk':'yok'}"></button>`)}
+  else items=L[k].map(([v,n])=>`<button class="opt ${(t==='m'?S.acc.includes(v):S[k]===v)?'sel':''}" data-k="${k}" data-v="${v??''}">${n}</button>`);
+  return`<div class="group"><h2>${h}</h2><div class="row">${items.join('')}</div></div>`}).join('');
+}
+function thumbs(){const t=document.getElementById('thumbs');
+ t.innerHTML=album.length?album.map((s,i)=>`<button data-a="${i}" aria-label="Fotoğraf ${i+1}">${svg({...DEF,...s},'a'+i)}</button>`).join(''):'<span class="empty">"Fotoğraf çek"e bas, kıyafetlerin burada saklansın.</span>'}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.t){tab=+b.dataset.t;panel();return}
+ if(b.dataset.k){set(b.dataset.k,b.dataset.v===''?null:b.dataset.v);return}
+ if(b.dataset.a){hist.push(JSON.stringify(S));S={...DEF,...album[+b.dataset.a]};save();draw(true);panel()}
+});
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+document.getElementById('rnd').onclick=()=>{hist.push(JSON.stringify(S));
+ S={...S,eyeC:pick(C.eyeC),hair:pick(L.hair)[0],hairC:pick(C.hairC),lip:pick(C.lip),shadow:pick(C.shadow),blush:pick(C.blush),sticker:pick(L.sticker)[0],dress:pick(L.dress)[0],dressC:pick(C.cloth),pat:pick(L.pat)[0],shoe:pick(L.shoe)[0],shoeC:pick(C.cloth),acc:L.acc.map(a=>a[0]).filter(()=>Math.random()<.35),bg:pick(L.bg)[0]};save();draw(true);panel()};
+document.getElementById('undo').onclick=()=>{if(!hist.length)return;S=JSON.parse(hist.pop());save();draw(true);panel()};
+document.getElementById('wipe').onclick=()=>{hist.push(JSON.stringify(S));S={...S,lip:null,shadow:null,blush:null,sticker:null};save();draw(true);panel()};
+document.getElementById('snap').onclick=()=>{const f=document.getElementById('flash'),t=document.getElementById('toast');
+ f.classList.remove('on');void f.offsetWidth;f.classList.add('on');t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1400);
+ album.unshift(JSON.parse(JSON.stringify(S)));album=album.slice(0,8);save();thumbs()};
+draw(false);panel();thumbs();
+}
+</script>
+</body>
+</html>
