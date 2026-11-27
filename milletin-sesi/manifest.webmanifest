@@ -1,0 +1,14 @@
+{
+  "name": "Milletin Sesi",
+  "short_name": "Milletin Sesi",
+  "description": "Anonim, günde tek soru: çoğunluğun derdi ne?",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#EEF1F4",
+  "theme_color": "#0B6A8C",
+  "lang": "tr",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

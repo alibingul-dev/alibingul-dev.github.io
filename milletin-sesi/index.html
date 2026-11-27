@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Milletin Sesi — Çoğunluğun derdi ne?</title>
+<meta name="description" content="Anonim, günde tek soru. Propaganda değil, çoğunluğun derdi.">
+<meta name="theme-color" content="#0B6A8C">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF1F4;--ink:#0E1520;--muted:#4A5768;--line:#CDD5DE;--card:#FFFFFF;--accent:#0B6A8C;--accent-soft:#DCEEF5;--live:#1F7A4D;--warn:#A84D08;--on-accent:#FFFFFF;--r:14px;--ease:cubic-bezier(.2,.8,.2,1)}
+@media (prefers-color-scheme:dark){:root{--bg:#0E1520;--ink:#E6EDF3;--muted:#93A1B3;--line:#263243;--card:#16202E;--accent:#38BDF8;--accent-soft:#0F2A3A;--live:#34D399;--warn:#FBBF24;--on-accent:#0E1520}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 60px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:10px;font:800 20px Archivo,sans-serif}
+.brand img{width:34px;height:34px}
+h1{font:800 clamp(28px,6vw,40px)/1.1 Archivo,sans-serif;margin:0 0 8px}
+h2{font:600 20px Archivo,sans-serif;margin:0 0 12px}
+p.lead{color:var(--muted);margin:0 0 22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:16px;animation:in .5s var(--ease)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+button,.btn{font:600 15px Inter,sans-serif;border:0;border-radius:999px;padding:12px 20px;cursor:pointer;background:var(--accent);color:var(--on-accent);transition:transform .15s var(--ease),opacity .15s}
+button:hover{transform:translateY(-1px)}button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+button.ghost{background:var(--accent-soft);color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input,select{font:500 16px Inter,sans-serif;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input.code{font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+label{display:block;font-size:14px;color:var(--muted);margin:12px 0 6px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;cursor:pointer;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--accent)}.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt input{width:auto}
+.muted{color:var(--muted);font-size:14px}
+.mono{font-family:'JetBrains Mono',monospace}
+.pill{display:inline-block;font-size:13px;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.bar{margin:10px 0}.bar .l{display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px}
+.bar .t{height:10px;border-radius:999px;background:var(--line);overflow:hidden}
+.bar .f{height:100%;background:var(--accent);border-radius:999px;width:0;transition:width 1s var(--ease)}
+.bar.me .f{background:var(--live)}
+.ok{color:var(--live)}.warn{color:var(--warn)}
+.hide{display:none!important}
+.codes{display:grid;gap:6px;margin-top:10px}
+.codes div{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border:1px dashed var(--line);border-radius:10px}
+footer{color:var(--muted);font-size:13px;margin-top:28px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><img src="icon.svg" alt="">Milletin Sesi</div>
+  <button id="installBtn" class="ghost">📲 Uygulamayı indir</button>
+</header>
+
+<h1>Çoğunluğun derdi ne?</h1>
+<p class="lead">Anonim. Günde tek soru. Her kod her soruya bir kez cevap verir. Propaganda yok, parti yok, yalnız milletin derdi.</p>
+
+<!-- 1. Kod -->
+<section id="sCode" class="card">
+  <h2>Kodunu gir</h2>
+  <input id="codeIn" class="code" placeholder="ör. MS-7K2Q-9XA4" autocomplete="off">
+  <div class="row" style="margin-top:12px">
+    <button id="enterBtn">Devam et</button>
+    <button id="askBtn" class="ghost">Kod iste</button>
+  </div>
+  <p id="codeMsg" class="muted" style="margin-top:10px"></p>
+  <details style="margin-top:8px"><summary class="muted">Referans koduyla katıl</summary>
+    <input id="refIn" class="code" placeholder="Davet kodu" style="margin-top:10px">
+    <button id="refBtn" class="ghost" style="margin-top:10px">Davetle kod al</button>
+  </details>
+</section>
+
+<!-- 2. Demografi -->
+<section id="sDemo" class="card hide">
+  <h2>Bir kez soruyoruz</h2>
+  <p class="muted">Sonuçları Türkiye nüfus dağılımına göre ağırlıklandırmak için. Kimliğin istenmez; bu bilgiler kodundan ayrı tutulur.</p>
+  <label>Yaş aralığı</label>
+  <select id="dYas"><option value="">Seç</option><option>18–24</option><option>25–34</option><option>35–44</option><option>45–54</option><option>55–64</option><option>65+</option></select>
+  <label>Cinsiyet</label>
+  <select id="dCins"><option value="">Seç</option><option>Kadın</option><option>Erkek</option><option>Belirtmek istemiyorum</option></select>
+  <label>İl</label>
+  <select id="dIl"><option value="">Seç</option></select>
+  <button id="demoBtn" style="margin-top:16px">Kaydet</button>
+</section>
+
+<!-- 3. Günün sorusu -->
+<section id="sQ" class="card hide">
+  <span class="pill" id="qDate"></span>
+  <h2 id="qText" style="margin-top:10px"></h2>
+  <div id="qOpts" class="opts"></div>
+  <button id="voteBtn" style="margin-top:14px" disabled>Cevabı gönder</button>
+  <p id="qMsg" class="muted"></p>
+</section>
+
+<!-- 4. Sonuç -->
+<section id="sRes" class="card hide">
+  <h2>Bugünün sonucu</h2>
+  <p class="muted" id="resNote"></p>
+  <div id="bars"></div>
+</section>
+
+<!-- 5. Davet -->
+<section id="sInv" class="card hide">
+  <h2>Davet et</h2>
+  <p class="muted">Her kodun <b>3</b> davet hakkı var. Kalan hak: <b id="invLeft" class="mono"></b></p>
+  <button id="invBtn" class="ghost">Davet kodu üret</button>
+  <div id="invList" class="codes"></div>
+</section>
+
+<footer>
+  Prototip (MVP): veriler şimdilik yalnız bu cihazda tutulur; sonuçlardaki diğer cevaplar örnek veridir. Cevaplar kodla eşleştirilmeden saklanır: sistem yalnız "bu kod bugün cevap verdi" bilgisini tutar.<br>
+  Baseload AI · <a href="../" style="color:var(--accent)">alibingul-dev.github.io</a>
+</footer>
+</div>
+
+<script>
+const IL="Adana Adıyaman Afyonkarahisar Ağrı Aksaray Amasya Ankara Antalya Ardahan Artvin Aydın Balıkesir Bartın Batman Bayburt Bilecik Bingöl Bitlis Bolu Burdur Bursa Çanakkale Çankırı Çorum Denizli Diyarbakır Düzce Edirne Elazığ Erzincan Erzurum Eskişehir Gaziantep Giresun Gümüşhane Hakkari Hatay Iğdır Isparta İstanbul İzmir Kahramanmaraş Karabük Karaman Kars Kastamonu Kayseri Kilis Kırıkkale Kırklareli Kırşehir Kocaeli Konya Kütahya Malatya Manisa Mardin Mersin Muğla Muş Nevşehir Niğde Ordu Osmaniye Rize Sakarya Samsun Şanlıurfa Siirt Sinop Sivas Şırnak Tekirdağ Tokat Trabzon Tunceli Uşak Van Yalova Yozgat Zonguldak".split(" ");
+const Q=[
+ ["Bugün seni en çok ne zorluyor?",["Geçim / hayat pahalılığı","Kira / konut","İş / işsizlik","Sağlık hizmetleri","Eğitim","Ulaşım / trafik","Güvenlik","Adalet / hukuk","Çevre / afet riski","Diğer"]],
+ ["Bu ay bütçeni en çok hangi kalem zorladı?",["Gıda","Kira","Faturalar (elektrik, doğalgaz, su)","Ulaşım / yakıt","Eğitim","Sağlık","Borç / kredi ödemesi","Diğer"]],
+ ["Yaşadığın yerde en acil çözülmesi gereken sorun ne?",["Toplu taşıma","Altyapı (yol, su, kanalizasyon)","Deprem / bina güvenliği","Yeşil alan / park","Otopark / trafik","Güvenlik","Temizlik / çöp","Diğer"]],
+ ["Gelecek 1 yıl için en büyük endişen ne?",["Fiyatların artması","İşini kaybetmek","Ev sahibi olamamak","Çocukların eğitimi","Sağlık","Deprem","Ülkeden ayrılmak zorunda kalmak","Diğer"]],
+ ["Devletten bir hizmetin hemen düzelmesini isteseydin hangisi olurdu?",["Hastane randevusu","Okullar","Adliye / dava süreleri","Belediye hizmetleri","Vergi / SGK işlemleri","Emeklilik","Diğer"]],
+ ["Gençlerin en büyük sorunu sence ne?",["İş bulamamak","Düşük maaş","Konut","Eğitim kalitesi","Gelecek kaygısı","Diğer"]],
+ ["En çok neye zaman ayıramadığını hissediyorsun?",["Aile","Dinlenme / uyku","Spor / sağlık","Hobi","Arkadaşlar","Diğer"]]
+];
+const $=id=>document.getElementById(id);
+const S={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const today=new Date().toISOString().slice(0,10);
+const dayIdx=Math.floor(Date.now()/864e5)%Q.length;
+const [qText,qOpts]=Q[dayIdx];
+let code=null,choice=null;
+
+IL.forEach(i=>{const o=document.createElement("option");o.textContent=i;$("dIl").appendChild(o)});
+
+function gen(){const a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";const p=()=>Array.from({length:4},()=>a[Math.floor(Math.random()*a.length)]).join("");return `MS-${p()}-${p()}`}
+function codes(){return S.get("ms_codes",{})}
+function newCode(parent){const c=codes();let k;do{k=gen()}while(c[k]);c[k]={inv:3,parent:parent||null,demo:false};S.set("ms_codes",c);return k}
+function msg(el,t,cls){$(el).className="muted "+(cls||"");$(el).textContent=t}
+
+$("askBtn").onclick=()=>{
+  if(S.get("ms_device_code",null)){msg("codeMsg","Bu cihaz zaten bir kod aldı: kişi başı tek kod.","warn");$("codeIn").value=S.get("ms_device_code");return}
+  const k=newCode(null);S.set("ms_device_code",k);$("codeIn").value=k;msg("codeMsg","Kodun hazır. Bir yere not et; kaybedersen geri getirilemez (anonimlik gereği).","ok");
+};
+$("refBtn").onclick=()=>{
+  const r=$("refIn").value.trim().toUpperCase(),c=codes();
+  const inv=S.get("ms_invites",{});
+  if(!inv[r]){msg("codeMsg","Geçersiz ya da kullanılmış davet kodu.","warn");return}
+  delete inv[r];S.set("ms_invites",inv);
+  const k=newCode(inv.parentOf?.[r]||r);$("codeIn").value=k;msg("codeMsg","Davetle kodun oluştu.","ok");
+};
+$("enterBtn").onclick=()=>{
+  const k=$("codeIn").value.trim().toUpperCase();
+  if(!codes()[k]){msg("codeMsg","Kod bulunamadı. \"Kod iste\" ile al.","warn");return}
+  code=k;$("sCode").classList.add("hide");
+  codes()[k].demo?showQ():$("sDemo").classList.remove("hide");
+};
+$("demoBtn").onclick=()=>{
+  const d={y:$("dYas").value,c:$("dCins").value,i:$("dIl").value};
+  if(!d.y||!d.c||!d.i)return;
+  const demos=S.get("ms_demo_pool",[]);demos.push(d);S.set("ms_demo_pool",demos); // koddan ayrı havuz
+  const c=codes();c[code].demo=true;S.set("ms_codes",c);
+  $("sDemo").classList.add("hide");showQ();
+};
+function showQ(){
+  $("qDate").textContent="Günün sorusu · "+new Date().toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"});
+  $("qText").textContent=qText;
+  const done=S.get("ms_done",{})[today]||[];
+  $("sQ").classList.remove("hide");renderInv();
+  if(done.includes(code)){$("qOpts").innerHTML="";$("voteBtn").classList.add("hide");msg("qMsg","Bu koddan bugünün sorusu zaten cevaplandı. Yarın yeni soru gelecek.","ok");showRes(null);return}
+  $("qOpts").innerHTML="";
+  qOpts.forEach((o,i)=>{const l=document.createElement("label");l.className="opt";l.innerHTML=`<input type="radio" name="o"> ${o}`;l.onclick=()=>{choice=i;document.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));l.classList.add("sel");$("voteBtn").disabled=false};$("qOpts").appendChild(l)});
+}
+$("voteBtn").onclick=()=>{
+  if(choice===null)return;
+  const done=S.get("ms_done",{});(done[today]=done[today]||[]).push(code);S.set("ms_done",done); // yalnız "cevap verdi" bilgisi
+  const res=S.get("ms_res",{});const r=res[today]=res[today]||{};r[choice]=(r[choice]||0)+1;S.set("ms_res",res); // koddan bağımsız sayım
+  $("qOpts").innerHTML="";$("voteBtn").classList.add("hide");msg("qMsg","Cevabın kaydedildi. Teşekkürler.","ok");showRes(choice);
+};
+function seed(i){let x=Math.sin((dayIdx+1)*9301+i*49297)*233280;x=x-Math.floor(x);return Math.round(40+x*(i===qOpts.length-1?60:420))}
+function showRes(mine){
+  const r=(S.get("ms_res",{})[today])||{};
+  const counts=qOpts.map((_,i)=>seed(i)+(r[i]||0));
+  const tot=counts.reduce((a,b)=>a+b,0);
+  $("resNote").textContent=`Toplam ${tot.toLocaleString("tr-TR")} kişi · örnek veri + senin cevabın`;
+  $("bars").innerHTML="";
+  counts.map((c,i)=>({c,i})).sort((a,b)=>b.c-a.c).forEach(({c,i})=>{
+    const pct=(100*c/tot);const d=document.createElement("div");d.className="bar"+(i===mine?" me":"");
+    d.innerHTML=`<div class="l"><span>${qOpts[i]}${i===mine?" · senin cevabın":""}</span><span class="mono">%${pct.toFixed(1)} · ${c.toLocaleString("tr-TR")} kişi</span></div><div class="t"><div class="f"></div></div>`;
+    $("bars").appendChild(d);requestAnimationFrame(()=>setTimeout(()=>d.querySelector(".f").style.width=pct+"%",30));
+  });
+  $("sRes").classList.remove("hide");
+}
+function renderInv(){
+  const c=codes()[code];$("sInv").classList.remove("hide");$("invLeft").textContent=c.inv+" adet";$("invBtn").disabled=c.inv<=0;
+  const mine=S.get("ms_myinv",{})[code]||[];$("invList").innerHTML=mine.map(k=>`<div><span class="mono">${k}</span><span class="muted">tek kullanımlık</span></div>`).join("");
+}
+$("invBtn").onclick=()=>{
+  const c=codes();if(c[code].inv<=0)return;c[code].inv--;S.set("ms_codes",c);
+  const k="DV-"+gen().slice(3);const inv=S.get("ms_invites",{});inv[k]=1;S.set("ms_invites",inv); // davet ağacı cevaplardan ayrı
+  const my=S.get("ms_myinv",{});(my[code]=my[code]||[]).push(k);S.set("ms_myinv",my);renderInv();
+};
+
+// PWA: Uygulamayı indir
+let deferred=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e});
+$("installBtn").onclick=async()=>{
+  if(deferred){deferred.prompt();await deferred.userChoice;deferred=null;return}
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  alertBox(ios?"iPhone: Safari'de Paylaş simgesine dokun, sonra \"Ana Ekrana Ekle\".":"Tarayıcı menüsünden \"Uygulamayı yükle\" ya da \"Ana ekrana ekle\" seçeneğini kullan.");
+};
+function alertBox(t){msg("codeMsg",t,"ok");$("sCode").classList.contains("hide")?msg("qMsg",t,"ok"):0;window.scrollTo({top:0,behavior:"smooth"})}
+if(window.matchMedia("(display-mode: standalone)").matches)$("installBtn").classList.add("hide");
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
