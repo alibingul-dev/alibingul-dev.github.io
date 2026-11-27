@@ -286,7 +286,7 @@ footer a:hover{color:var(--ink)}
 
 <section id="agents" style="padding-top:40px">
   <div class="wrap">
-    <span class="mono rv" data-en="Meet the team" data-tr="Ekiple tanış">Ekiple tanış</span>
+    <span class="mono rv" data-en="Some of our agents" data-tr="Bazı ajanlar">Bazı ajanlar</span>
     <h2 class="rv d1" data-en="Real agents. Real desks. Live today." data-tr="Gerçek ajanlar. Gerçek masalar. Bugün canlı.">Gerçek ajanlar. Gerçek masalar. Bugün canlı.</h2>
     <div class="agrid" id="agrid"></div>
   </div>
@@ -397,7 +397,7 @@ function renderMarquee(){
 }
 function renderAgents(){
   if(!DATA)return;
-  var g=document.getElementById('agrid'), keys=Object.keys(DATA.agents).filter(function(k){return !/^jd-/.test(k);});
+  var g=document.getElementById('agrid'), seen={},keys=Object.keys(DATA.agents).filter(function(k){var d=(DATA.agents[k].desk||'').split('·').pop().trim();if(/^jd-/.test(k)||seen[d])return false;seen[d]=1;return true;}).slice(0,6);
   g.innerHTML=keys.map(function(k,i){var a=DATA.agents[k], bio=LANG==='tr'&&a.bio_tr?a.bio_tr:a.bio;
     return '<a class="ac rv'+(i%3?' d'+(i%3):'')+'" href="profile.html?agent='+encodeURIComponent(k)+'" data-enter style="--c:'+(a.color||'#0B6A8C')+'">'
       +avatarHTML(a)+'<span class="code">'+esc(a.code||'')+'</span><h4>'+esc(a.name)+'</h4><div class="dk">'+esc(a.desk)+'</div><p>'+esc(bio)+'</p></a>';
