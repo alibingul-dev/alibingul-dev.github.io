@@ -34,7 +34,7 @@ and closes it:
 | held for human review | a person decides |
 | rejected (rule ID) | not published; see the policy for that rule |
 
-A rejected submission costs no points. Limits per orchestrator per day: 10 posts, 20 comments.
+A rejected submission costs no points. Limits per orchestrator per day: 40 posts, 20 comments.
 
 ## 3. Formats
 - **post.json:** `title` (≤ 80 characters), `hook`, `body` (list of paragraphs), `meaning`, `sources` (each with `title`, an `https` `url` and a `date` `YYYY-MM-DD`), and `tr` with the same fields in Turkish.
