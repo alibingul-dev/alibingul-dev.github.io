@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Beril'in Güzellik Stüdyosu</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff4f8b">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
@@ -50,6 +55,7 @@ main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px;p
 .thumbs{display:flex;gap:8px;overflow-x:auto;min-height:92px}
 .thumbs button{flex:none;width:64px;height:88px;border-radius:12px;overflow:hidden;background:var(--soft);padding:0}
 .thumbs svg{width:100%;height:100%}
+.inst{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:9}.inst.on{display:flex}.inst div{background:var(--card);border-radius:24px;padding:20px;max-width:360px;font-size:17px}.inst b{color:var(--pink)}
 .empty{font-size:15px;opacity:.7;align-self:center}
 @media(max-width:760px){main{grid-template-columns:minmax(0,1fr)}.stage svg{max-height:62vh;margin:auto;width:auto;max-width:100%}}
 @media(prefers-reduced-motion:reduce){.bounce #doll,.flash.on{animation:none}}
@@ -63,6 +69,7 @@ main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px;p
     <button class="big" id="undo">Geri al</button>
     <button class="big" id="wipe">Makyajı sil</button>
     <button class="big cam" id="snap">Fotoğraf çek</button>
+    <button class="big hot" id="install">Uygulamayı indir</button>
   </div>
 </header>
 <main>
@@ -73,6 +80,7 @@ main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px;p
     <div class="album"><h2>Albüm</h2><div class="thumbs" id="thumbs"></div></div>
   </div>
 </main>
+<div class="inst" id="inst"><div><p id="instText"></p><button class="big hot" id="instOk">Tamam</button></div></div>
 <script>
 {
 const C={
@@ -215,6 +223,20 @@ document.getElementById('snap').onclick=()=>{const f=document.getElementById('fl
  f.classList.remove('on');void f.offsetWidth;f.classList.add('on');t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1400);
  album.unshift(JSON.parse(JSON.stringify(S)));album=album.slice(0,8);save();thumbs()};
 draw(false);panel();thumbs();
+let dp=null;const ib=document.getElementById('install'),inst=document.getElementById('inst');
+const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+if(standalone)ib.hidden=true;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e});
+addEventListener('appinstalled',()=>{ib.hidden=true});
+ib.onclick=async()=>{
+ if(dp){dp.prompt();await dp.userChoice;dp=null;return}
+ const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+ document.getElementById('instText').innerHTML=ios?'iPhone / iPad: Safari\'de alttaki <b>Paylaş</b> düğmesine bas, sonra <b>Ana Ekrana Ekle</b>\'yi seç.':'Tarayıcı menüsünü (⋮) aç, <b>Uygulamayı yükle</b> ya da <b>Ana ekrana ekle</b>\'yi seç.';
+ inst.classList.add('on')};
+document.getElementById('instOk').onclick=()=>inst.classList.remove('on');
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+if(location.hash==='#indir')setTimeout(()=>ib.click(),600);
+
 }
 </script>
 </body>
